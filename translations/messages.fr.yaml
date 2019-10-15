@@ -1,0 +1,485 @@
+# translations/messages.fr.yaml
+activate: Activer
+administration: Administration
+back: Retour
+beginning.time: Heure de début
+cancel: Annuler
+close: Fermer
+day.next: Jour suivant
+day.previous: Jour précédent
+day.MON: Lundi
+day.TUE: Mardi
+day.WED: Mercredi
+day.THU: Jeudi
+day.FRI: Vendredi
+day.SAT: Samedi
+day.SUN: Dimanche
+day.abbr.MON: Lun
+day.abbr.TUE: Mar
+day.abbr.WED: Mer
+day.abbr.THU: Jeu
+day.abbr.FRI: Ven
+day.abbr.SAT: Sam
+day.abbr.SUN: Dim
+days.next: Jours suivants
+days.previous: Jours précédents
+delete: Supprimer
+delete.not.allowed: Suppression interdite
+deletion: Suppression
+documentation: Documentation
+duplicate: Dupliquer
+end.time: Heure de fin
+from: De
+help: Aide
+modify: Modifier
+month.next: Mois suivant
+month.previous: Mois précédent
+month.JAN: Janvier
+month.FEB: Février
+month.MAR: Mars
+month.APR: Avril
+month.MAY: Mai
+month.JUN: Juin
+month.JUL: Juillet
+month.AUG: Aout
+month.SEP: Septembre
+month.OCT: Octobre
+month.NOV: Novembre
+month.DEC: Décembre
+month.abbr.JAN: Jan
+month.abbr.FEB: Fév
+month.abbr.MAR: Mar
+month.abbr.APR: Avr
+month.abbr.MAY: Mai
+month.abbr.JUN: Juin
+month.abbr.JUL: Juil
+month.abbr.AUG: Aout
+month.abbr.SEP: Sept
+month.abbr.OCT: Oct
+month.abbr.NOV: Nov
+month.abbr.DEC: Déc
+no: Non
+number.columns: Nombre de colonnes
+number.lines: Nombre de lignes
+number.lines.columns: Nombres de lignes et de colonnes
+number.lines.columns.updated.ok: Les nombres de lignes et de colonnes affichées ont été mis à jour
+open: Ouvert
+page.next: Page suivante
+page.previous: Page précédente
+parameters: Paramètres
+period: Période
+period.from: A partir du %beginningDate%
+period.from.to: Du %beginningDate% au %endDate%
+period.next: Période suivante
+period.previous: Période précédente
+period.type: Type de période
+period.until: Jusqu'au %endDate%
+remember.me: Se souvenir de moi
+see.details: Voir le détail
+sort.after: Trier après
+sort.before: Trier avant
+summary: Synthèse
+to: A
+unactivate: Désactiver
+unactivate.not.allowed: Désactivation interdite
+update.not.allowed: Modification interdite
+user.account: Compte utilisateur
+validate: Valider
+validate.not.allowed: Validation interdite
+view: Consulter
+view.and.modify: Consulter et modifier
+views: Vues
+week.next: Semaine suivante
+week.previous: Semaine précédente
+welcome.user: Bienvenue %name%
+yes: Oui
+
+# Messages par écrans
+
+activity.ask.delete: Voulez-vous vraiment supprimer l'activité %name% ?
+activity.back.to.list: Retour à la liste des activités
+activity.create: Créer une activité
+activity.created.ok: L'activité a bien été créée
+activity.deleted.ok: L'activité a bien été supprimée
+activity.name: Nom de l'activité
+activity.plural: Activités
+activity.singular: Activité
+activity.updated.ok: L'activité a bien été modifiée
+
+booking.all: Toutes les réservations
+booking.ask.delete: Voulez-vous vraiment supprimer cette réservation ?
+booking.back.to.list: Retour à la liste des réservations
+booking.bna.after: Réservation interdite au delà de la date du %lastBookingDate%
+booking.bna.before: Réservation interdite avant la date du %firstBookingDate%
+booking.bna.day.closed: Journée fermée à la réservation
+booking.bna.end.period: La période de réservation en cours est clôturée en date du %periodEndDate%
+booking.book: Réserver
+booking.create: Création d'une réservation
+booking.created.by.another.user: Réservation saisie par un autre utilisateur
+booking.created.ok: La réservation a bien été créée
+booking.delete: Suppression d'une réservation
+booking.deleted.ok: La réservation a bien été supprimée
+booking.duplicate.exists: La réservation est dupliquée en date du %newBookingDate%
+booking.duplicate.ko: La réservation ne peut pas être dupliquée en date du %newBookingDate%
+booking.duplicate.ok: La réservation peut être dupliquée en date du %newBookingDate%
+booking.duplicate.previous.week.ko: Pas de date de duplication antérieure pour cette réservation
+booking.entered.on.by: Réservation saisie le %bookingDate% à %bookingTime% par %userName%
+booking.in.progress: Les réservations en cours
+booking.not.allowed: Réservation interdite
+booking.out.of.period.from: Réservation en dehors de la période autorisée. à partir du %firstBookingDate%
+booking.out.of.period.from.until: Réservation en dehors de la période autorisée. à partir du %firstBookingDate% jusqu'au %lastBookingDate%
+booking.out.of.period.until: Réservation en dehors de la période autorisée. jusqu'au %lastBookingDate%
+booking.period: Période de réservation
+booking.period.beginning.update: Modifier la période de début
+booking.period.end.update: Modifier la période de fin
+booking.period.from: Réservations autorisées à partir du %firstBookingDate%
+booking.period.from.until: Réservations autorisées à partir du %firstBookingDate% jusqu'au %lastBookingDate%
+booking.period.until: Réservations autorisées jusqu'au %lastBookingDate%
+booking.plural: Réservations
+booking.singular: Réservation
+booking.update: Modification d'une réservation
+booking.updated.ok: La réservation a bien été modifiée
+booking.your: Vos réservations
+booking.your.in.progress: Vos réservations en cours
+
+dashboard.plural: Tableaux de bord
+dashboard.singular: Tableau de bord
+
+file.ask.delete: Voulez-vous vraiment supprimer le dossier %name% ?
+file.back: Retour au dossier
+file.back.to.list: Retour à la liste des dossiers
+file.booking.email: Emails à la saisie des réservations
+file.booking.email.administrator: Envoyer un mail aux administrateurs du dossier
+file.booking.email.updated.ok: Les indicateurs d'envoi des mails ont bien été modifiés
+file.booking.email.user: Envoyer un mail aux utilisateurs de la réservation
+file.booking.period: Période de réservation
+file.booking.period.after.1: Restreindre la période de réservation après la date du jour
+file.booking.period.after.2: Restriction après la date du jour
+file.booking.period.after.3: Pas de restriction après la date du jour
+file.booking.period.before.1: Restreindre la période de réservation avant la date du jour
+file.booking.period.before.2: Restriction avant la date du jour
+file.booking.period.before.3: Pas de restriction avant la date du jour
+file.booking.period.number: Durée
+file.booking.period.type: Période
+file.booking.period.type.DAY: Jours
+file.booking.period.type.MONTH: Mois
+file.booking.period.type.WEEK: Semaines
+file.booking.period.type.YEAR: Années
+file.booking.period.updated.ok: La période de réservation a bien été modifiée
+file.create: Créer un dossier
+file.created.by: Dossier créé par
+file.created.ok: Le dossier a bien été créé
+file.current: En cours
+file.current.updated.ok: Le dossier en cours a été modifié
+file.deleted.ok: Le dossier a bien été supprimé
+file.dna.booking: Le dossier %name% a des réservations. Suppression impossible
+file.dna.creator: Seul le créateur d'un dossier est autorisé à le supprimer
+file.name: Nom du dossier
+file.new: Nouveau dossier
+file.plural: Dossiers
+file.set.as.current: Positionner comme dossier en cours
+file.singular: Dossier
+file.una.creator: Seul le créateur d'un dossier est autorisé à le modifier
+file.updated.ok: Le dossier a bien été modifié
+
+label: Etiquette
+label.ask.delete: Voulez-vous vraiment supprimer l'étiquette %name% ?
+label.back: Retour à l'étiquette
+label.back.to.list: Retour à la liste des étiquettes
+label.create: Créer une étiquette
+label.created.ok: L'étiquette a bien été créée
+label.deleted.ok: L'étiquette a bien été supprimée
+label.dna.booking: L'étiquette %name% est référencée par des réservations. Suppression impossible
+label.list.update: Modifier la liste des étiquettes
+label.name: Nom de l'étiquette
+label.new: Nouvelle étiquette
+label.no: Pas d'étiquette
+label.plural: Etiquettes
+label.select: Sélectionner l'étiquette
+label.unselect: Déselectionner l'étiquette
+label.updated.ok: L'étiquette a bien été modifiée
+
+labels.available: Etiquettes disponibles
+labels.selected: Etiquettes sélectionnées
+
+note: Note
+note.enter: Saisir une note
+note.no: Pas de note
+note.update: Modifier la note
+
+planification.ask.delete: Voulez-vous vraiment supprimer la planification %name% ?
+planification.back: Retour à la planification
+planification.back.to.list: Retour à la liste des planifications
+planification.create: Créer une planification
+planification.create.period: Créer une nouvelle période
+planification.created.ok: La planification a bien été créée
+planification.delete: Supprimer la planification
+planification.deleted.ok: La planification a bien été supprimée
+planification.dna.booking: La planification %name% est référencée par des réservations. Suppression impossible
+planification.line.updated.ok: Les planifications par jour ont bien été modifiées
+planification.name: Nom de la planification
+planification.new: Nouvelle planification
+planification.no.resources.to.planify: Il n'y a pas de ressource à planifier
+planification.plural: Planifications
+planification.resource.select: Sélectionner la ressource
+planification.resource.selected: Ressources sélectionnées
+planification.resource.to.planify: Ressources à planifier
+planification.resource.unselect: Désélectionner la ressource
+planification.resource.updated.ok: Les ressources ont bien été modifiées
+planification.singular: Planification
+planification.type.select: Sélectionnez le type des ressources à planifier
+planification.updated.ok: La planification a bien été modifiée
+planification.validate.not.allowed: Vous devez sélectionner au moins une ressource
+
+planificationPeriod.ask.delete: Voulez-vous vraiment supprimer la dernière période de planification ?
+planificationPeriod.beginning.date: Date de début de période
+planificationPeriod.create.minimum.date: La nouvelle période doit débuter au delà de la date de la dernière réservation %date%
+planificationPeriod.created.ok: La nouvelle période de planification a bien été créee
+planificationPeriod.delete: Supprimer la période
+planificationPeriod.deleted.ok: La période a bien été supprimée
+planificationPeriod.una.booking: Des réservations sont saisies pour cette période. Modification impossible
+planificationPeriod.una.closed: Cette période de planification est clotûrée, elle n'est pas modifiable
+
+planning: Planning
+planning.back: Retour au planning
+planning.calendar: Calendrier
+planning.global: Planning global
+planning.list: Liste des ressources planifiées
+# planning.plural est une bizarrerie qui permet de placer un titre à la liste des planifications associées au planning
+planning.plural: Planifications
+planning.reduce.left: Réduire le planning vers la gauche
+planning.reduce.top: Réduire le planning vers le haut
+planning.stretch.bottom: Etendre le planning vers le bas
+planning.stretch.right: Etendre le planning vers la droite
+planning.stretched.out: Planning élargi
+planning.timetable: Grille horaire
+planning.display.date: Afficher le planning pour la date sélectionnée
+
+queryBooking.ask.delete: Voulez-vous vraiment supprimer la requête %name% ?
+queryBooking.back.to.list: Retour à la liste des requêtes
+queryBooking.create: Créer une requête
+queryBooking.created.ok: La requête a bien été créée
+queryBooking.deleted.ok: La requête a bien été supprimée
+queryBooking.name: Nom de requête
+queryBooking.new: Nouvelle requête
+queryBooking.period.type: Période
+queryBooking.period.type.AFTER: Au dela d'une date
+queryBooking.period.type.AFTER.SYSDATE: Au dela de la date du jour
+queryBooking.period.type.BEFORE: Avant une date
+queryBooking.period.type.BEFORE.SYSDATE: Avant la date du jour
+queryBooking.period.type.BETWEEN: Entre deux dates
+queryBooking.period.type.NO: Pas de période
+queryBooking.period.type.SYSDATE: Date du jour
+queryBooking.plural: Requêtes
+queryBooking.singular: Requête
+queryBooking.updated.ok: La requête a bien été modifiée
+
+resource.ask.delete: Voulez-vous vraiment supprimer la ressource %name% ?
+resource.back: Retour à la ressource
+resource.back.to.list: Retour à la liste des ressources
+resource.create: Créer une ressource
+resource.created.ok: La ressource a bien été créée
+resource.delete.not.allowed: La ressource est référencée. Suppression impossible
+resource.deleted.ok: La ressource a bien été supprimée
+resource.dna.booking: La ressource %name% est réservée. Suppression impossible
+resource.name: Nom de la ressource
+resource.planified: Ressource planifiée
+resource.planning.background.color: Couleur de fond sur le planning
+resource.planning.foreground.color: Couleur du texte sur le planning
+resource.plural: Ressources
+resource.singular: Ressource
+resource.updated.ok: La ressource a bien été modifiée
+resource.user.ask: L'utilisateur %name% est-il une ressource ?
+resource.validate.and.create: Valider et ajouter une ressource
+
+resourceClassification.activated.ok: La classification a bien été activée
+resourceClassification.ask.delete: Voulez-vous vraiment supprimer la classification %name% ?
+resourceClassification.back: Retour à la classification de ressource
+resourceClassification.back.to.list: Retour aux classifications de ressources
+resourceClassification.create: Créer une classification de ressources
+resourceClassification.create.warning: Attention, vous créez une nouvelle classification de ressource. Ceci n'est à faire que si les classifications proposées par défaut ne suffisent pas
+resourceClassification.created.ok: La classification a bien été créée
+resourceClassification.delete.not.allowed: La classification est référencée. Suppression impossible
+resourceClassification.deleted.ok: La classification a bien été supprimée
+resourceClassification.name: Nom de la classification
+resourceClassification.plural: Classifications des ressources
+resourceClassification.select: Sélectionnez une classification de ressources
+resourceClassification.singular: Classification de ressources
+resourceClassification.unactivate.not.allowed: La classification est référencée. Désactivation impossible
+resourceClassification.unactivated.ok: La classification a bien été désactivée
+resourceClassification.updated.ok: La classification a bien été modifiée
+
+resourceClassification.plural.BIKE: Vélos
+resourceClassification.plural.BOAT: Bateaux
+resourceClassification.plural.CAMERA: Appareils photo
+resourceClassification.plural.CAR: Voitures
+resourceClassification.plural.COMPUTER: Ordinateurs
+resourceClassification.plural.CONTRACTOR: Prestataires
+resourceClassification.plural.COURT: Courts
+resourceClassification.plural.DENTIST: Dentistes
+resourceClassification.plural.DOCTOR: Médecins
+resourceClassification.plural.FLAT: Appartements
+resourceClassification.plural.GLIDER: Planeurs
+resourceClassification.plural.GYMNASIUM: Gymnases
+resourceClassification.plural.HORSE: Chevaux
+resourceClassification.plural.HOUSE: Maisons
+resourceClassification.plural.MOBILE-HOME: Mobile homes
+resourceClassification.plural.MOTORBIKE: Motos
+resourceClassification.plural.PITCH: Terrains
+resourceClassification.plural.PLANE: Avions
+resourceClassification.plural.PROJECTOR: Rétro projecteurs
+resourceClassification.plural.ROOM: Salles
+resourceClassification.plural.TEACHER: Formateurs
+resourceClassification.plural.TENT: Tentes
+resourceClassification.plural.TRACTOR: Tracteurs
+resourceClassification.plural.TRUCK: Camions
+
+resourceClassification.singular.BIKE: Vélo
+resourceClassification.singular.BOAT: Bateau
+resourceClassification.singular.CAMERA: Appareil photo
+resourceClassification.singular.CAR: Voiture
+resourceClassification.singular.COMPUTER: Ordinateur
+resourceClassification.singular.CONTRACTOR: Prestataire
+resourceClassification.singular.COURT: Court
+resourceClassification.singular.DENTIST: Dentiste
+resourceClassification.singular.DOCTOR: Médecin
+resourceClassification.singular.FLAT: Appartement
+resourceClassification.singular.GLIDER: Planeur
+resourceClassification.singular.GYMNASIUM: Gymnase
+resourceClassification.singular.HORSE: Cheval
+resourceClassification.singular.HOUSE: Maison
+resourceClassification.singular.MOBILE-HOME: Mobile home
+resourceClassification.singular.MOTORBIKE: Moto
+resourceClassification.singular.PITCH: Terrain
+resourceClassification.singular.PLANE: Avion
+resourceClassification.singular.PROJECTOR: Rétro projecteur
+resourceClassification.singular.ROOM: Salle
+resourceClassification.singular.TEACHER: Formateur
+resourceClassification.singular.TENT: Tente
+resourceClassification.singular.TRACTOR: Tracteur
+resourceClassification.singular.TRUCK: Camion
+
+resourceType.create.classification.PLACE: Créer une classification de lieux
+resourceType.create.classification.SPORT: Créer une classification d'équipements sportifs
+resourceType.create.classification.TOOL: Créer une classification d'outils
+resourceType.create.classification.USER: Créer une classification d'utilisateurs
+resourceType.create.classification.VEHICLE: Créer une classification de véhicules
+
+resourceType.plural.PLACE: Lieux
+resourceType.plural.SPORT: Equipements sportifs
+resourceType.plural.TOOL: Outils
+resourceType.plural.USER: Utilisateurs
+resourceType.plural.VEHICLE: Véhicules
+
+resourceType.singular.PLACE: Lieu
+resourceType.singular.SPORT: Equipement sportif
+resourceType.singular.TOOL: Outil
+resourceType.singular.USER: Utilisateur
+resourceType.singular.VEHICLE: Véhicule
+
+slam-booking.access: Accéder à Slam-Booking
+
+timetable.ask.delete: Voulez-vous vraiment supprimer la grille horaire %name% ?
+timetable.back: Retour à la grille horaire
+timetable.back.to.list: Retour à la liste des grilles horaires
+timetable.create: Créer une grille horaire
+timetable.created.ok: La grille horaire a bien été créée. Veuillez saisir un premier créneau horaire
+timetable.day: Journée
+timetable.deleted.ok: La grille horaire a bien été supprimée
+timetable.dna.day: La grille horaire journée ne peut pas être suprimée
+timetable.dna.half.day: La grille horaire demi-journée ne peut pas être suprimée
+timetable.dna.booking: La grille horaire %name% est référencée par des réservations. Suppression impossible
+timetable.half.day: Demi journée
+timetable.name: Nom de la grille horaire
+timetable.new: Nouvelle grille horaire
+timetable.plural: Grilles horaires
+timetable.singular: Grille horaire
+timetable.una.day: La grille horaire journée ne peut pas être modifiée
+timetable.una.half.day: La grille horaire demi-journée ne peut pas être modifiée
+timetable.una.booking: La grille horaire %name% est référencée par des réservations. Modification impossible
+timetable.updated.ok: La grille horaire a bien été modifiée
+
+timetableLine.create: Ajouter un créneau horaire
+timetableLine.created.ok: Le créneau horaire a bien été créé
+timetableLine.deleted.ok: Le créneau horaire a bien été supprimé
+timetableLine.updated.ok: Le créneau horaire a bien été modifié
+timetableLine.validate.and.create: Valider et ajouter un créneau horaire
+
+user: Utilisateur
+user.accountt: Compte utilisateur
+user.account.type: Type de compte
+user.account.type.INDIVIDUAL: Individuel
+user.account.type.ORGANISATION: Organisation
+user.connection: Connexion
+user.email: Email
+user.email.not.found: L'email saisi ne correspond à aucun utilisateur inscrit
+user.firstName: Prénom
+user.forgot.login.or.password: Nom d'utilisateur ou mot de passe oublié
+user.lastName: Nom de famille
+user.list.update: Modifier la liste des utilisateurs
+user.login: Se connecter
+user.login.and.password: Votre nom d'utilisateur est %name% et votre mot de passe est %password%. Pour vous connecter, cliquez sur le lien:
+user.login.and.password.sent: Le nom d'utilisateur et le passe ont été envoyés à l'adresse mail saisie
+user.login.and.password.sent.email.title: Envoi du nom d'utilisateur et du mot de passe
+user.logout: Se déconnecter
+user.modify.password: Modifier le mot de passe
+user.name: Nom d'utilisateur
+user.new: Nouvel utilisateur
+user.organisation.name: Nom de l'organisation
+user.password: Mot de passe
+user.password.updated.ok: Le mot de passe a bien été modifié
+user.register: S'inscrire
+user.registration: Inscription
+user.registration.successfull: Bonjour %name%. Votre inscription sur le site Slam Booking est bien prise en compte. Pour vous connecter, cliquez sur le lien:
+user.repeat.password: Répéter le mot de passe
+user.select: Sélectionner l'utilisateur
+user.unselect: Désélectionner l'utilisateur
+user.updated.ok: Le compte utilisateur a bien été modifié
+
+users: Utilisateurs
+users.available: Utilisateurs disponibles
+users.selected: Utilisateurs sélectionnés
+
+userFile.administrator.rights: L'utilisateur a les droits d'administrateur sur le dossier
+userFile.ask.delete: Voulez-vous vraiment retirer l'utilisateur %name% du dossier ?
+userFile.create: Ajouter un utilisateur
+userFile.back: Retour à l'utilisateur
+userFile.back.to.list: Retour à la liste des utilisateurs
+userFile.created.ok: L'utilisateur a bien été ajouté au dossier.
+userFile.deleted.ok: L'utilisateur a bien été retiré du dossier
+userFile.dna.booking: L'utilisateur %name% a des réservations. Il n'est pas possible de le supprimer du dossier
+userFile.dna.file.creator.1: Le créateur d'un dossier ne peut pas être supprimé du dossier
+userFile.dna.file.creator.2: Seul le créateur du dossier peut supprimer un autre utilisateur du dossier
+userFile.plural: Utilisateurs
+userFile.resource.updated.ok: Les informations "ressource utilisateur" ont bien été modifiées
+userFile.una.file.creator.1: Le créateur d'un dossier ne peut pas être modifié
+userFile.una.file.creator.2: Seul le créateur du dossier peut modifier un autre utilisateur
+userFile.una.self: Les informations relatives a l'utilisateur peuvent être modifiées depuis son profile uniquement
+userFile.updated.ok: L'utilisateur a bien été modifié
+
+userFileGroup: Groupe d'utilisateurs
+userFileGroup.all: Tous les utilisateurs
+userFileGroup.ask.delete: Voulez-vous vraiment supprimer le groupe d'utilisateurs %name% ?
+userFileGroup.back: Retour au groupe d'utilisateurs
+userFileGroup.back.to.list: Retour à la liste des groupes d'utilisateurs
+userFileGroup.create: Créer un groupe d'utilisateurs
+userFileGroup.created.ok: Le groupe d'utilisateurs a bien été créé
+userFileGroup.deleted.ok: Le groupe d'utilisateurs a bien été supprimé
+userFileGroup.dna.all: Le groupe de tous les utilisateurs ne peut pas être suprimé
+userFileGroup.dna.view: Le groupe d'utilisateurs %name% est référencé par des vues. Suppression impossible
+userFileGroup.name: Nom du groupe d'utilisateurs
+userFileGroup.new: Nouveau groupe d'utilisateurs
+userFileGroup.plural: Groupes d'utilisateurs
+userFileGroup.una.all: Le groupe de tous les utilisateurs ne peut pas être modifié
+userFileGroup.updated.ok: Le groupe d'utilisateurs a bien été modifié
+userFileGroup.users.vna: Vous devez sélectionner au moins un utilisateur
+
+view.activate.all.users:  Activer la vue associée au groupe de tous les utilisateurs
+view.activate.manual:  Activer les vues associées à des groupes personnalisés
+view.add: Ajouter une vue
+view.ask.delete:  Voulez-vous vraiment supprimer la vue rattachée au groupe %name% ?
+view.created.ok: La vue a bien été créee
+view.deleted.ok: La vue a bien été supprimée
+view.dna.all.users: La vue rattachée au groupe de tous les utilisateurs ne peut pas être suprimée
+view.no.group.to.add: Il n'y a pas de groupe d'utilisateurs à ajouter
+view.select: Sélectionnez un groupe d'utilisateurs

@@ -1,0 +1,87 @@
+{# templates/booking.list.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/' ~ listContext.image ~ '-32.png') }}">&nbsp;{{ (listContext.entityCode ~ '.plural')|trans }}
+</h4></div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+{% block number_lines_and_columns_link %}{% endblock %}
+
+{% if (listContext.numberPages > 1) %}
+
+{% if listContext.page > 2 %}
+	{% block page_1_link %}{% endblock %}
+{% endif %}
+{% if listContext.page > 1 %}
+	{% block page_minus_1_link %}{% endblock %}
+{% endif %}
+	{% block page_link %}{% endblock %}
+{% if listContext.page < listContext.numberPages %}
+	{% block page_plus_1_link %}{% endblock %}
+{% endif %}
+{% if listContext.page < (listContext.numberPages-1) %}
+	{% block last_page_link %}{% endblock %}
+{% endif %}
+
+{% endif %}
+
+</div>
+</div>
+
+<div class="w3-row">
+
+{% for i in 0..listContext.numberColumnsDisplayed-1 if listContext.numberColumnsDisplayed > 0 %}
+	<div class="w3-col m{{ (12/listContext.numberColumnsDisplayed) }}">
+{% set lineNumber = 0 %}
+{% if i < listContext.numberColumnsDisplayed-1 %}
+	<div class="w3-bar-block w3-margin-right">
+{% else %}
+	<div class="w3-bar-block">
+{% endif %}
+
+{% for j in 0..listContext.numberLinesDisplayed-1 if (i*listContext.numberLinesDisplayed+j) < listContext.numberRecordsDisplayed %}
+
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = ((i is odd and lineNumber is odd) or (i is even and lineNumber is even)) ? 'transparent' : 'sand' %}
+
+{% if listBookings[i*listContext.numberLinesDisplayed+j].administrator %}
+	{% set user_image = 'administrator' %}
+{% else %}
+	{% set user_image = 'user' %}
+{% endif %}
+
+{% if listBookings[i*listContext.numberLinesDisplayed+j].user_first_name == 'X' and listBookings[i*listContext.numberLinesDisplayed+j].user_last_name == 'X' and listBookings[i*listContext.numberLinesDisplayed+j].unique_name != '' %}
+	{% set user_name = listBookings[i*listContext.numberLinesDisplayed+j].unique_name %}
+{% elseif listBookings[i*listContext.numberLinesDisplayed+j].user_first_name == 'X' and listBookings[i*listContext.numberLinesDisplayed+j].user_last_name == 'X' and listBookings[i*listContext.numberLinesDisplayed+j].user_created %}
+	{% set user_name = listBookings[i*listContext.numberLinesDisplayed+j].user_name %}
+{% else %}
+	{% set user_name = listBookings[i*listContext.numberLinesDisplayed+j].user_first_name ~ ' ' ~ listBookings[i*listContext.numberLinesDisplayed+j].user_last_name %}
+{% endif %}
+
+{% if listBookings[i*listContext.numberLinesDisplayed+j].resource_internal %}
+	{% set resource_image = rcIcons[listBookings[i*listContext.numberLinesDisplayed+j].resource_code] %}
+<a href="{{ path(planning_path, { 'planificationID': listBookings[i*listContext.numberLinesDisplayed+j].planificationID, 'date': listBookings[i*listContext.numberLinesDisplayed+j].beginningDate|date('Ymd') }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/' ~ resource_image ~ '-32.png') }}">&nbsp;{{ listBookings[i*listContext.numberLinesDisplayed+j].resource_name }}&nbsp;<img src="{{ asset('images/time-16.png') }}">&nbsp;{{ periode(listBookings[i*listContext.numberLinesDisplayed+j].beginningDate, listBookings[i*listContext.numberLinesDisplayed+j].endDate) }}&nbsp;<img src="{{ asset('images/' ~ user_image ~ '-16.png') }}">&nbsp;{{ user_name }}</a>
+{% else %}
+	{% set resource_icon = rtIcons[listBookings[i*listContext.numberLinesDisplayed+j].resource_type] %}
+<a href="{{ path(planning_path, { 'planificationID': listBookings[i*listContext.numberLinesDisplayed+j].planificationID, 'date': listBookings[i*listContext.numberLinesDisplayed+j].beginningDate|date('Ymd') }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><i class="w3-xlarge fa fa-{{ resource_icon }}"></i>&nbsp;{{ listBookings[i*listContext.numberLinesDisplayed+j].resource_name }}&nbsp;<img src="{{ asset('images/time-16.png') }}">&nbsp;{{ periode(listBookings[i*listContext.numberLinesDisplayed+j].beginningDate, listBookings[i*listContext.numberLinesDisplayed+j].endDate) }}&nbsp;<img src="{{ asset('images/' ~ user_image ~ '-16.png') }}">&nbsp;{{ user_name }}</a>
+{% endif %}
+
+{% endfor %}
+	</div>
+	</div>
+{% endfor %}
+
+</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	{% block back_link %}{% endblock %}
+</div>
+</div>
+
+{% endblock %}

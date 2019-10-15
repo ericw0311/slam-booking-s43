@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="w3-row">
+
+<div class="w3-quarter w3-container"></div>
+
+<div class="w3-half w3-container">
+{% block content %}{% endblock %}
+</div>
+
+<div class="w3-quarter w3-container"></div>
+
+</div> 
+
+{% endblock %}

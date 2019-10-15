@@ -1,0 +1,28 @@
+# translations/validators.en.yaml
+
+activity.already.exists: This activity already exists
+
+dashboard.already.exists: This dashboard already exists
+
+file.already.exists: This file already exists
+
+label.already.exists: This label already exists
+
+planification.already.exists: This planification already exists
+
+planificationPeriod.date.control: La date de début entrée doit être supérieure à la date de dernière réservation indiquée
+
+resource.already.exists: This resource already exists
+
+resourceClassification.already.exists: This classification already exists
+
+timetable.already.exists: This timetable already exists
+
+timetableLine.endTime.control: End time must be greather than beginning time
+timetableLine.order.beginningTime.control: Beginning time must be equal or greather than the previous slot end time %endTime%
+timetableLine.order.endTime.control: End time must be equal or lower than the next slot beginning time %beginningTime%
+
+user.already.assigned.to.file: This user is already assigned to file
+user.organisation.name.null: You must enter an organisation name
+
+userFileGroup.already.exists: This user group already exists

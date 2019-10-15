@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Slam Booking</title>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
+  <link href="{{ asset('styles/sb.css') }}" rel="stylesheet"/>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+	<script>
+$( function() {
+
+	$.datepicker.regional['fr'] = {
+		closeText: 'Fermer',
+		prevText: 'Précédent',
+		nextText: 'Suivant',
+		currentText: 'Aujourd\'hui',
+		monthNames: ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'],
+		monthNamesShort: ['Janv.','Févr.','Mars','Avril','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
+		dayNames: ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+		dayNamesShort: ['Dim.','Lun.','Mar.','Mer.','Jeu.','Ven.','Sam.'],
+		dayNamesMin: ['D','L','M','M','J','V','S'],
+		weekHeader: 'Sem.',
+		dateFormat: 'dd/mm/yy',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: ''};
+		$.datepicker.setDefaults($.datepicker.regional['fr']);
+	$( ".datepicker" ).datepicker();
+
+	$('.timepicker').timepicker({
+		timeFormat: 'HH:mm',
+		dynamic: true,
+		dropdown: true,
+		scrollbar: false
+	});
+} );
+	</script>
+</head>
+
+<body>
+<div class="w3-container">
+
+<div class="w3-bar w3-light-grey">
+
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+{% if userContext.getCurrentUserFileAdministrator() %}
+	<a href="{{ path('homepage')}}" class="w3-bar-item w3-button w3-green"><i class="fa fa-home w3-xlarge"></i>&nbsp;{{ userContext.getCurrentFileName() }}</a>
+{% else %}
+	<a href="{{ path('homepage')}}" class="w3-bar-item w3-button w3-orange"><i class="fa fa-home w3-xlarge"></i>&nbsp;{{ userContext.getCurrentFileName() }}</a>
+{% endif %}
+
+<a href="{{ path('file', { 'page': 1 })}}" class="w3-bar-item w3-button"><img src="{{ asset('images/file-16.png') }}">&nbsp;{{ 'file.plural'|trans }}</a>
+
+{% if (userContext.getCurrentFileID() > 0) %}
+<div class="w3-dropdown-hover">
+	<button class="w3-button"><img src="{{ asset('images/booking-16.png') }}">&nbsp;Slam Booking</button>
+	<div class="w3-dropdown-content w3-bar-block w3-card-4">
+		<a href="{{ path('planning') }}" class="w3-bar-item w3-button"><img src="{{ asset('images/planning-16.png') }}">&nbsp;{{ 'planning'|trans }}</a>
+		<a href="{{ path('query_booking', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/dashboard-16.png') }}">&nbsp;{{ 'dashboard.plural'|trans }}</a>
+	</div>
+</div>
+{% endif %}
+
+{% if userContext.getCurrentUserFileAdministrator() %}
+<div class="w3-dropdown-hover">
+	<button class="w3-button"><img src="{{ asset('images/administration-16.png') }}">&nbsp;{{ 'administration'|trans }}</button>
+	<div class="w3-dropdown-content w3-bar-block w3-card-4">
+		<a href="{{ path('user_file', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/user-16.png') }}">&nbsp;{{ 'users'|trans }}</a>
+		<a href="{{ path('timetable', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/time-16.png') }}">&nbsp;{{ 'timetable.plural'|trans }}</a>
+		<a href="{{ path('resource_classification_index', { 'resourceType': 'PLACE' }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/box-16.png') }}">&nbsp;{{ 'resourceClassification.plural'|trans }}</a>
+		<a href="{{ path('resource', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/resource-16.png') }}">&nbsp;{{ 'resource.plural'|trans }}</a>
+		<a href="{{ path('planification', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/planification-16.png') }}">&nbsp;{{ 'planification.plural'|trans }}</a>
+		<a href="{{ path('label', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/label-16.png') }}">&nbsp;{{ 'label.plural'|trans }}</a>
+	</div>
+</div>
+{% endif %}
+{% block documentation %}{% endblock %}
+
+<div class="w3-dropdown-hover w3-right">
+	<button class="w3-button"><i class="fa fa-user"></i>&nbsp;{{ app.user.username }}</button>
+	<div class="w3-dropdown-content w3-bar-block w3-card-4" style="right:0">
+		<a href="{{ path('user_edit') }}" class="w3-bar-item w3-button"><i class="fa fa-user"></i>&nbsp;{{ 'user.accountt'|trans }}</a>
+		<a href="{{ path('user_logout') }}" class="w3-bar-item w3-button"><i class="fa fa-sign-out"></i>&nbsp;{{ 'user.logout'|trans }}</a>
+	</div>
+</div>
+
+{% else %}
+	<a href="{{ path('user_logout')}}" class="w3-bar-item w3-button"><i class="fa fa-home w3-xlarge"></i>&nbsp;Slam Booking</a>
+	<a href="{{ path('documentation', { 'pageCode': 'SLAM-BOOKING' })}}" target="_blank" class="w3-bar-item w3-button"><i class="fa fa-book w3-xlarge"></i>&nbsp;{{ 'documentation'|trans }}</a>
+	<a href="{{ path('user_login')}}" class="w3-bar-item w3-button w3-right"><i class="fa fa-sign-in w3-xlarge"></i>&nbsp;{{ 'user.login'|trans }}</a>
+	<a href="{{ path('user_registration')}}" class="w3-bar-item w3-button w3-right"><i class="fa fa-user w3-xlarge"></i>&nbsp;{{ 'user.register'|trans }}</a>
+{% endif %}
+</div>
+
+{% block body %}{% endblock %}
+
+{% for flash_message in app.session.flashBag.get('notice') %}
+<div class="w3-panel w3-khaki w3-round-large">
+	<span onclick="this.parentElement.style.display='none'" class="w3-button w3-large w3-right">x</span>
+	<p>{{ flash_message|trans }}</p>
+</div>
+{% endfor %}
+
+<div class="w3-container w3-margin-top w3-light-grey">
+	 <p class="w3-right w3-small">Contact: <span class="w3-text-indigo">support@slam-booking.net</span></p>
+</div>
+
+{% block javascripts %}{% endblock %}
+
+</div>
+</body>
+</html>

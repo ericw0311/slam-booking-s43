@@ -1,0 +1,485 @@
+# translations/messages.en.yaml
+activate: Activate
+administration: Administration
+back: Retour
+beginning.time: Beginning time
+cancel: Cancel
+close: Close
+day.next: Next day
+day.previous: Previous day
+day.MON: Monday
+day.TUE: Tuesday
+day.WED: Wednesday
+day.THU: Thursday
+day.FRI: Friday
+day.SAT: Saturday
+day.SUN: Sunday
+day.abbr.MON: Mon
+day.abbr.TUE: Tue
+day.abbr.WED: Wed
+day.abbr.THU: Thu
+day.abbr.FRI: Fri
+day.abbr.SAT: Sat
+day.abbr.SUN: Sun
+days.next: Next days
+days.previous: Previous days
+delete: Delete
+delete.not.allowed: Delete not allowed
+deletion: Deletion
+documentation: Documentation
+duplicate: Duplicate
+end.time: End time
+from: From
+help: Help
+modify: Modify
+month.next: Next month
+month.previous: Previous month
+month.JAN: January
+month.FEB: February
+month.MAR: Mars
+month.APR: April
+month.MAY: Mai
+month.JUN: June
+month.JUL: July
+month.AUG: August
+month.SEP: September
+month.OCT: October
+month.NOV: November
+month.DEC: December
+month.abbr.JAN: Jan
+month.abbr.FEB: Feb
+month.abbr.MAR: Mar
+month.abbr.APR: Apr
+month.abbr.MAY: Mai
+month.abbr.JUN: Jun
+month.abbr.JUL: Jul
+month.abbr.AUG: Aug
+month.abbr.SEP: Sep
+month.abbr.OCT: Oct
+month.abbr.NOV: Nov
+month.abbr.DEC: Dec
+no: No
+number.columns: Number of columns
+number.lines: Number of lines
+number.lines.columns: Number of lines and columns
+number.lines.columns.updated.ok: Number of lines and columns displayed have been updated
+open: Open
+page.next: Next page
+page.previous: Previous page
+parameters: Parameters
+period: Period
+period.from: From %beginningDate%
+period.from.to: From %beginningDate% to %endDate%
+period.next: Next period
+period.previous: Previous period
+period.type: Period type
+period.until: Until %endDate%
+remember.me: Remember me
+see.details: See details
+sort.after: Sort after
+sort.before: Sort before
+summary: Summary
+to: To
+unactivate: Unactivate
+unactivate.not.allowed: Unactivate not allowed
+update.not.allowed: Update not allowed
+user.account: User account
+validate: Validate
+validate.not.allowed: Validate not allowed
+view: View
+view.and.modify: View and modify
+views: Views
+week.next: Next week
+week.previous: Previous week
+welcome.user: Welcome %name%
+yes: Yes
+
+# Messages par écrans
+
+activity.ask.delete: Do you really want to delete activity %name% ?
+activity.back.to.list: Back to activities list
+activity.create: Create an activity
+activity.created.ok: The activity has been created
+activity.deleted.ok: The activity has been deleted
+activity.name: Activity name
+activity.plural: Activities
+activity.singular: Activity
+activity.updated.ok: The activity has been updated
+
+booking.all: All bookings
+booking.ask.delete: Do you really want to delete this booking ?
+booking.back.to.list: Back to bookings list
+booking.bna.after: Booking not allowed after %lastBookingDate%
+booking.bna.before: Booking not allowed before %firstBookingDate%
+booking.bna.day.closed: Day closed for booking
+booking.bna.end.period: Current booking period is closed on %periodEndDate%
+booking.book: Book
+booking.create: Booking create
+booking.created.by.another.user: Booking entered by another user
+booking.created.ok: The booking has been created
+booking.delete: Booking delete
+booking.deleted.ok: The booking has been deleted
+booking.duplicate.exists: The booking is duplicated on %newBookingDate%
+booking.duplicate.ko: The booking cannot be duplicated on %newBookingDate%
+booking.duplicate.ok: The booking can be duplicated on %newBookingDate%
+booking.entered.on.by: Booking entered on %bookingDate% at %bookingTime% by %userName%
+booking.duplicate.previous.week.ko: No duplication previous date for this booking
+booking.in.progress: Bookings in progress
+booking.not.allowed: Booking not allowed
+booking.out.of.period.from: Booking out of allowed period. from %firstBookingDate%
+booking.out.of.period.from.until: Booking out of allowed period. from %firstBookingDate% until %lastBookingDate%
+booking.out.of.period.until: Booking out of allowed period. until %lastBookingDate%
+booking.period: Booking period
+booking.period.beginning.update: Modify beginning period
+booking.period.end.update: Modify end period
+booking.period.from: Bookings allowed from %firstBookingDate%
+booking.period.from.until: Bookings allowed from %firstBookingDate% until %lastBookingDate%
+booking.period.until: Bookings allowed until %lastBookingDate%
+booking.plural: Bookings
+booking.singular: Booking
+booking.update: Booking update
+booking.updated.ok: The booking has been updated
+booking.your: Your bookings
+booking.your.in.progress: Your bookings in progress
+
+dashboard.plural: Dashboards
+dashboard.singular: Dashboard
+
+file.ask.delete: Do you really want to delete file %name% ?
+file.back: Back to file
+file.back.to.list: Back to file list
+file.booking.email: Bookings emails
+file.booking.email.administrator: Send an email to file administrators
+file.booking.email.updated.ok: The email indicators have been updated
+file.booking.email.user: Send an email to booking users
+file.booking.period: Booking period
+file.booking.period.after.1: Restrict booking period after current date
+file.booking.period.after.2: Restriction after current date
+file.booking.period.after.3: No restriction after current date
+file.booking.period.before.1: Restrict booking period before current date
+file.booking.period.before.2: Restriction before current date
+file.booking.period.before.3: No restriction before current date
+file.booking.period.number: Duration
+file.booking.period.type: Period
+file.booking.period.type.DAY: Days
+file.booking.period.type.MONTH: Months
+file.booking.period.type.WEEK: Weeks
+file.booking.period.type.YEAR: Years
+file.booking.period.updated.ok: The booking period have been updated
+file.create: Create a file
+file.created.by: File created by
+file.created.ok: The file has been created
+file.current: Current file
+file.current.updated.ok: Current file has been updated
+file.deleted.ok: The file has been deleted
+file.dna.booking: File %name% has bookings. Delete not allowed
+file.dna.creator: Only the creator of the file ia allowed to delete it
+file.name: File name
+file.new: New file
+file.plural: Files
+file.set.as.current: Set as current file
+file.singular: File
+file.una.creator: Only the creator of the file ia allowed to update it
+file.updated.ok: The file has been updated
+
+label: Label
+label.ask.delete: Do you really want to delete label %name% ?
+label.back: Back to label
+label.back.to.list: Back to labels list
+label.create: Create an label
+label.created.ok: The label has been created
+label.deleted.ok: The label has been deleted
+label.dna.booking: L'étiquette %name% est référencée par des réservations. Suppression impossible
+label.list.update: Modify labels list
+label.name: Label name
+label.new: New label
+label.no: No label
+label.plural: Labels
+label.select: Select label
+label.unselect: Unselect label
+label.updated.ok: The label has been updated
+
+labels.available: Available labels
+labels.selected: Selected labels
+
+note: Note
+note.enter: Saisir une note
+note.no: Pas de note
+note.update: Modifier la note
+
+planification.ask.delete: Do you really want to delete planification %name% ?
+planification.back: Back to planification
+planification.back.to.list: Back to planifications list
+planification.create: Create a planification
+planification.create.period: Create a new period
+planification.created.ok: The planification has been created
+planification.delete: Delete planification
+planification.deleted.ok: The planification has been deleted
+planification.dna.booking: La planification %name% est référencée par des réservations. Suppression impossible
+planification.line.updated.ok: Per day planifications have been updated
+planification.name: Planification name
+planification.new: New planification
+planification.no.resources.to.planify: There is no resource to planify
+planification.plural: Planifications
+planification.resource.select: Select resource
+planification.resource.selected: Selected resources
+planification.resource.to.planify: Resources to planify
+planification.resource.unselect: Unselect resource
+planification.resource.updated.ok: The resources have been updated
+planification.singular: Planification
+planification.type.select: Select type of resources to planify
+planification.updated.ok: The planification has been updated
+planification.validate.not.allowed: You must select at least one resource
+
+planificationPeriod.ask.delete: Do you really want to delete last period planification ?
+planificationPeriod.beginning.date: Period beginning date
+planificationPeriod.create.minimum.date: La nouvelle période doit débuter au delà de la date de la dernière réservation %date%
+planificationPeriod.created.ok: New planification period has been created
+planificationPeriod.delete: Delete planification period
+planificationPeriod.deleted.ok: The period has been deleted
+planificationPeriod.una.booking: Des réservations sont saisies pour cette période. Modification impossible
+planificationPeriod.una.closed: This planification period is closed. It is not updatable
+
+planning: Planning
+planning.back: Back to planning
+planning.calendar: Calendar
+planning.global: Global planning
+planning.list: planified resources list
+# planning.plural est une bizarrerie qui permet de placer un titre à la liste des planifications associées au planning
+planning.plural: Planifications
+planning.reduce.left: Réduire le planning vers la gauche
+planning.reduce.top: Réduire le planning vers le haut
+planning.stretch.bottom: Etendre le planning vers le bas
+planning.stretch.right: Etendre le planning vers la droite
+planning.stretched.out: Stretched out planning
+planning.timetable: Timetable
+planning.display.date: Display planning at selected date
+
+queryBooking.ask.delete: Do you really want to delete query %name% ?
+queryBooking.back.to.list: Back to queries list
+queryBooking.create: Create a query
+queryBooking.created.ok: The query has been created
+queryBooking.deleted.ok: The query has been deleted
+queryBooking.name: Query name
+queryBooking.new: New query
+queryBooking.period.type: Period
+queryBooking.period.type.AFTER: After a day
+queryBooking.period.type.AFTER.SYSDATE: After current day
+queryBooking.period.type.BEFORE: Before a day
+queryBooking.period.type.BEFORE.SYSDATE: Before current day
+queryBooking.period.type.BETWEEN: Between two days
+queryBooking.period.type.NO: No period
+queryBooking.period.type.SYSDATE: Current date
+queryBooking.plural: Queries
+queryBooking.singular: Query
+queryBooking.updated.ok: The query has been updated
+
+resource.ask.delete: Do you really want to delete resource %name% ?
+resource.back: Back to resource
+resource.back.to.list: Back to resources list
+resource.create: Create a resource
+resource.created.ok: The resource has been created
+resource.delete.not.allowed: Resource is referenced. Delete not allowed
+resource.deleted.ok: The resource has been deleted
+resource.dna.booking: La ressource %name% est réservée. Suppression impossible
+resource.name: Resource name
+resource.planified: Planified resource
+resource.planning.background.color: Background color on planning
+resource.planning.foreground.color: Foreground color on planning
+resource.plural: Resources
+resource.singular: Resource
+resource.updated.ok: The resource has been updated
+resource.user.ask: Is user %name% a resource ?
+resource.validate.and.create: Validate and add a resource
+
+resourceClassification.activated.ok: The classification has been activated
+resourceClassification.ask.delete: Do you really want to delete classification %name% ?
+resourceClassification.back: Back to resource classification
+resourceClassification.back.to.list: Back to classifications
+resourceClassification.create: Create a resource classification
+resourceClassification.create.warning: Carefull, you are creating a new resource classification. This is do be done only if the default classifications are not sufficient
+resourceClassification.created.ok: The classification has been created
+resourceClassification.delete.not.allowed: Classification is referenced. Delete not allowed
+resourceClassification.deleted.ok: The classification has been deleted
+resourceClassification.name: Classification name
+resourceClassification.plural: Resource classifications
+resourceClassification.singular: Resource classification
+resourceClassification.select: Select a resource classification
+resourceClassification.unactivate.not.allowed: Classification is referenced. Unactivate not allowed
+resourceClassification.unactivated.ok: The classification has been unactivated
+resourceClassification.updated.ok: The classification has been updated
+
+resourceClassification.plural.BIKE: Bicycles
+resourceClassification.plural.BOAT: Boats
+resourceClassification.plural.CAMERA: Cameras
+resourceClassification.plural.CAR: Cars
+resourceClassification.plural.COMPUTER: Computers
+resourceClassification.plural.CONTRACTOR: Contractors
+resourceClassification.plural.COURT: Courts
+resourceClassification.plural.DENTIST: Dentists
+resourceClassification.plural.DOCTOR: Doctors
+resourceClassification.plural.FLAT: Flat
+resourceClassification.plural.GLIDER: Gliders
+resourceClassification.plural.GYMNASIUM: Gymnasium
+resourceClassification.plural.HORSE: Horses
+resourceClassification.plural.HOUSE: Houses
+resourceClassification.plural.MOBILE-HOME: Mobile homes
+resourceClassification.plural.MOTORBIKE: Motorbikes
+resourceClassification.plural.PITCH: Pitches
+resourceClassification.plural.PLANE: Planes
+resourceClassification.plural.PROJECTOR: Projectors
+resourceClassification.plural.ROOM: Rooms
+resourceClassification.plural.TEACHER: Teachers
+resourceClassification.plural.TENT: Tents
+resourceClassification.plural.TRACTOR: Tractors
+resourceClassification.plural.TRUCK: Trucks
+
+resourceClassification.singular.BIKE: Bicycle
+resourceClassification.singular.BOAT: Boat
+resourceClassification.singular.CAMERA: Camera
+resourceClassification.singular.CAR: Car
+resourceClassification.singular.COMPUTER: Computer
+resourceClassification.singular.CONTRACTOR: Contractor
+resourceClassification.singular.COURT: Court
+resourceClassification.singular.DENTIST: Dentist
+resourceClassification.singular.DOCTOR: Doctor
+resourceClassification.singular.FLAT: Flat
+resourceClassification.singular.GLIDER: Glider
+resourceClassification.singular.GYMNASIUM: Gymnasium
+resourceClassification.singular.HORSE: Horse
+resourceClassification.singular.HOUSE: House
+resourceClassification.singular.MOBILE-HOME: Mobile home
+resourceClassification.singular.MOTORBIKE: Motorbike
+resourceClassification.singular.PITCH: Pitch
+resourceClassification.singular.PLANE: Plane
+resourceClassification.singular.PROJECTOR: Projector
+resourceClassification.singular.ROOM: Room
+resourceClassification.singular.TEACHER: Teacher
+resourceClassification.singular.TENT: Tent
+resourceClassification.singular.TRACTOR: Tractor
+resourceClassification.singular.TRUCK: Truck
+
+resourceType.create.classification.PLACE: Create a places classification
+resourceType.create.classification.SPORT: Create a sport equipments classification
+resourceType.create.classification.TOOL: Create a tools classification
+resourceType.create.classification.USER: Create a users classification
+resourceType.create.classification.VEHICLE: Create a vehicles classification
+
+resourceType.plural.PLACE: Places
+resourceType.plural.SPORT: Sport equipments
+resourceType.plural.TOOL: Tools
+resourceType.plural.USER: Users
+resourceType.plural.VEHICLE: Vehicles
+
+resourceType.singular.PLACE: Place
+resourceType.singular.SPORT: Sport equipment
+resourceType.singular.TOOL: Tool
+resourceType.singular.USER: User
+resourceType.singular.VEHICLE: Vehicle
+
+slam-booking.access: Access Slam-Booking
+
+timetable.ask.delete: Do you really want to delete timetable %name% ?
+timetable.back: Back to timetable
+timetable.back.to.list: Back to timetables list
+timetable.create: Create a timetable
+timetable.created.ok: The timetable has been created. Please enter a first timeslot
+timetable.day: Day
+timetable.deleted.ok: The timetable has been deleted
+timetable.dna.day: The timetable Day cannot be deleted
+timetable.dna.half.day: The timetable Half day cannot be deleted
+timetable.dna.booking: La grille horaire %name% est référencée par des réservations. Suppression impossible
+timetable.half.day: Half day
+timetable.name: Timetable name
+timetable.new: New timetable
+timetable.plural: Timetables
+timetable.singular: Timetable
+timetable.una.day: The timetable Day cannot be updated
+timetable.una.half.day: The timetable Half day cannot be updated
+timetable.una.booking: La grille horaire %name% est référencée par des réservations. Modification impossible
+timetable.updated.ok: The timetable has been updated
+
+timetableLine.create: Add a timetable slot
+timetableLine.created.ok: The timetable slot has been created
+timetableLine.deleted.ok: The timetable slot has been deleted
+timetableLine.updated.ok: The timetable slot has been updated
+timetableLine.validate.and.create: Validate and add a timetable slot
+
+user: User
+user.accountt: User account
+user.account.type: Account type
+user.account.type.INDIVIDUAL: Individual
+user.account.type.ORGANISATION: Organisation
+user.connection: Connection
+user.email: Email
+user.email.not.found: Email entered does not match any registered user
+user.firstName: First name
+user.forgot.login.or.password: Forgot login or password
+user.lastName: Last name
+user.list.update: Modify users list
+user.login: Login
+user.login.and.password: Your user name is %name% and your password is %password%. To connect, use this link:
+user.login.and.password.sent: User name and password have been sent to the email address entered
+user.login.and.password.sent.email.title: User name and password
+user.logout: Logout
+user.modify.password: Modify password
+user.name: User name
+user.new: New user
+user.organisation.name: Organisation name
+user.password: Password
+user.password.updated.ok: The password has been updated
+user.register: Register
+user.registration: Registration
+user.registration.successfull: Hi %name%. You have successfully registered to Slam Booking. To connect, use the following link:
+user.repeat.password: Repeat password
+user.select: Select user
+user.unselect: Unselect user
+user.updated.ok: The user account has been updated
+
+users: Users
+users.available: Available users
+users.selected: Selected users
+
+userFile.administrator.rights: The user has administrator rights on file
+userFile.ask.delete: Do you really want to remove user %name% from file ?
+userFile.create: Add a user
+userFile.back: Back to user
+userFile.back.to.list: Back to users list
+userFile.created.ok: The user has been added to file
+userFile.deleted.ok: The user has been removed from file
+userFile.dna.booking: L'utilisateur %name% a des réservations. Il n'est pas possible de le supprimer du dossier
+userFile.dna.file.creator.1: The file creator cannot be removed from file
+userFile.dna.file.creator.2: Only the file creator can remove another user from file
+userFile.plural: Users
+userFile.resource.updated.ok: Informations "user resource" have been updated
+userFile.una.file.creator.1: The file creator cannot be modified
+userFile.una.file.creator.2: Only the file creator can modify another user
+userFile.una.self: Informations related to user can be modified from his profile only
+userFile.updated.ok: The user has been updated
+
+userFileGroup: User group
+userFileGroup.all: All users
+userFileGroup.ask.delete: Do you really want to delete user group %name% ?
+userFileGroup.back: Back to user group
+userFileGroup.back.to.list: Back to user groups list
+userFileGroup.create: Create a user group
+userFileGroup.created.ok: The user group has been created
+userFileGroup.deleted.ok: The user group has been deleted
+userFileGroup.dna.all: The All users group cannot be deleted
+userFileGroup.dna.view: User group %name% is referenced by views. Il cannot be deleted
+userFileGroup.name: User group name
+userFileGroup.new: New user group
+userFileGroup.plural: User groups
+userFileGroup.una.all: The All users group cannot be modified
+userFileGroup.updated.ok: The user group has been updated
+userFileGroup.users.vna: You must select at least one user
+
+view.activate.all.users:  Activate the all users view
+view.activate.manual:  Activate personalised user groups views
+view.add: Add a view
+view.ask.delete: Do you really want to delete vue linked to users group %name% ?
+view.created.ok: The view has been created
+view.deleted.ok: The view has been deleted
+view.dna.all.users: The all users view cannot be deleted
+view.no.group.to.add: There is no group to be added
+view.select: Select a user group

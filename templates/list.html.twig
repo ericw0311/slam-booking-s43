@@ -1,0 +1,53 @@
+{# templates/list.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+{% if display_create_path %}
+	<a href="{{ path(create_path) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-plus"></i>&nbsp;{{ (listContext.entityCode ~ '.create')|trans }}</a>
+{% endif %}
+	<a href="{{ path('parameter_numberLinesColumns', { 'entityCode': listContext.entityCode, 'listPath': list_path }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-wrench"></i>&nbsp;{{ 'parameters'|trans }}</a>
+
+{% if (listContext.numberPages > 1) %}
+{% if listContext.page > 2 %}
+	<a href="{{ path(list_path, { 'page': 1 }) }}" class="w3-bar-item w3-button">1</a>
+{% endif %}
+{% if listContext.page > 1 %}
+	<a href="{{ path(list_path, { 'page': (listContext.page-1) }) }}" class="w3-bar-item w3-button">{{ (listContext.page-1) }}</a>
+{% endif %}
+	<a href="{{ path(list_path, { 'page': listContext.page }) }}" class="w3-bar-item w3-button w3-indigo">{{ listContext.page }}</a>
+{% if listContext.page < listContext.numberPages %}
+	<a href="{{ path(list_path, { 'page': (listContext.page+1) }) }}" class="w3-bar-item w3-button">{{ (listContext.page+1) }}</a>
+{% endif %}
+{% if listContext.page < (listContext.numberPages-1) %}
+	<a href="{{ path(list_path, { 'page': listContext.numberPages }) }}" class="w3-bar-item w3-button">{{ listContext.numberPages }}</a>
+{% endif %}
+{% endif %}
+</div>
+</div>
+
+<div class="w3-row">
+
+{% for i in 0..listContext.numberColumnsDisplayed-1 if listContext.numberColumnsDisplayed > 0 %}
+	<div class="w3-col m{{ (12/listContext.numberColumnsDisplayed) }}">
+{% if i < listContext.numberColumnsDisplayed-1 %}
+	<div class="w3-bar-block w3-margin-right">
+{% else %}
+	<div class="w3-bar-block">
+{% endif %}
+{% set lineNumber = 0 %}
+{% for j in 0..listContext.numberLinesDisplayed-1 if (i*listContext.numberLinesDisplayed+j) < listContext.numberRecordsDisplayed %}
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = ((i is odd and lineNumber is odd) or (i is even and lineNumber is even)) ? 'transparent' : 'sand' %}
+{% block link %}{% endblock %}
+{% endfor %}
+	</div>
+	</div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

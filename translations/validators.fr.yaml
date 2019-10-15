@@ -1,0 +1,28 @@
+# translations/validators.fr.yaml
+
+activity.already.exists: Cette activité existe déjà
+
+dashboard.already.exists: Cette requette existe déjà
+
+file.already.exists: Ce dossier existe déjà
+
+label.already.exists: Cette étiquette existe déjà
+
+planification.already.exists: Cette planification existe déjà
+
+planificationPeriod.date.control: La date de début entrée doit être supérieure à la date de dernière réservation indiquée
+
+resource.already.exists: Cette ressource existe déjà
+
+resourceClassification.already.exists: Cette classification existe déjà
+
+timetable.already.exists: Cette grille horaire existe déjà
+
+timetableLine.endTime.control: L'heure de fin doit être supérieure à l'heure de début
+timetableLine.order.beginningTime.control: L'heure de début doit être égale ou supérieure à l'heure de fin du créneau précédent %endTime%
+timetableLine.order.endTime.control: L'heure de fin doit être égale ou inférieure à l'heure de début du créneau suivant %beginningTime%
+
+user.already.assigned.to.file: Cet utilisateur est déjà affecté au dossier
+user.organisation.name.null: Vous devez saisir un nom d'organisation
+
+userFileGroup.already.exists: Ce groupe d'utilisateurs existe déjà
