@@ -1,0 +1,22 @@
+{# templates/user/edit.html.twig #}
+
+{% extends 'base.html.twig' %}
+ 
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/user-32.png') }}"></img>&nbsp;{{ user.getFirstAndLastName() }}
+</h4></div>
+
+<p><i class="fa fa-user w3-xlarge"></i>&nbsp;{{ user.userName }}</p>
+
+<p><i class="fa fa-envelope w3-xlarge"></i>&nbsp;{{ user.email }}</p>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('user_modify') }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
+	<a href="{{ path('user_password') }}" class="w3-bar-item w3-button w3-light-grey"><i class="fa fa-unlock-alt"></i>&nbsp;{{ 'user.modify.password'|trans }}</a>
+</div>
+</div>
+
+{% endblock %}

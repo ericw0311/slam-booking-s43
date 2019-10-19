@@ -1,0 +1,50 @@
+{# templates/user/modify.html.twig #}
+
+{% extends 'base.half.html.twig' %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo">
+	<p><i class="fa fa-user w3-xlarge"></i>&nbsp;{{ user.getFirstAndLastName() }}</p>
+</div>
+
+{{ form_start(form, {'action': path('user_modify'), 'method': 'POST'}) }}
+
+<form class="w3-container">
+
+{{ form_row(form.password) }}
+
+<p>{{ form_row(form.accountType) }}</p>
+<p>{{ form_row(form.firstName) }}</p>
+<p>{{ form_row(form.lastName) }}</p>
+
+<p><label>{{ 'user.name'|trans }}</label>
+{{ form_widget(form.userName) }}
+<div class="w3-text-red">{{ form_errors(form.userName) }}</div></p>
+
+<p><label>{{ 'user.email'|trans }}</label>
+{{ form_widget(form.email) }}
+<div class="w3-text-red">{{ form_errors(form.email) }}</div></p>
+
+<p><label>{{ 'user.organisation.name'|trans }}</label>
+{{ form_widget(form.uniqueName) }}
+<div class="w3-text-red">{{ form_errors(form.uniqueName) }}</div></p>
+
+{{ form_rest(form) }}
+
+<div class="w3-show-inline-block">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('user_edit') }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+</div>
+</div>
+
+</form>
+
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('scripts/user_modify.js') }}"></script>
+{% endblock %}

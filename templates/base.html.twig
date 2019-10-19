@@ -85,17 +85,17 @@ $( function() {
 	<button class="w3-button"><i class="fa fa-user"></i>&nbsp;{{ app.user.username }}</button>
 	<div class="w3-dropdown-content w3-bar-block w3-card-4" style="right:0">
 		<a href="{{ path('user_edit') }}" class="w3-bar-item w3-button"><i class="fa fa-user"></i>&nbsp;{{ 'user.accountt'|trans }}</a>
-		<a href="{{ path('user_logout') }}" class="w3-bar-item w3-button"><i class="fa fa-sign-out"></i>&nbsp;{{ 'user.logout'|trans }}</a>
+		<a href="{{ path('app_logout') }}" class="w3-bar-item w3-button"><i class="fa fa-sign-out"></i>&nbsp;{{ 'user.logout'|trans }}</a>
 	</div>
     </div>
 
 {% else %}
 <div class="w3-bar w3-khaki" id="myNavbar">
-	<a href="{{ path('user_logout')}}" class="w3-bar-item w3-button"><i class="fa fa-home w3-xlarge"></i>&nbsp;Slam Booking</a>
+	<a href="{{ path('app_logout')}}" class="w3-bar-item w3-button"><i class="fa fa-home w3-xlarge"></i>&nbsp;Slam Booking</a>
 	<a href="{{ path('documentation', { 'pageCode': 'SLAM-BOOKING' })}}" target="_blank" class="w3-bar-item w3-button"><i class="fa fa-book w3-xlarge"></i>&nbsp;{{ 'documentation'|trans }}</a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
-		<a href="{{ path('user_login')}}" class="w3-bar-item w3-button"><i class="fa fa-sign-in w3-xlarge"></i>&nbsp;{{ 'user.login'|trans }}</a>
+		<a href="{{ path('app_login')}}" class="w3-bar-item w3-button"><i class="fa fa-sign-in w3-xlarge"></i>&nbsp;{{ 'user.login'|trans }}</a>
 		<a href="{{ path('user_register')}}" class="w3-bar-item w3-button"><i class="fa fa-user w3-xlarge"></i>&nbsp;{{ 'user.register'|trans }}</a>
     </div>
 {% endif %}
@@ -111,9 +111,9 @@ $( function() {
 	<a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">{{ 'close'|trans }} ×</a>
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 	<a href="{{ path('user_edit') }}" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-user"></i>&nbsp;{{ 'user.accountt'|trans }}</a>
-	<a href="{{ path('user_logout') }}" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-sign-out"></i>&nbsp;{{ 'user.logout'|trans }}</a>
+	<a href="{{ path('app_logout') }}" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-sign-out"></i>&nbsp;{{ 'user.logout'|trans }}</a>
 {% else %}
-	<a href="{{ path('user_login')}}" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-sign-in w3-xlarge"></i>&nbsp;{{ 'user.login'|trans }}</a>
+	<a href="{{ path('app_login')}}" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-sign-in w3-xlarge"></i>&nbsp;{{ 'user.login'|trans }}</a>
 	<a href="{{ path('user_register')}}" onclick="w3_close()" class="w3-bar-item w3-button"><i class="fa fa-user w3-xlarge"></i>&nbsp;{{ 'user.register'|trans }}</a>
 {% endif %}
 </nav>

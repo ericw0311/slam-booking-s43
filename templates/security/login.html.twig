@@ -1,0 +1,40 @@
+{# templates/security/login.html.twig #}
+
+{% extends 'base.half.html.twig' %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo">
+	<p><i class="fa fa-sign-in w3-xlarge"></i>&nbsp;{{ 'user.connection'|trans }}</p>
+</div>
+
+<form action="{{ path('app_login') }}" method="post">
+
+{% if error %}
+	<div class="w3-panel w3-red w3-round-large">
+		<p>{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+	</div>
+{% endif %}
+
+<form class="w3-container">
+	<p><label>{{ 'user.name'|trans }}</label>
+	<input class="w3-input w3-border w3-pale-green form-control" type="text" id="username" name="username" value="{{ last_username }}"></p>
+
+	<p><label>{{ 'user.password'|trans }}</label>
+	<input class="w3-input w3-border w3-pale-green form-control" type="password" id="password" name="password"></p>
+
+	<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+	<div class="checkbox mb-3">
+		<label>
+			<input type="checkbox" name="_remember_me">&nbsp;{{ 'remember.me'|trans }}
+		</label>
+	</div>
+
+	<div class="w3-show-inline-block w3-margin-top">
+	<div class="w3-bar w3-border w3-round">
+		<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'user.login'|trans }}</button>
+	</div>
+	</div>
+</form>
+{% endblock %}

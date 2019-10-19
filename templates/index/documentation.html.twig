@@ -1,0 +1,48 @@
+{# templates/documentation/index.html.twig #}
+
+{% extends 'base.basic.html.twig' %}
+
+{% block body %}
+
+<div class="w3-row w3-margin-top">
+<div class="w3-quarter w3-container">
+
+<div class="w3-bar-block">
+{% set lineNumber = 0 %}
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'SLAM-BOOKING') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'SLAM-BOOKING' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;Slam Booking</a>
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'FILE') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'FILE' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'file.plural'|trans }}</a>
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'USERFILE') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'USERFILE' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'users'|trans }}</a>
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'TIMETABLE') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'TIMETABLE' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'timetable.plural'|trans }}</a>
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'RESOURCE-CLASSIFICATION') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'RESOURCE-CLASSIFICATION' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'resourceClassification.plural'|trans }}</a>
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'RESOURCE') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'RESOURCE' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'resource.plural'|trans }}</a>
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'PLANIFICATION') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'PLANIFICATION' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'planification.plural'|trans }}</a>
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'PLANNING') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'PLANNING' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'planning'|trans }}</a>
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'BOOKING') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'BOOKING' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'booking.plural'|trans }}</a>
+</div>
+</div>
+
+<div class="w3-threequarter w3-container">
+{{ include('index/help.' ~ pageCode ~ '.html.twig') }}
+</div>
+
+</div>
+
+{% endblock %}

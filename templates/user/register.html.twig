@@ -1,0 +1,48 @@
+{# templates/user/register.html.twig #}
+
+{% extends 'base.half.html.twig' %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo">
+	<p><i class="fa fa-user w3-xlarge"></i>&nbsp;{{ 'user.registration'|trans }}</p>
+</div>
+
+{{ form_start(form, {'action': path('user_register'), 'method': 'POST'}) }}
+
+<form class="w3-container">
+
+<p>{{ form_row(form.accountType) }}</p>
+<p>{{ form_row(form.firstName) }}</p>
+<p>{{ form_row(form.lastName) }}</p>
+
+<p><label>{{ 'user.name'|trans }}</label>
+{{ form_widget(form.userName) }}
+<div class="w3-text-red">{{ form_errors(form.userName) }}</div></p>
+
+<p><label>{{ 'user.email'|trans }}</label>
+{{ form_widget(form.email) }}
+<div class="w3-text-red">{{ form_errors(form.email) }}</div></p>
+
+<p><label>{{ 'user.organisation.name'|trans }}</label>
+{{ form_widget(form.uniqueName) }}
+<div class="w3-text-red">{{ form_errors(form.uniqueName) }}</div></p>
+
+<p><label>{{ 'user.password'|trans }}</label>
+{{ form_widget(form.password.first) }}
+<div class="w3-text-red">{{ form_errors(form.password.first) }}</div></p>
+
+<p>{{ form_row(form.password.second) }}</p>
+
+{{ form_rest(form) }}
+
+<button type="submit" class="w3-btn w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'user.register'|trans }}</button>
+
+</form>
+
+{{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('scripts/user_register.js') }}"></script>
+{% endblock %}

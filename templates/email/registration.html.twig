@@ -1,0 +1,5 @@
+{# templates/emails/registration.html.twig #}
+
+<h3><span class="glyphicon glyphicon-log-in">{{ 'user.registration'|trans }}</h3>
+
+<p>{{ 'user.registration.successfull'|trans({'%name%': user.getFirstAndLastName()}) }}&nbsp;<a href="{{ url('app_login') }}"></p>
