@@ -50,9 +50,9 @@ $( function() {
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
 <div class="w3-bar w3-light-grey" id="myNavbar">
 {% if userContext.getCurrentUserFileAdministrator() %}
-	<a href="{{ path('homepage')}}" class="w3-bar-item w3-button w3-green"><i class="fa fa-home w3-xlarge"></i>&nbsp;{{ userContext.getCurrentFileName() }}</a>
+	<a href="{{ path('default')}}" class="w3-bar-item w3-button w3-green"><i class="fa fa-home w3-xlarge"></i>&nbsp;{{ userContext.getCurrentFileName() }}</a>
 {% else %}
-	<a href="{{ path('homepage')}}" class="w3-bar-item w3-button w3-orange"><i class="fa fa-home w3-xlarge"></i>&nbsp;{{ userContext.getCurrentFileName() }}</a>
+	<a href="{{ path('default')}}" class="w3-bar-item w3-button w3-orange"><i class="fa fa-home w3-xlarge"></i>&nbsp;{{ userContext.getCurrentFileName() }}</a>
 {% endif %}
 	<a href="{{ path('file', { 'page': 1 })}}" class="w3-bar-item w3-button"><img src="{{ asset('images/file-16.png') }}">&nbsp;{{ 'file.plural'|trans }}</a>
 {% if (userContext.getCurrentFileID() > 0) %}
