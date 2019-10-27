@@ -55,7 +55,7 @@ class UserParameter
     private $user;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 

@@ -1,7 +1,10 @@
 <?php
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -26,7 +29,7 @@ class UserFile
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $accountType;
+    private $accountType = "INDIVIDUAL";
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -86,7 +89,7 @@ class UserFile
     private $resourceUser;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
@@ -94,6 +97,22 @@ class UserFile
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\UserFileGroup", mappedBy="userFiles")
+     */
+    private $userFileGroups;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\BookingUser", mappedBy="userFile")
+     */
+    private $bookingUsers;
+
+    public function __construct()
+    {
+        $this->userFileGroups = new ArrayCollection();
+        $this->bookingUsers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -244,11 +263,70 @@ class UserFile
     }
 
     /**
+     * @return Collection|UserFileGroup[]
+     */
+    public function getUserFileGroups(): Collection
+    {
+        return $this->userFileGroups;
+    }
+
+    public function addUserFileGroup(UserFileGroup $userFileGroup): self
+    {
+        if (!$this->userFileGroups->contains($userFileGroup)) {
+            $this->userFileGroups[] = $userFileGroup;
+            $userFileGroup->addUserFile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserFileGroup(UserFileGroup $userFileGroup): self
+    {
+        if ($this->userFileGroups->contains($userFileGroup)) {
+            $this->userFileGroups->removeElement($userFileGroup);
+            $userFileGroup->removeUserFile($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|BookingUser[]
+     */
+    public function getBookingUsers(): Collection
+    {
+        return $this->bookingUsers;
+    }
+
+    public function addBookingUser(BookingUser $bookingUser): self
+    {
+        if (!$this->bookingUsers->contains($bookingUser)) {
+            $this->bookingUsers[] = $bookingUser;
+            $bookingUser->setUserFile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBookingUser(BookingUser $bookingUser): self
+    {
+        if ($this->bookingUsers->contains($bookingUser)) {
+            $this->bookingUsers->removeElement($bookingUser);
+            // set the owning side to null (unless already changed)
+            if ($bookingUser->getUserFile() === $this) {
+                $bookingUser->setUserFile(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
     * @ORM\PrePersist
     */
     public function createDate()
     {
-        $this->createdAt = new \DateTime();
+      $this->createdAt = new \DateTime();
     }
 
     /**
@@ -256,6 +334,6 @@ class UserFile
     */
     public function updateDate()
     {
-        $this->updatedAt = new \DateTime();
+      $this->updatedAt = new \DateTime();
     }
 }

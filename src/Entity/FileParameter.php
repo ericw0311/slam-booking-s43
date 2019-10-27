@@ -2,7 +2,6 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_file_parameter",columns={"file_id", "parameter_group", "parameter"})})
@@ -61,7 +60,7 @@ class FileParameter
     private $user;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
