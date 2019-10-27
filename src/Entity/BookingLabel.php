@@ -109,4 +109,20 @@ class BookingLabel
   	$this->setBooking($booking);
   	$this->setLabel($label);
   	}
+
+    /**
+    * @ORM\PrePersist
+    */
+    public function createDate()
+    {
+      $this->createdAt = new \DateTime();
+    }
+
+    /**
+    * @ORM\PreUpdate
+    */
+    public function updateDate()
+    {
+      $this->updatedAt = new \DateTime();
+    }
 }
