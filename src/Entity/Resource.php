@@ -119,7 +119,6 @@ class Resource
     public function setType(string $type): self
     {
         $this->type = $type;
-
         return $this;
     }
 
@@ -131,7 +130,12 @@ class Resource
     public function setCode(?string $code): self
     {
         $this->code = $code;
+        return $this;
+    }
 
+    public function setCodeNull(): self
+    {
+        $this->code = null;
         return $this;
     }
 

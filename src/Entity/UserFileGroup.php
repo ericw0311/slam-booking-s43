@@ -24,6 +24,7 @@ class UserFileGroup
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Choice({"ALL", "MANUAL"})
      */
     private $type;
 
