@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
 * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_user_file_group",columns={"file_id", "name"})})

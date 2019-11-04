@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    app.notifications.email_sender: eric.willard@slam-booking.net
 
 services:
     # default configuration for services in *this* file
@@ -25,3 +26,27 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Event\DoctrineSubscriber:
+        arguments: ["@security.token_storage", "@logger", "@translator"]
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    validator.timetableLineBeginningTime:
+        class: App\Validator\TimetableLineBeginningTimeValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: timetableLineBeginningTime }
+
+    validator.timetableLineEndTime:
+        class: App\Validator\TimetableLineEndTimeValidator
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: validator.constraint_validator, alias: timetableLineEndTime }
+
+    # sd.twig.sb_extension:
+    App\Api\SB_TwigExtension:
+        arguments: ["@translator"]
+
+    App\Event\RegistrationNotifySubscriber:
+        # le nom de la variable que l'on utilisera dans le service
+        $sender: '%app.notifications.email_sender%'

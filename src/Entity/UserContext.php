@@ -1,15 +1,13 @@
 <?php
 namespace App\Entity;
-
 use App\Api\AdministrationApi;
-
 class UserContext
 {
-  protected $user;
-  protected $currentFile;
-  protected $currentUserFile;
+    protected $user;
+    protected $currentFile;
+    protected $currentUserFile;
 
-  public function setUser($user)
+    public function setUser($user)
     {
     $this->user = $user;
     return $this;
@@ -53,13 +51,13 @@ class UserContext
         $currentFileID = AdministrationApi::getCurrentFileID($em, $user);
         $fRepository = $em->getRepository(File::class);
         $this->currentFile = $fRepository->find($currentFileID);
-
+        
         $ufRepository = $em->getRepository(UserFile::class);
         $this->currentUserFile = $ufRepository->findOneBy(array('account' => $this->user, 'file' => $this->currentFile));
     }
     return $this;
     }
-
+	
     public function getCurrentFileID()
     {
     if (null === $this->currentFile) {
@@ -67,7 +65,7 @@ class UserContext
     }
     return $this->getCurrentFile()->getID();
     }
-
+	
     // Retourne le nom du dossier en cours ou "Slam Booking" si aucun dossier en cours
     public function getCurrentFileName()
     {
