@@ -14,10 +14,10 @@ class FileEvent
 {
     static function postPersist($em, \App\Entity\User $user, \App\Entity\File $file, $translator)
     {
-      FileEvent::createUserFileGroup($em, $user, $file, $translator);
-      FileEvent::createUserFile($em, $user, $file);
       AdministrationApi::setCurrentFileIfNotDefined($em, $user, $file);
       FileEvent::createTimetables($em, $user, $file, $translator);
+      FileEvent::createUserFileGroup($em, $user, $file, $translator);
+      FileEvent::createUserFile($em, $user, $file);
     }
 
     // Rattache l'utilisateur courant au dossier

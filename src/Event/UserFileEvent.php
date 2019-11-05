@@ -23,13 +23,11 @@ class UserFileEvent
   // On récupère l'ID du dossier en cours
 	$currentFileID = AdministrationApi::getCurrentFileID($em, $user);
 
-  if ($currentFileID > 0) {
-    // Groupe de tous les utilisateurs
-  	$userFileGroup = UserFileApi::getAllUserGroup($em, $fRepository->find($currentFileID));
+  // Groupe de tous les utilisateurs
+	$userFileGroup = UserFileApi::getAllUserGroup($em, $fRepository->find($currentFileID));
 
-  	$userFileGroup->addUserFile($userFile);
-    $em->persist($userFileGroup);
-    $em->flush();
-  }
+	$userFileGroup->addUserFile($userFile);
+  $em->persist($userFileGroup);
+  $em->flush();
   }
 }
