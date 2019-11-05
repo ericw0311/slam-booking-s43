@@ -1,20 +1,19 @@
-{% extends 'base.html.twig' %}
+{# templates/file/index.html.twig #}
 
-{% block title %}Hello FileController!{% endblock %}
+{% extends 'list.html.twig' %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% set create_path, list_path, display_create_path = 'file_add', 'file', true %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'FILE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/eric/slam-booking-s43/src/Controller/FileController.php'|file_link(0) }}">src/Controller/FileController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/eric/slam-booking-s43/templates/file/index.html.twig'|file_link(0) }}">templates/file/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% block link %}
+
+{% if listFiles[i*listContext.numberLinesDisplayed+j].ID == userContext.currentFileID %}
+	<a href="{{ path('file_edit', { 'fileID': listFiles[i*listContext.numberLinesDisplayed+j].ID }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/file-32.png') }}">&nbsp;{{ listFiles[i*listContext.numberLinesDisplayed+j].name }}&nbsp;&nbsp;&nbsp;<img src="{{ asset('images/administrator-32.png') }}">&nbsp;{{ listFiles[i*listContext.numberLinesDisplayed+j].user.userName }}<span class="w3-badge w3-right w3-green">{{ 'file.current'|trans }}</span></a>
+{% else %}
+	<a href="{{ path('file_edit', { 'fileID': listFiles[i*listContext.numberLinesDisplayed+j].ID }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/file-32.png') }}">&nbsp;{{ listFiles[i*listContext.numberLinesDisplayed+j].name }}&nbsp;&nbsp;&nbsp;<img src="{{ asset('images/administrator-32.png') }}">&nbsp;{{ listFiles[i*listContext.numberLinesDisplayed+j].user.userName }}</a>
+{% endif %}
+
 {% endblock %}

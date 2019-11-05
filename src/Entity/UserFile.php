@@ -54,7 +54,7 @@ class UserFile
     /**
      * @ORM\Column(type="boolean")
      */
-    private $active;
+    private $active = true;
 
     /**
      * @ORM\Column(type="boolean")
@@ -86,7 +86,7 @@ class UserFile
     /**
      * @ORM\Column(type="boolean")
      */
-    private $resourceUser;
+    private $resourceUser = false;
 
     /**
      * @ORM\Column(type="datetime")
@@ -108,8 +108,10 @@ class UserFile
      */
     private $bookingUsers;
 
-    public function __construct()
+    public function __construct(?User $user, ?File $file)
     {
+        $this->setUser($user);
+        $this->setFile($file);
         $this->userFileGroups = new ArrayCollection();
         $this->bookingUsers = new ArrayCollection();
     }

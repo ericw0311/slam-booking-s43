@@ -146,6 +146,34 @@ class UserParameter
         return $this;
     }
 
+    public function __construct(\App\Entity\User $user, $parameterGroup, $parameter) {
+  		$this->setUser($user);
+  		$this->setParameterGroup($parameterGroup);
+  		$this->setParameter($parameter);
+  		$this->setBooleanValue(false);
+      }
+
+    public function setSBIntegerValue(?int $integerValue): self
+  	{
+  		$this->setIntegerValue($integerValue);
+      $this->setParameterType('integer');
+  		return $this;
+    }
+
+    public function setSBStringValue(?string $stringValue): self
+    {
+  		$this->setStringValue($stringValue);
+  		$this->setParameterType('string');
+  		return $this;
+    }
+
+    public function setSBBooleanValue(bool $booleanValue): self
+    {
+  		$this->setBooleanValue($booleanValue);
+  		$this->setParameterType('boolean');
+  		return $this;
+  	}
+
     /**
     * @ORM\PrePersist
     */

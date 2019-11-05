@@ -9,7 +9,7 @@
 {% if display_create_path %}
 	<a href="{{ path(create_path) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-plus"></i>&nbsp;{{ (listContext.entityCode ~ '.create')|trans }}</a>
 {% endif %}
-	<a href="{{ path('parameter_numberLinesColumns', { 'entityCode': listContext.entityCode, 'listPath': list_path }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-wrench"></i>&nbsp;{{ 'parameters'|trans }}</a>
+	<a href="{{ path('parameter_number_lines_columns', { 'entityCode': listContext.entityCode, 'listPath': list_path }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-wrench"></i>&nbsp;{{ 'parameters'|trans }}</a>
 
 {% if (listContext.numberPages > 1) %}
 {% if listContext.page > 2 %}

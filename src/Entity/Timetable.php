@@ -47,12 +47,12 @@ class Timetable
     private $file;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
   	/**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -93,7 +93,6 @@ class Timetable
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -105,7 +104,6 @@ class Timetable
     public function setType(string $type): self
     {
         $this->type = $type;
-
         return $this;
     }
 
@@ -117,7 +115,6 @@ class Timetable
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -129,8 +126,23 @@ class Timetable
     public function setFile(?File $file): self
     {
         $this->file = $file;
-
         return $this;
+    }
+
+    /**
+    * @ORM\PrePersist
+    */
+    public function createDate()
+    {
+      $this->createdAt = new \DateTime();
+    }
+
+    /**
+    * @ORM\PreUpdate
+    */
+    public function updateDate()
+    {
+      $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -224,21 +236,5 @@ class Timetable
         }
 
         return $this;
-    }
-
-    /**
-    * @ORM\PrePersist
-    */
-    public function createDate()
-    {
-      $this->createdAt = new \DateTime();
-    }
-
-    /**
-    * @ORM\PreUpdate
-    */
-    public function updateDate()
-    {
-      $this->updatedAt = new \DateTime();
     }
 }

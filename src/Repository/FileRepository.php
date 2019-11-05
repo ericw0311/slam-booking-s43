@@ -1,10 +1,13 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\File;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+
+use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query\Expr;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * @method File|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +22,44 @@ class FileRepository extends ServiceEntityRepository
         parent::__construct($registry, File::class);
     }
 
-    // /**
-    //  * @return File[] Returns an array of File objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    // Retourne le nombre de dossiers d'un utilisateur
+	public function getUserFilesCount(\App\Entity\User $user)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    $qb = $this->createQueryBuilder('f');
+    $qb->innerJoin('f.userFiles', 'uf', Expr\Join::WITH, $qb->expr()->eq('uf.email', '?1'));
+    $qb->select($qb->expr()->count('f'));
+    $qb->setParameter(1, $user->getEmail());
+    $query = $qb->getQuery();
+    $singleScalar = $query->getSingleScalarResult();
+    return $singleScalar;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?File
+	/**
+	* @return File[] Retourne les dossiers a afficher d'un utilisateur
+	*/
+    public function getUserDisplayedFiles(\App\Entity\User $user, $firstRecordIndex, $maxRecord)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+    $qb = $this->createQueryBuilder('f');
+    $qb->innerJoin('f.userFiles', 'uf', Expr\Join::WITH, $qb->expr()->eq('uf.email', '?1'));
+    $qb->orderBy('f.name', 'ASC');
+    $qb->setFirstResult($firstRecordIndex);
+    $qb->setMaxResults($maxRecord);
+    $qb->setParameter(1, $user->getEmail());
+    $query = $qb->getQuery();
+    $results = $query->getResult();
+    return $results;
     }
-    */
+
+    // Retourne le premier dossier d'un utilisateur (dans l'ordre d'affichage)
+    public function getUserFirstFile(\App\Entity\User $user): ?File
+    {
+    $qb = $this->createQueryBuilder('f');
+    $qb->innerJoin('f.userFiles', 'uf', Expr\Join::WITH, $qb->expr()->eq('uf.email', '?1'));
+    $qb->orderBy('f.name', 'ASC');
+    $qb->setMaxResults(1);
+    $qb->setParameter(1, $user->getEmail());
+    $query = $qb->getQuery();
+    $results = $query->getOneOrNullResult();
+    return $results;
+    }
 }

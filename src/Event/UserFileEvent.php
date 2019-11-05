@@ -18,15 +18,18 @@ class UserFileEvent
   // Rattache l'utilisateur au groupe de tous les utilisateurs
   static function addUserFileToAllUserGroup($em, \App\Entity\User $user, \App\Entity\UserFile $userFile)
   {
-  // On récupère l'ID du dossier en cours
-	$currentFileID = AdministrationApi::getCurrentFileID($em, $user);
   $fRepository = $em->getRepository(File::class);
 
-  // Groupe de tous les utilisateurs
-	$userFileGroup = UserFileApi::getAllUserGroup($em, $fRepository->find($currentFileID));
+  // On récupère l'ID du dossier en cours
+	$currentFileID = AdministrationApi::getCurrentFileID($em, $user);
 
-	$userFileGroup->addUserFile($userFile);
-  $em->persist($userFileGroup);
-  $em->flush();
+  if ($currentFileID > 0) {
+    // Groupe de tous les utilisateurs
+  	$userFileGroup = UserFileApi::getAllUserGroup($em, $fRepository->find($currentFileID));
+
+  	$userFileGroup->addUserFile($userFile);
+    $em->persist($userFileGroup);
+    $em->flush();
+  }
   }
 }

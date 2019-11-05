@@ -1,0 +1,142 @@
+{# templates/file/edit.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'FILE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+<img src="{{ asset('images/file-32.png') }}"></img>&nbsp;{{ file.name }}&nbsp;
+{% if file.user.id != userContext.user.id %}
+	<a onclick="document.getElementById('unaCreator').style.display='block'" class="fa fa-pencil w3-xlarge w3-text-red" title="{{ 'modify'|trans }}"></a>
+{% else %}
+	<a href="{{ path('file_modify', { 'fileID': file.ID }) }}" class="fa fa-pencil w3-xlarge" title="{{ 'modify'|trans }}"></a>
+{% endif %}
+</h4></div>
+
+<p><img src="{{ asset('images/administrator-32.png') }}"></img>&nbsp;{{ 'file.created.by'|trans }}&nbsp;{{ file.user.getFirstAndLastName() }}</p>
+
+<div>
+{% if file.ID == userContext.currentFileID and fileEditContext.bookingsCount > 0 %}
+<a href="{{ path('file_booking_list', { 'fileID': file.ID, 'page': 1 }) }}" class="w3-text-indigo"><img src="{{ asset('images/booking-32.png') }}">&nbsp;{{ 'booking.plural'|trans }}&nbsp;<span class="w3-badge w3-indigo">{{ fileEditContext.bookingsCount }}</span></a>
+{% else %}
+<img src="{{ asset('images/booking-32.png') }}">&nbsp;<span class="w3-text-indigo">{{ 'booking.plural'|trans }}</span>&nbsp;<span class="w3-badge w3-indigo">{{ fileEditContext.bookingsCount }}</span>
+{% endif %}
+</div>
+
+<div class="w3-panel w3-margin-top w3-border-bottom w3-text-indigo"><h4>
+<i class="fa fa-envelope w3-xlarge"></i>&nbsp;{{ 'file.booking.email'|trans }}
+{% if file.user.id == userContext.user.id %}
+	<a href="{{ path('file_booking_email', { 'fileID': file.ID }) }}" class="fa fa-pencil w3-xlarge" title="{{ 'modify'|trans }}"></a>
+{% endif %}
+</h4></div>
+
+{% if fileEditContext.fileAdministrator %} {% set image = 'green-check-32.png' %} {% else %} {% set image = 'red-cross-32.png' %} {% endif %}
+<p><img src="{{ asset('images/' ~ image) }}">&nbsp;{{ 'file.booking.email.administrator'|trans }}</p>
+
+{% if fileEditContext.bookingUser %} {% set image = 'green-check-32.png' %} {% else %} {% set image = 'red-cross-32.png' %} {% endif %}
+<p><img src="{{ asset('images/' ~ image) }}">&nbsp;{{ 'file.booking.email.user'|trans }}</p>
+
+
+<div class="w3-panel w3-margin-top w3-border-bottom w3-text-indigo"><h4>
+<i class="fa fa-calendar w3-xlarge"></i>&nbsp;{{ 'file.booking.period'|trans }}
+{% if file.user.id == userContext.user.id %}
+	<a href="{{ path('file_booking_period', { 'fileID': file.ID }) }}" class="fa fa-pencil w3-xlarge" title="{{ 'modify'|trans }}"></a>
+{% endif %}
+</h4></div>
+
+<p><img src="{{ asset('images/before-40.png') }}">&nbsp;
+{% if fileEditContext.before %}
+{{ 'file.booking.period.before.2'|trans }}:&nbsp;{{ fileEditContext.beforeNumber }}&nbsp;{{ ('file.booking.period.type.' ~ fileEditContext.beforeType)|trans }}&nbsp;&rarr;&nbsp;{{ dateLongue(fileEditContext.firstBookingDate) }}
+{% else %}
+{{ 'file.booking.period.before.3'|trans }}
+{% endif %}
+</p>
+
+<p><img src="{{ asset('images/after-40.png') }}">&nbsp;
+{% if fileEditContext.after %}
+{{ 'file.booking.period.after.2'|trans }}:&nbsp;{{ fileEditContext.afterNumber }}&nbsp;{{ ('file.booking.period.type.' ~ fileEditContext.afterType)|trans }}&nbsp;&rarr;&nbsp;{{ dateLongue(fileEditContext.lastBookingDate) }}
+{% else %}
+{{ 'file.booking.period.after.3'|trans }}
+{% endif %}
+</p>
+
+<div class="w3-show-inline-block">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('file', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'file.back.to.list'|trans }}</a>
+
+{% if file.user.id != userContext.user.id %}
+	<button onclick="document.getElementById('dnaCreator').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+{% elseif fileEditContext.bookingsCount > 0 %}
+	<button onclick="document.getElementById('dnaBooking').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+{% elseif (fileEditContext.userFilesCount + fileEditContext.userTimetablesCount + fileEditContext.resourcesCount + fileEditContext.labelsCount) > 0 %}
+	<a href="{{ path('file_foreign', { 'fileID': file.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></a>
+{% else %}
+	<button onclick="document.getElementById('askDelete').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</button>
+{% endif %}
+
+{% if file.ID != userContext.currentFileID %}
+	<a href="{{ path('file_set_current', { 'fileID': file.ID }) }}" class="w3-bar-item w3-button w3-green">{{ 'file.set.as.current'|trans }}</a>
+{% endif %}
+</div>
+</div>
+
+<!-- Modal -->
+<div id="unaCreator" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('unaCreator').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'update.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'file.una.creator'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="dnaCreator" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('dnaCreator').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'delete.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'file.dna.creator'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="dnaBooking" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('dnaBooking').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'delete.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'file.dna.booking'|trans({'%name%': file.name}) }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="askDelete" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-khaki">
+			<span onclick="document.getElementById('askDelete').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'deletion'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-khaki">
+			<p>{{ 'file.ask.delete'|trans({'%name%': file.name}) }}</p>
+			<div class="w3-show-inline-block w3-right w3-margin-bottom">
+			<div class="w3-bar w3-border w3-round">
+				<button onclick="document.getElementById('askDelete').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
+				<a href="{{ path('file_delete', { 'fileID': file.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

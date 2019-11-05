@@ -21,7 +21,7 @@ class ListContext
     if ($userParameter != null) { $this->numberColumns = $userParameter->getIntegerValue(); } else { $this->numberColumns = constant(Constants::class.'::LIST_DEFAULT_NUMBER_COLUMNS'); }
     return $this;
     }
-	
+
     // Code de l'entite
     public function getEntityCode()
     {

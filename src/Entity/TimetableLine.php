@@ -12,6 +12,7 @@ use App\Validator\TimetableLineEndTime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TimetableLineRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @TimetableLineBeginningTime()
  * @TimetableLineEndTime()
  */
@@ -53,12 +54,12 @@ class TimetableLine
     private $user;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
   	/**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -88,7 +89,6 @@ class TimetableLine
     public function setType(string $type): self
     {
         $this->type = $type;
-
         return $this;
     }
 
@@ -100,7 +100,6 @@ class TimetableLine
     public function setBeginningTime(\DateTimeInterface $beginningTime): self
     {
         $this->beginningTime = $beginningTime;
-
         return $this;
     }
 
@@ -112,7 +111,6 @@ class TimetableLine
     public function setEndTime(\DateTimeInterface $endTime): self
     {
         $this->endTime = $endTime;
-
         return $this;
     }
 
@@ -124,7 +122,6 @@ class TimetableLine
     public function setTimetable(?Timetable $timetable): self
     {
         $this->timetable = $timetable;
-
         return $this;
     }
 
@@ -136,8 +133,23 @@ class TimetableLine
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
+    }
+
+    /**
+    * @ORM\PrePersist
+    */
+    public function createDate()
+    {
+      $this->createdAt = new \DateTime();
+    }
+
+    /**
+    * @ORM\PreUpdate
+    */
+    public function updateDate()
+    {
+      $this->updatedAt = new \DateTime();
     }
 
     /**
@@ -178,21 +190,5 @@ class TimetableLine
         }
 
         return $this;
-    }
-
-    /**
-    * @ORM\PrePersist
-    */
-    public function createDate()
-    {
-      $this->createdAt = new \DateTime();
-    }
-
-    /**
-    * @ORM\PreUpdate
-    */
-    public function updateDate()
-    {
-      $this->updatedAt = new \DateTime();
     }
 }

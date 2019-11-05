@@ -1,0 +1,43 @@
+{# templates/file/booking.period.html.twig #}
+
+{% extends 'base.half.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'FILE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/file-32.png') }}">&nbsp;</img>{{ 'file.booking.period'|trans }}
+</h4></div>
+
+{{ form_start(form, {'action': path('file_booking_period', { 'fileID': file.ID }), 'method': 'POST'}) }}
+
+<form class="w3-container">
+
+<p>{{ form_row(form.before) }}</p>
+<p>{{ form_row(form.beforeNumber) }}</p>
+<p>{{ form_row(form.beforeType) }}</p>
+<p>{{ form_row(form.after) }}</p>
+<p>{{ form_row(form.afterNumber) }}</p>
+<p>{{ form_row(form.afterType) }}</p>
+
+{{ form_rest(form) }}
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('file_edit', { 'fileID': file.ID }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+</div>
+</div>
+
+</form>
+
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('scripts/file_booking_period.js') }}"></script>
+{% endblock %}
