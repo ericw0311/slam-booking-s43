@@ -1,0 +1,62 @@
+{# templates/label/edit.html.twig #}
+
+{% extends 'base.html.twig' %}
+ 
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/label-32.png') }}"></img>&nbsp;{{ label.name }}
+</h4></div>
+
+<div>
+{% if numberBookings > 0 %}
+	<a href="{{ path('label_booking_list', { 'labelID': label.ID, 'page': 1 }) }}" class="w3-text-indigo"><img src="{{ asset('images/booking-32.png') }}">&nbsp;{{ 'booking.plural'|trans }}&nbsp;<span class="w3-badge w3-indigo">{{ numberBookings }}</span></a>
+{% else %}
+	<img src="{{ asset('images/booking-32.png') }}">&nbsp;<span class="w3-text-indigo">{{ 'booking.plural'|trans }}</span>&nbsp;<span class="w3-badge w3-indigo">{{ numberBookings }}</span>
+{% endif %}
+</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('label', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'label.back.to.list'|trans }}</a>
+	<a href="{{ path('label_modify', { 'labelID': label.ID }) }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
+{% if numberBookings > 0 %}
+	<button onclick="document.getElementById('dnaBooking').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+{% else %}
+	<button onclick="document.getElementById('askDelete').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</button>
+{% endif %}
+</div>
+</div>
+
+<!-- Modal -->
+<div id="dnaBooking" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('dnaBooking').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'delete.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'label.dna.booking'|trans({'%name%': label.name}) }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="askDelete" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-khaki">
+			<span onclick="document.getElementById('askDelete').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'deletion'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-khaki">
+			<p>{{ 'label.ask.delete'|trans({'%name%': label.name}) }}</p>
+			<div class="w3-show-inline-block w3-right w3-margin-bottom">
+			<div class="w3-bar w3-border w3-round">
+				<button onclick="document.getElementById('askDelete').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
+				<a href="{{ path('label_delete', { 'labelID': label.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

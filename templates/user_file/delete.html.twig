@@ -1,0 +1,18 @@
+{% extends 'base.connected.html.twig' %}
+ 
+{% block body %}
+
+{{ form_start(form, {'action': path('user_file_delete', { 'userFileID': userFile.ID }), 'method': 'POST', 'class': 'form-horizontal'}) }}
+
+<legend><img src="{{ asset('images/user-32.png') }}">&nbsp;</img>&nbsp;{{ userFile.getFirstAndLastName() }}</legend>
+
+<p>{{ 'userFile.ask.delete'|trans({'%name%': userFile.getFirstAndLastName()}) }}</p>
+
+<div class="btn-group">
+<a href="{{ path('user_file_edit', { 'userFileID': userFile.ID }) }}" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> {{ 'cancel'|trans }}</a>
+<button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-ok"></i> {{ 'validate'|trans }}</button>
+</div>
+
+{{ form_end(form) }}
+
+{% endblock %}

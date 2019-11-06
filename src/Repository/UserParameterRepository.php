@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\UserParameter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method UserParameter|null find($id, $lockMode = null, $lockVersion = null)

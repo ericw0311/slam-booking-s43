@@ -1,20 +1,9 @@
-{% extends 'base.html.twig' %}
+{# templates/label/index.html.twig #}
 
-{% block title %}Hello LabelController!{% endblock %}
+{% extends 'list.html.twig' %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% set create_path, list_path, display_create_path = 'label_add', 'label', true %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/eric/slam-booking-s43/src/Controller/LabelController.php'|file_link(0) }}">src/Controller/LabelController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/eric/slam-booking-s43/templates/label/index.html.twig'|file_link(0) }}">templates/label/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% block link %}
+	<a href="{{ path('label_edit', { 'labelID': listLabels[i*listContext.numberLinesDisplayed+j].ID }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/label-32.png') }}">&nbsp;{{ listLabels[i*listContext.numberLinesDisplayed+j].name }}</a>
 {% endblock %}

@@ -1,0 +1,88 @@
+{# templates/resource/edit.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% extends 'base.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'RESOURCE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+{% if resource.internal %}
+<img src="{{ asset('images/' ~ rcIcons[resource.code] ~ '-32.png') }}">&nbsp;{{ resource.name }}
+{% else %}
+<i class="w3-xlarge fa fa-{{ rtIcons[resource.type] }}"></i>&nbsp;{{ resource.name }}
+{% endif %}
+</h4></div>
+
+<p><i class="w3-xlarge fa fa-{{ rtIcons[resource.type] }}"></i>&nbsp;{{ ('resourceType.singular.' ~ resource.type)|trans }}</p>
+
+{% if resource.internal %}
+<p><img src="{{ asset('images/' ~ rcIcons[resource.code] ~ '-32.png') }}">&nbsp;{{ ('resourceClassification.singular.' ~ resource.code)|trans }}</p>
+{% else %}
+<p><i class="w3-xlarge fa fa-{{ rtIcons[resource.type] }}"></i>&nbsp;{{ resource.classification.name }}</p>
+{% endif %}
+
+{% if resourceContext.planificationsCount > 0 %}
+<p><img src="{{ asset('images/planification-32.png') }}">&nbsp;{{ 'resource.planified'|trans }}</p>
+{% endif %}
+
+<div>
+{% if numberBookings > 0 %}
+<a href="{{ path('resource_booking_list', { 'resourceID': resource.ID, 'page': 1 }) }}" class="w3-text-indigo"><img src="{{ asset('images/booking-32.png') }}">&nbsp;{{ 'booking.plural'|trans }}&nbsp;<span class="w3-badge w3-indigo">{{ numberBookings }}</span></a>
+{% else %}
+<img src="{{ asset('images/booking-32.png') }}">&nbsp;<span class="w3-text-indigo">{{ 'booking.plural'|trans }}</span>&nbsp;<span class="w3-badge w3-indigo">{{ numberBookings }}</span>
+{% endif %}
+</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('resource', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'resource.back.to.list'|trans }}</a>
+	<a href="{{ path('resource_modify', { 'resourceID': resource.ID }) }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
+
+{% if numberBookings > 0 %}
+	<button onclick="document.getElementById('dnaBooking').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+{% elseif resourceContext.planificationsCount > 0 %}
+	<a href="{{ path('resource_foreign', { 'resourceID': resource.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></a>
+{% else %}
+	<button onclick="document.getElementById('askDelete').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</button>
+{% endif %}
+</div>
+</div>
+
+<!-- Modal -->
+<div id="dnaBooking" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('dnaBooking').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'delete.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'resource.dna.booking'|trans({'%name%': resource.name}) }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="askDelete" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-khaki">
+			<span onclick="document.getElementById('askDelete').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'deletion'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-khaki">
+			<p>{{ 'resource.ask.delete'|trans({'%name%': resource.name}) }}</p>
+			<div class="w3-show-inline-block w3-right w3-margin-bottom">
+			<div class="w3-bar w3-border w3-round">
+				<button onclick="document.getElementById('askDelete').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
+				<a href="{{ path('resource_delete', { 'resourceID': resource.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

@@ -5,6 +5,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Psr\Log\LoggerInterface;
+
 use App\Entity\Constants;
 use App\Entity\UserContext;
 use App\Entity\UserParameter;
@@ -17,7 +20,7 @@ use App\Api\AdministrationApi;
 class ParameterController extends AbstractController
 {
   /**
-      * @Route("/{_locale}/parameter/numberLinesColumns/{entityCode}/{listPath}", name="parameter_number_lines_columns")
+      * @Route("/{_locale}/parameter/number_lines_columns/{entityCode}/{listPath}", name="parameter_number_lines_columns")
       */
   public function index($entityCode, $listPath, Request $request)
   {

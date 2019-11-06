@@ -1,0 +1,152 @@
+{# templates/timetable/edit.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% set numberLinesDualButtons = constant('App\\Entity\\Constants::NUMBER_LINES_MINI_DUAL_BUTTON_LIST') %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'TIMETABLE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+<img src="{{ asset('images/time-32.png') }}"></img>&nbsp;{{ timetable.name }}
+{% if timetable.type == 'T' %}
+	&nbsp;<a href="{{ path('timetable_modify', { 'timetableID': timetable.ID }) }}" class="fa fa-pencil w3-xlarge" title="{{ 'modify'|trans }}"></a>
+{% endif %}
+
+<span class="w3-right w3-margin-right">
+{% if timetableContext.bookingsCount > 0 %}
+<a href="{{ path('timetable_booking_list', { 'timetableID': timetable.ID, 'page': 1 }) }}" class="w3-text-indigo"><img src="{{ asset('images/booking-32.png') }}">&nbsp;{{ 'booking.plural'|trans }}&nbsp;<span class="w3-badge w3-indigo">{{ timetableContext.bookingsCount }}</span></a>
+{% else %}
+<img src="{{ asset('images/booking-32.png') }}">&nbsp;<span class="w3-text-indigo">{{ 'booking.plural'|trans }}</span>&nbsp;<span class="w3-badge w3-indigo">{{ timetableContext.bookingsCount }}</span>
+{% endif %}
+</span>
+</h4></div>
+
+{% if listTimetableLines|length > numberLinesDualButtons %}
+{{ include('timetable/edit.button.html.twig') }}
+{% endif %}
+
+{% if listTimetableLines|length > 0 %}
+<table class="w3-table w3-striped">
+	<tr>
+		<th>{{ 'from'|trans }}</th>
+		<th>{{ 'to'|trans }}</th>
+{% if timetable.type == 'T' %}
+		<th>{{ 'modify'|trans }}</th>
+		<th>{{ 'delete'|trans }}</th>
+{% endif %}
+    </tr>
+{% for timetableLine in listTimetableLines %}
+	<tr>
+		<td>{{ timetableLine.beginningTime|date("H:i") }}</td>
+		<td>{{ timetableLine.endTime|date("H:i") }}</td>
+{% if timetable.type == 'T' %}
+		<td><a href="{{ path('timetable_modify_line', { 'timetableID': timetable.ID, 'timetableLineID': timetableLine.ID }) }}" class="w3-button w3-text-indigo" title="{{ 'modify'|trans }}"><i class="fa fa-pencil"></i></a></td>
+{% if timetableContext.planificationsCount > 0 %}
+		<td><a href="{{ path('timetable_foreign_update', { 'timetableID': timetable.ID }) }}" class="w3-bar-item w3-button w3-text-red" title="{{ 'delete'|trans }}"><i class="fa fa-trash"></i></a></td>
+{% else %}
+		<td><a href="{{ path('timetable_delete_line', { 'timetableID': timetable.ID, 'timetableLineID': timetableLine.ID }) }}" class="w3-button w3-text-indigo" title="{{ 'delete'|trans }}"><i class="fa fa-trash"></i></a></td>
+{% endif %}
+{% endif %}
+	</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+{{ include('timetable/edit.button.html.twig') }}
+
+<!-- Modal -->
+<div id="unaDay" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('unaDay').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'update.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'timetable.una.day'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="unaHalfDay" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('unaHalfDay').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'update.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'timetable.una.half.day'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="unaBooking" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('unaBooking').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'update.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'timetable.una.booking'|trans({'%name%': timetable.name}) }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="dnaDay" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('dnaDay').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'delete.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'timetable.dna.day'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="dnaHalfDay" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('dnaHalfDay').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'delete.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'timetable.dna.half.day'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="dnaBooking" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('dnaBooking').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'delete.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'timetable.dna.booking'|trans({'%name%': timetable.name}) }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="askDelete" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-khaki">
+			<span onclick="document.getElementById('askDelete').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'deletion'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-khaki">
+			<p>{{ 'timetable.ask.delete'|trans({'%name%': timetable.name}) }}</p>
+			<div class="w3-show-inline-block w3-right w3-margin-bottom">
+			<div class="w3-bar w3-border w3-round">
+				<button onclick="document.getElementById('askDelete').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
+				<a href="{{ path('timetable_delete', { 'timetableID': timetable.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

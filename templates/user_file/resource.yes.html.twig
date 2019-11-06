@@ -1,0 +1,41 @@
+{# templates/user_file/resource.yes.html.twig #}
+
+{% extends 'user_file/resource.html.twig' %}
+
+{% block link_yes_no %}
+
+<div class="w3-bar-block">
+{% if internal > 0 %}
+<a href="{{ path('user_file_resource_internal', { 'userFileID': userFile.ID, 'resourceClassificationCode': resourceClassificationCode, 'yes': 0 }) }}" class="w3-bar-item w3-button w3-round-large"><img src="{{ asset('images/red-cross-32.png') }}">&nbsp;{{ 'no'|trans }}</a>
+<a href="{{ path('user_file_resource_internal', { 'userFileID': userFile.ID, 'resourceClassificationCode': resourceClassificationCode, 'yes': 1 }) }}" class="w3-bar-item w3-button w3-indigo w3-round-large"><img src="{{ asset('images/green-check-32.png') }}">&nbsp;{{ 'yes'|trans }}</a>
+{% else %}
+<a href="{{ path('user_file_resource_external', { 'userFileID': userFile.ID, 'resourceClassificationID': resourceClassificationID, 'yes': 0 }) }}" class="w3-bar-item w3-button w3-round-large"><img src="{{ asset('images/red-cross-32.png') }}">&nbsp;{{ 'no'|trans }}</a>
+<a href="{{ path('user_file_resource_external', { 'userFileID': userFile.ID, 'resourceClassificationID': resourceClassificationID, 'yes': 1 }) }}" class="w3-bar-item w3-button w3-indigo w3-round-large"><img src="{{ asset('images/green-check-32.png') }}">&nbsp;{{ 'yes'|trans }}</a>
+{% endif %}
+</div>
+
+{% endblock %}
+
+{% block div_open %}<div class="w3-bar-block w3-border">{% endblock %}
+
+{% block div_close %}</div>{% endblock %}
+
+{% block link_internal %}
+
+{% if internal > 0 and i_RCCode == resourceClassificationCode %}
+<a href="{{ path('user_file_resource_internal', { 'userFileID': userFile.ID, 'resourceClassificationCode': i_RCCode, 'yes': 1 }) }}" class="w3-bar-item w3-button w3-indigo"><img src="{{ asset('images/' ~ rcIcons[i_RCCode] ~ '-32.png') }}">&nbsp;{{ ('resourceClassification.singular.' ~ i_RCCode)|trans }}</a>
+{% else %}
+<a href="{{ path('user_file_resource_internal', { 'userFileID': userFile.ID, 'resourceClassificationCode': i_RCCode, 'yes': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/' ~ rcIcons[i_RCCode] ~ '-32.png') }}">&nbsp;{{ ('resourceClassification.singular.' ~ i_RCCode)|trans }}</a>
+{% endif %}
+
+{% endblock %}
+
+{% block link_external %}
+
+{% if internal <= 0 and i_RC.ID == resourceClassificationID %}
+<a href="{{ path('user_file_resource_external', { 'userFileID': userFile.ID, 'resourceClassificationID': i_RC.ID, 'yes': 1 }) }}" class="w3-bar-item w3-button w3-indigo"><i class="w3-xlarge fa fa-{{ rtIcons[resourceType] }}"></i>&nbsp;{{ i_RC.name }}</a>
+{% else %}
+<a href="{{ path('user_file_resource_external', { 'userFileID': userFile.ID, 'resourceClassificationID': i_RC.ID, 'yes': 1 }) }}" class="w3-bar-item w3-button"><i class="w3-xlarge fa fa-{{ rtIcons[resourceType] }}"></i>&nbsp;{{ i_RC.name }}</a>
+{% endif %}
+
+{% endblock %}

@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\UserFileGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method UserFileGroup|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +19,51 @@ class UserFileGroupRepository extends ServiceEntityRepository
         parent::__construct($registry, UserFileGroup::class);
     }
 
-    // /**
-    //  * @return UserFileGroup[] Returns an array of UserFileGroup objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getUserFileGroupsCount(\App\Entity\File $file)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $qb = $this->createQueryBuilder('ufg');
+        $qb->select($qb->expr()->count('ufg'));
+        $qb->where('ufg.file = :file')->setParameter('file', $file);
+        $query = $qb->getQuery();
+        $singleScalar = $query->getSingleScalarResult();
+        return $singleScalar;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?UserFileGroup
+    public function getUserFileGroups(\App\Entity\File $file)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->createQueryBuilder('ufg');
+        $qb->where('ufg.file = :file')->setParameter('file', $file);
+        $qb->orderBy('ufg.name', 'ASC');
+
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
     }
-    */
+
+    public function getDisplayedUserFileGroups(\App\Entity\File $file, $firstRecordIndex, $maxRecord)
+    {
+        $qb = $this->createQueryBuilder('ufg');
+        $qb->where('ufg.file = :file')->setParameter('file', $file);
+        $qb->orderBy('ufg.name', 'ASC');
+        $qb->setFirstResult($firstRecordIndex);
+        $qb->setMaxResults($maxRecord);
+
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
+
+    // Retourne les groupes d'utilisateurs non rattachés à une période de planification
+    public function getUserFileGroupsToAddToView(\App\Entity\File $file, $userFileGroupsInPlanificationViewQB)
+    {
+        $qb = $this->createQueryBuilder('ufg');
+        $qb->where('ufg.file = :file')->setParameter('file', $file);
+
+        $qb->andWhere($qb->expr()->not($qb->expr()->exists($userFileGroupsInPlanificationViewQB->getDQL())));
+
+        $qb->orderBy('ufg.name', 'ASC');
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
 }

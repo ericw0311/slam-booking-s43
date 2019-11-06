@@ -1,0 +1,40 @@
+{# templates/planification/period.create.html.twig #}
+
+{% extends 'base.half.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'PLANIFICATION' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/planification-32.png') }}">&nbsp;</img>{{ planification.name }}
+</h4></div>
+
+<div class="w3-panel w3-sand w3-round-large">
+	<p>{{ 'planificationPeriod.create.minimum.date'|trans({'%date%': ppCreateDate.bookingMaxDate|date('d/m/Y')}) }}</p>
+</div>
+
+{{ form_start(form, {'action': path('planification_period_create', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }), 'method': 'POST'}) }}
+
+<form class="w3-container">
+
+<p><label>{{ 'planificationPeriod.beginning.date'|trans }}</label>
+{{ form_widget(form.date) }}
+<div class="w3-text-red">{{ form_errors(form.date) }}</div></p>
+
+{{ form_rest(form) }}
+
+<div class="w3-show-inline-block">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('planification_edit', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+</div>
+</div>
+
+</form>
+
+{{ form_end(form) }}
+
+{% endblock %}

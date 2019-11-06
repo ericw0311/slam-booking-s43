@@ -1,0 +1,40 @@
+{# templates/resource/classification.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% extends 'base.half.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'RESOURCE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/resource-32.png') }}">&nbsp;{{ 'resourceClassification.select'|trans }}
+</h4></div>
+
+<div class="w3-bar-block">
+
+
+{% set lineNumber = 0 %}
+{% for rc in activeRC %}
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (lineNumber is odd) ? 'sand' : 'transparent' %}
+{% if rc.internal %}
+	<a href="{{ path('resource_add_internal', { 'type': rc.type, 'code': rc.code }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><img src="{{ asset('images/' ~ rcIcons[rc.code] ~ '-32.png') }}">&nbsp;{{ ('resourceClassification.singular.' ~ rc.code)|trans }}</a>
+{% else %}
+	<a href="{{ path('resource_add_external', { 'type': rc.type, 'resourceClassificationID': rc.ID }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-{{ rtIcons[rc.type] }}"></i>&nbsp;{{ rc.name }}</a>
+{% endif %}
+{% endfor %}
+
+</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('resource', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+</div>
+</div>
+
+{% endblock %}

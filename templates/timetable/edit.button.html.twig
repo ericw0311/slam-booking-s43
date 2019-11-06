@@ -1,0 +1,32 @@
+{# templates/timetable/edit.button.html.twig #}
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('timetable', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'timetable.back.to.list'|trans }}</a>
+
+{% if timetable.type == 'D' %}
+	<button onclick="document.getElementById('dnaDay').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+{% elseif timetable.type == 'HD' %}
+	<button onclick="document.getElementById('dnaHalfDay').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+{% elseif timetableContext.bookingsCount > 0 %}
+	<button onclick="document.getElementById('dnaBooking').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+{% elseif timetableContext.planificationsCount > 0 %}
+	<a href="{{ path('timetable_foreign_delete', { 'timetableID': timetable.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></a>
+{% else %}
+	<button onclick="document.getElementById('askDelete').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</button>
+{% endif %}
+
+{% if timetable.type == 'D' %}
+	<button onclick="document.getElementById('unaDay').style.display='block'" class="w3-bar-item w3-button w3-blue"><i class="fa fa-plus"></i>&nbsp;<del>{{ 'timetableLine.create'|trans }}</del></button>
+{% elseif timetable.type == 'HD' %}
+	<button onclick="document.getElementById('unaHalfDay').style.display='block'" class="w3-bar-item w3-button w3-blue"><i class="fa fa-plus"></i>&nbsp;<del>{{ 'timetableLine.create'|trans }}</del></button>
+{% elseif timetableContext.bookingsCount > 0 %}
+	<button onclick="document.getElementById('unaBooking').style.display='block'" class="w3-bar-item w3-button w3-blue"><i class="fa fa-plus"></i>&nbsp;<del>{{ 'timetableLine.create'|trans }}</del></button>
+{% elseif timetableContext.planificationsCount > 0 %}
+	<a href="{{ path('timetable_foreign_update', { 'timetableID': timetable.ID }) }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-plus"></i>&nbsp;<del>{{ 'timetableLine.create'|trans }}</del></a>
+{% else %}
+	<a href="{{ path('timetable_add_line', { 'timetableID': timetable.ID }) }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-plus"></i>&nbsp;{{ 'timetableLine.create'|trans }}</a>
+{% endif %}
+
+</div>
+</div>

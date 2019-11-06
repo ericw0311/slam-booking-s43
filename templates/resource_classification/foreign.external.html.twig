@@ -1,0 +1,28 @@
+{# templates/resource_classification/foreign.external.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+
+{% extends 'base.html.twig' %}
+ 
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-red"><h4>
+	<i class="w3-xlarge fa fa-{{ rtIcons[resourceType] }}"></i>&nbsp;{{ ('resourceClassification.' ~ action ~ '.not.allowed')|trans }}
+</h4></div>
+
+<div class="w3-bar-block">
+{% set lineNumber = 0 %}
+{% for resource in listResources %}
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (lineNumber is odd) ? 'sand' : 'transparent' %}
+	<a href="{{ path('resource_edit', { 'resourceID': resource.ID }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-{{ rtIcons[resource.type] }}"></i>&nbsp;{{ resource.name }}</a>
+{% endfor %}
+</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('resource_classification_index', { 'resourceType': resourceType }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'resourceClassification.back'|trans }}</a>
+</div>
+</div>
+
+{% endblock %}

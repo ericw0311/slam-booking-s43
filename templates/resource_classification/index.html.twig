@@ -1,20 +1,104 @@
+{# templates/resource_classification/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ResourceClassificationController!{% endblock %}
+{% set resourceTypes = constant('App\\Entity\\Constants::RESOURCE_TYPE') %}
+{% set internalResourceClassifications = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION') %}
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'RESOURCE-CLASSIFICATION' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/eric/slam-booking-s43/src/Controller/ResourceClassificationController.php'|file_link(0) }}">src/Controller/ResourceClassificationController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/eric/slam-booking-s43/templates/resource_classification/index.html.twig'|file_link(0) }}">templates/resource_classification/index.html.twig</a></code></li>
-    </ul>
+<div class="w3-panel w3-border-bottom w3-text-indigo">
+<h4><img src="{{ asset('images/box-32.png') }}"></img>&nbsp;{{ 'resourceClassification.plural'|trans }}</h4>
 </div>
+
+<div class="w3-row">
+<div class="w3-third w3-container">
+
+<div class="w3-bar-block">
+{% set lineNumber = 0 %}
+{% for l_resourceType in resourceTypes %}
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (lineNumber is odd) ? 'sand' : 'transparent' %}
+{% set lineColor = (l_resourceType == resourceType) ? 'indigo' : lineColor %}
+	<a href="{{ path('resource_classification_index', { 'resourceType': l_resourceType }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-{{ rtIcons[l_resourceType] }}"></i>&nbsp;{{ ('resourceType.plural.' ~ l_resourceType)|trans }}</a>
+{% endfor %}
+</div>
+</div>
+
+<div class="w3-twothird w3-container">
+
+<table class="w3-table w3-striped">
+	<tbody>
+{% for classificationCode in internalResourceClassifications[resourceType] %}
+	<tr>
+	<td><img src="{{ asset('images/' ~ rcIcons[classificationCode] ~ '-32.png') }}">&nbsp;{{ ('resourceClassification.plural.' ~ classificationCode)|trans }}&nbsp;({{ numberResourcesInternalRC[classificationCode] }})</td>
+{% if classificationCode in activeInternalRC %}
+	<td><img src="{{ asset('images/green-check-32.png') }}"></td>
+
+	<td>
+{% if numberResourcesInternalRC[classificationCode] <= 0 %}
+	<a href="{{ path('resource_classification_unactivate_internal', { 'resourceType': resourceType, 'resourceClassificationCode': classificationCode }) }}" class="w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'unactivate'|trans }}</a>
+{% else %}
+	<a href="{{ path('resource_classification_foreign_internal', { 'resourceType': resourceType, 'resourceClassificationCode': classificationCode }) }}" class="w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;<del>{{ 'unactivate'|trans }}</del></a>
+{% endif %}
+	</td>
+{% else %}
+	<td><img src="{{ asset('images/red-cross-32.png') }}"></td>
+	<td>
+	<a href="{{ path('resource_classification_activate_internal', { 'resourceType': resourceType, 'resourceClassificationCode': classificationCode }) }}" class="w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'activate'|trans }}</a>
+	</td>
+{% endif %}
+	</tr>
+{% endfor %}
+
+{% for externalRC in listExternalRC %}
+	<tr>
+	<td><i class="w3-xlarge fa fa-{{ rtIcons[externalRC.type] }}"></i>&nbsp;{{ externalRC.name }}&nbsp;({{ numberResourcesExternalRC[externalRC.ID] }})</td>
+{% if externalRC.active %}
+	<td><img src="{{ asset('images/green-check-32.png') }}"></td>
+{% else %}
+	<td><img src="{{ asset('images/red-cross-32.png') }}"></td>
+{% endif %}
+	<td>
+<div class="w3-bar">
+{% if externalRC.active %}
+{% if numberResourcesExternalRC[externalRC.ID] <= 0 %}
+	<a href="{{ path('resource_classification_unactivate_external', { 'resourceType': resourceType, 'resourceClassificationID': externalRC.id }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'unactivate'|trans }}</a>
+{% else %}
+	<a href="{{ path('resource_classification_foreign_external', { 'resourceType': resourceType, 'resourceClassificationID': externalRC.id, 'action': 'unactivate' }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;<del>{{ 'unactivate'|trans }}</del></a>
+{% endif %}
+{% else %}
+	<a href="{{ path('resource_classification_activate_external', { 'resourceType': resourceType, 'resourceClassificationID': externalRC.id }) }}" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'activate'|trans }}</a>
+{% endif %}
+	<a href="{{ path('resource_classification_modify', { 'resourceType': resourceType, 'resourceClassificationID': externalRC.ID }) }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
+{% if numberResourcesExternalRC[externalRC.ID] <= 0 %}
+	<a href="{{ path('resource_classification_delete', { 'resourceType': resourceType, 'resourceClassificationID': externalRC.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</a>
+{% else %}
+	<a href="{{ path('resource_classification_foreign_external', { 'resourceType': resourceType, 'resourceClassificationID': externalRC.id, 'action': 'delete' }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></a>
+{% endif %}
+</div>
+	</td>
+	</tr>
+{% endfor %}
+
+	<tr>
+	<td><i class="w3-xlarge fa fa-{{ rtIcons[resourceType] }}"></i></td>
+	<td></td>
+	<td>
+	<a href="{{ path('resource_classification_add', { 'resourceType': resourceType }) }}" class="w3-button w3-indigo"><i class="fa fa-plus"></i>&nbsp;{{ ('resourceType.create.classification.' ~ resourceType)|trans }}</a>
+	</td>
+	</tr>
+	</tbody>
+</table>
+
+</div>
+
+</div>
+
 {% endblock %}

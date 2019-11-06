@@ -1,0 +1,23 @@
+{# templates/resource/delete.html.twig #}
+
+{% set resourceTypeIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set resourceClassificationIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% extends 'base.connected.html.twig' %}
+ 
+{% block body %}
+
+{{ form_start(form, {'action': path('resource_delete', { 'resourceID': resource.ID }), 'method': 'POST', 'class': 'form-horizontal'}) }}
+
+<legend><img src="{{ asset('images/' ~ resourceTypeIcons[resource.type] ~ '-32.png') }}">&nbsp;{{ resource.name }}</legend>
+
+<p>{{ 'resource.ask.delete'|trans({'%name%': resource.name}) }}</p>
+
+<div class="btn-group">
+<a href="{{ path('resource_edit', { 'resourceID': resource.ID }) }}" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> {{ 'cancel'|trans }}</a>
+<button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-ok"></i> {{ 'validate'|trans }}</button>
+</div>
+
+{{ form_end(form) }}
+
+{% endblock %}

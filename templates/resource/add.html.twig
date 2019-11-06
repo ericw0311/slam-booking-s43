@@ -1,0 +1,52 @@
+{# templates/resource/add.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% extends 'base.half.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'RESOURCE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+{% if resource.internal %}
+	<img src="{{ asset('images/' ~ rcIcons[resource.code] ~ '-32.png') }}">&nbsp;{{ ('resourceClassification.singular.' ~ resource.code)|trans }}
+{% else %}
+	<i class="w3-xlarge fa fa-{{ rtIcons[resource.type] }}"></i>&nbsp;{{ resourceClassification.name }}
+{% endif %}
+</h4></div>
+
+{% if resource.internal %}
+	{{ form_start(form, {'action': path('resource_add_internal', { 'type': resource.type, 'code': resource.code }), 'method': 'POST'}) }}
+{% else %}
+	{{ form_start(form, {'action': path('resource_add_external', { 'type': resource.type, 'resourceClassificationID': resource.classification.ID }), 'method': 'POST'}) }}
+{% endif %}
+
+<form class="w3-container">
+
+<p><label>{{ 'resource.name'|trans }}</label>
+{{ form_widget(form.name) }}
+<div class="w3-text-red">{{ form_errors(form.name) }}</div></p>
+
+<div class="w3-show-inline-block">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('resource', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+	{{ form_widget(form.validateAndCreate, { 'attr': {'class': 'w3-bar-item w3-button w3-green'} }) }}
+</div>
+</div>
+
+{{ form_rest(form) }}
+
+</form>
+
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script>document.getElementById('resource_add_name').focus();</script>
+{% endblock %}

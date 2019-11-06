@@ -1,0 +1,31 @@
+{# templates/planification/resource.insert.html.twig #}
+
+{% extends 'planification/resource.html.twig' %}
+
+{% block planification %}
+	<img src="{{ asset('images/planification-32.png') }}">&nbsp;</img>{{ 'planification.new'|trans }}
+{% endblock %}
+
+{% block link_sortBefore %}
+	<a href="{{ path('planification_init_resource', { 'type': type, 'resourceIDList': resource.entityIDList_sortBefore }) }}" class="w3-button w3-text-indigo" title="{{ 'sort.before'|trans }}"><i class="fa fa-arrow-up w3-large"></i></a>
+{% endblock %}
+
+{% block link_sortAfter %}
+	<a href="{{ path('planification_init_resource', { 'type': type, 'resourceIDList': resource.entityIDList_sortAfter }) }}" class="w3-button w3-text-indigo" title="{{ 'sort.after'|trans }}"><i class="fa fa-arrow-down w3-large"></i></a>
+{% endblock %}
+
+{% block link_unselect %}
+	<a href="{{ path('planification_init_resource', { 'type': type, 'resourceIDList': resource.entityIDList_unselect }) }}" class="w3-button w3-text-indigo" title="{{ 'planification.resource.unselect'|trans }}"><i class="fa fa-arrow-right w3-large"></i></a>
+{% endblock %}
+
+{% block link_select %}
+	<a href="{{ path('planification_init_resource', { 'type': type, 'resourceIDList': resource.entityIDList_select }) }}" class="w3-button w3-text-indigo" title="{{ 'planification.resource.select'|trans }}"><i class="fa fa-arrow-left w3-large"></i></a>
+{% endblock %}
+
+{% block link_cancel %}
+	<a href="{{ path('planification', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+{% endblock %}
+
+{% block link_validate %}
+	<a href="{{ path('planification_validate_init_resource', { 'type': type, 'resourceIDList': selectedResourcesIDList }) }}" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+{% endblock %}

@@ -58,18 +58,15 @@ $( function() {
 {% if (userContext.getCurrentFileID() > 0) %}
 	<div class="w3-dropdown-hover">
 	<button class="w3-button"><img src="{{ asset('images/booking-16.png') }}">&nbsp;Slam Booking</button>
-{#
 	<div class="w3-dropdown-content w3-bar-block w3-card-4">
-		<a href="{{ path('planning') }}" class="w3-bar-item w3-button"><img src="{{ asset('images/planning-16.png') }}">&nbsp;{{ 'planning'|trans }}</a>
+		{#<a href="{{ path('planning') }}" class="w3-bar-item w3-button"><img src="{{ asset('images/planning-16.png') }}">&nbsp;{{ 'planning'|trans }}</a>#}
 		<a href="{{ path('query_booking', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/dashboard-16.png') }}">&nbsp;{{ 'dashboard.plural'|trans }}</a>
 	</div>
-#}
 	</div>
 {% endif %}
 {% if userContext.getCurrentUserFileAdministrator() %}
 	<div class="w3-dropdown-hover">
 	<button class="w3-button"><img src="{{ asset('images/administration-16.png') }}">&nbsp;{{ 'administration'|trans }}</button>
-	{#
 	<div class="w3-dropdown-content w3-bar-block w3-card-4">
 		<a href="{{ path('user_file', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/user-16.png') }}">&nbsp;{{ 'users'|trans }}</a>
 		<a href="{{ path('user_file_group', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/user-group-16.png') }}">&nbsp;{{ 'userFileGroup.plural'|trans }}</a>
@@ -79,7 +76,6 @@ $( function() {
 		<a href="{{ path('planification', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/planification-16.png') }}">&nbsp;{{ 'planification.plural'|trans }}</a>
 		<a href="{{ path('label', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/label-16.png') }}">&nbsp;{{ 'label.plural'|trans }}</a>
 	</div>
-	#}
 	</div>
 {% endif %}
 {% block documentation %}{% endblock %}

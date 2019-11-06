@@ -1,0 +1,40 @@
+{# templates/user_file/email.html.twig #}
+
+{% extends 'base.half.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'USERFILE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/user-32.png') }}">&nbsp;</img>{{ 'user.new'|trans }}
+</h4></div>
+
+{{ form_start(form, {'action': path('user_file_email'), 'method': 'POST'}) }}
+
+<form class="w3-container">
+
+<p>{{ form_row(form.email) }}</p>
+<p>{{ form_row(form.firstName) }}</p>
+<p>{{ form_row(form.lastName) }}</p>
+
+{{ form_rest(form) }}
+
+<div class="w3-show-inline-block">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('user_file', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+</div>
+</div>
+
+</form>
+
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script>document.getElementById('user_file_email_email').focus();</script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{# templates/label/add.html.twig #}
+
+{% extends 'base.half.html.twig' %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/label-32.png') }}">&nbsp;</img>{{ 'label.new'|trans }}
+</h4></div>
+
+{{ form_start(form, {'action': path('label_add'), 'method': 'POST'}) }}
+
+<form class="w3-container">
+
+<p><label>{{ 'label.name'|trans }}</label>
+{{ form_widget(form.name) }}
+<div class="w3-text-red">{{ form_errors(form.name) }}</div></p>
+
+{{ form_rest(form) }}
+
+<div class="w3-show-inline-block">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('label', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+</div>
+</div>
+
+</form>
+
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script>document.getElementById('label_name').focus();</script>
+{% endblock %}

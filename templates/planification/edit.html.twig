@@ -1,0 +1,201 @@
+{# templates/planification/edit.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% extends 'base.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'PLANIFICATION' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+
+<img src="{{ asset('images/planification-32.png') }}"></img>&nbsp;{{ planification.name }}
+&nbsp;<a href="{{ path('planification_modify', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="fa fa-pencil w3-xlarge" title="{{ 'modify'|trans }}"></a>
+
+{% if not planificationContext.isFirstPeriod() %}
+<a href="{{ path('planification_edit', { 'planificationID': planification.ID, 'planificationPeriodID': planificationContext.previousPlanificationPeriod.ID }) }}" class="w3-button w3-text-indigo" title="{{ 'period.previous'|trans }}"><i class="fa fa-chevron-circle-left"></i></a>
+{% endif %}
+
+{% if planificationPeriod.beginningDate == '' and planificationPeriod.endDate != '' %}
+{{ 'period.until'|trans({'%endDate%': planificationPeriod.endDate|date('d/m/Y')}) }}
+{% elseif planificationPeriod.beginningDate != '' and planificationPeriod.endDate == '' %}
+{{ 'period.from'|trans({'%beginningDate%': planificationPeriod.beginningDate|date('d/m/Y')}) }}
+{% elseif planificationPeriod.beginningDate != '' and planificationPeriod.endDate != '' %}
+{{ 'period.from.to'|trans({'%beginningDate%': planificationPeriod.beginningDate|date('d/m/Y'), '%endDate%': planificationPeriod.endDate|date('d/m/Y')}) }}
+{% endif %}
+
+{% if not planificationContext.isLastPeriod() %}
+<a href="{{ path('planification_edit', { 'planificationID': planification.ID, 'planificationPeriodID': planificationContext.nextPlanificationPeriod.ID }) }}" class="w3-button w3-text-indigo" title="{{ 'period.next'|trans }}"><i class="fa fa-chevron-circle-right"></i></a>
+{% endif %}
+
+<span class="w3-right w3-margin-right">
+{% if planificationContext.periodBookingsCount > 0 %}
+<a href="{{ path('planification_period_booking_list', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'page': 1 }) }}" class="w3-text-indigo"><img src="{{ asset('images/booking-32.png') }}">&nbsp;{{ 'booking.plural'|trans }}&nbsp;<span class="w3-badge w3-indigo">{{ planificationContext.periodBookingsCount }}</span></a>
+{% else %}
+<img src="{{ asset('images/booking-32.png') }}">&nbsp;<span class="w3-text-indigo">{{ 'booking.plural'|trans }}</span>&nbsp;<span class="w3-badge w3-indigo">{{ planificationContext.periodBookingsCount }}</span>
+{% endif %}
+</span>
+</h4></div>
+
+<div class="w3-row">
+
+<div class="w3-half"><div class="w3-margin-right">
+
+{% if planificationResources|length > 0 %}
+<table class="w3-table w3-striped">
+	<tr>
+	<th>{{ 'resource.plural'|trans }}
+{% if not planificationContext.isLastPeriod() %}
+&nbsp;<button onclick="document.getElementById('unaClosedPeriod').style.display='block'" class="w3-button w3-text-red" title="{{ 'modify'|trans }}"><i class="fa fa-pencil"></i></button>
+{% elseif planificationContext.periodBookingsCount > 0 %}
+&nbsp;<button onclick="document.getElementById('unaBooking').style.display='block'" class="w3-button w3-text-red" title="{{ 'modify'|trans }}"><i class="fa fa-pencil"></i></button>
+{% else %}
+&nbsp;<a href="{{ path('planification_update_resource', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceIDList': resourceIDList }) }}" class="fa fa-pencil w3-xlarge" title="{{ 'modify'|trans }}"></a>
+{% endif %}
+    </th>
+    </tr>
+{% for planificationResource in planificationResources %}
+<tr>
+{% if planificationResource.resource.internal %}
+	<td><img src="{{ asset('images/' ~ rcIcons[planificationResource.resource.code] ~ '-32.png') }}">&nbsp;{{ planificationResource.resource.name }}</td>
+{% else %}
+	<td><i class="w3-xlarge fa fa-{{ rtIcons[planificationResource.resource.type] }}"></i>&nbsp;{{ planificationResource.resource.name }}</td>
+{% endif %}
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+
+</div></div>
+
+<div class="w3-half">
+
+{% if planificationLines|length > 0 %}
+<table class="w3-table w3-striped">
+<tr>
+	<th colspan=3>{{ 'timetable.plural'|trans }}
+{% if not planificationContext.isLastPeriod() %}
+&nbsp;<button onclick="document.getElementById('unaClosedPeriod').style.display='block'" class="w3-button w3-text-red" title="{{ 'modify'|trans }}"><i class="fa fa-pencil"></i></button>
+{% elseif planificationContext.periodBookingsCount > 0 %}
+&nbsp;<button onclick="document.getElementById('unaBooking').style.display='block'" class="w3-button w3-text-red" title="{{ 'modify'|trans }}"><i class="fa fa-pencil"></i></button>
+{% else %}
+&nbsp;<a href="{{ path('planification_line', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="fa fa-pencil w3-xlarge" title="{{ 'modify'|trans }}"></a>
+{% endif %}
+	</th>
+</tr>
+{% for planificationLine in planificationLines %}
+<tr>
+	<td><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ ('day.' ~ planificationLine.weekDay)|trans }}</td>
+{% if planificationLine.active %}
+	<td><img src="{{ asset('images/green-check-32.png') }}"></td>
+	<td>{{ planificationLine.timetable.name }}</td>
+{% else %}
+	<td><img src="{{ asset('images/red-cross-32.png') }}"></td>
+	<td>&nbsp;</td>
+{% endif %}
+</tr>
+{% endfor %}
+</table>
+{% endif %}
+</div>
+
+</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('planification', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'planification.back.to.list'|trans }}</a>
+
+{% if planificationContext.bookingsCount > 0 %}
+	<button onclick="document.getElementById('dnaBooking').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+{% else %}
+	<button onclick="document.getElementById('askDelete').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</button>
+{% endif %}
+{% if planificationContext.displayCreatePeriod() %}
+	<a href="{{ path('planification_period_create', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-plus"></i>&nbsp;{{ 'planification.create.period'|trans }}</a>
+{% endif %}
+{% if planificationContext.displayDeletePeriod() %}
+	<button onclick="document.getElementById('askDeletePeriod').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'planificationPeriod.delete'|trans }}</button>
+{% endif %}
+<a href="{{ path('planification_view_first', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="w3-bar-item w3-button w3-green"><i class="fa fa-eye"></i>&nbsp;{{ 'views'|trans }}</a>
+
+</div>
+</div>
+
+<!-- Modal -->
+<div id="dnaBooking" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('dnaBooking').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'delete.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'planification.dna.booking'|trans({'%name%': planification.name}) }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="unaClosedPeriod" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('unaClosedPeriod').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'update.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'planificationPeriod.una.closed'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="unaBooking" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('unaBooking').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'update.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'planificationPeriod.una.booking'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="askDelete" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-khaki">
+			<span onclick="document.getElementById('askDelete').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'deletion'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-khaki">
+			<p>{{ 'planification.ask.delete'|trans({'%name%': planification.name}) }}</p>
+			<div class="w3-show-inline-block w3-right w3-margin-bottom">
+			<div class="w3-bar w3-border w3-round">
+				<button onclick="document.getElementById('askDelete').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
+				<a href="{{ path('planification_delete', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="askDeletePeriod" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-khaki">
+			<span onclick="document.getElementById('askDeletePeriod').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'deletion'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-khaki">
+			<p>{{ 'planificationPeriod.ask.delete'|trans }}</p>
+			<div class="w3-show-inline-block w3-right w3-margin-bottom">
+			<div class="w3-bar w3-border w3-round">
+				<button onclick="document.getElementById('askDeletePeriod').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
+				<a href="{{ path('planification_period_delete', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

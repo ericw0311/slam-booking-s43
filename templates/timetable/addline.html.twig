@@ -1,0 +1,58 @@
+{# templates/timetable/addline.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'TIMETABLE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/label-32.png') }}">&nbsp;</img>{{ timetable.name }}
+</h4></div>
+
+{{ form_start(form, {'action': path('timetable_add_line', { 'timetableID': timetable.ID }), 'method': 'POST'}) }}
+
+<table class="w3-table w3-striped">
+	<tr>
+		<th>{{ 'from'|trans }}</th>
+		<th>&nbsp;</th>
+		<th>{{ 'to'|trans }}</th>
+    </tr>
+
+{% if listLastTimetableLines|length > 0 %}
+{% for timetableLine in listLastTimetableLines|reverse %}
+	<tr>
+		<td>{{ timetableLine.beginningTime|date("H:i") }}</td>
+		<td>&nbsp;</td>
+		<td>{{ timetableLine.endTime|date("H:i") }}</td>
+	</tr>
+{% endfor %}
+{% endif %}
+	<tr>
+		<td>{{ form_row(form.beginningTime) }}</td>
+		<td>&nbsp;</td>
+		<td>{{ form_row(form.endTime) }}</td>
+	</tr>
+</table>
+
+<div>{{ form_errors(form) }}</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('timetable_edit', { 'timetableID': timetable.ID }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+	{{ form_widget(form.validateAndCreate, { 'attr': {'class': 'w3-bar-item w3-button w3-green'} }) }}
+</div>
+</div>
+
+{{ form_rest(form) }}
+
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('scripts/timetableLine_add.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,26 @@
+{# templates/user_file_group/foreign.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-red"><h4>
+	<img src="{{ asset('images/user-group-32.png') }}"></img>&nbsp;{{ userFileGroup.name }}:&nbsp;{{ 'delete.not.allowed'|trans }}
+</h4></div>
+
+<div class="w3-bar-block">
+{% set lineNumber = 0 %}
+{% for planificationView in userFileGroup.getPlanificationViews() %}
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (lineNumber is odd) ? 'sand' : 'transparent' %}
+	<a href="{{ path('planification_view', { 'planificationID': planificationView.planificationPeriod.planification.ID, 'planificationPeriodID': planificationView.planificationPeriod.ID, 'planificationViewID': planificationView.ID }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><img src="{{ asset('images/planification-32.png') }}">&nbsp;{{ planificationView.planificationPeriod.planification.name }}</a>
+{% endfor %}
+</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('user_file_group_edit', { 'userFileGroupID': userFileGroup.ID, 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'userFileGroup.back'|trans }}</a>
+</div>
+</div>
+
+{% endblock %}

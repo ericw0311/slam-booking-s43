@@ -85,6 +85,11 @@ class Resource
      */
     private $bookingLines;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\UserFile", mappedBy="resource", cascade={"persist", "remove"})
+     */
+    private $userFile;
+
     public function __construct(?User $user, ?File $file)
       {
       $this->setUser($user);
@@ -294,5 +299,23 @@ class Resource
     public function updateDate()
     {
       $this->updatedAt = new \DateTime();
+    }
+
+    public function getUserFile(): ?UserFile
+    {
+        return $this->userFile;
+    }
+
+    public function setUserFile(?UserFile $userFile): self
+    {
+        $this->userFile = $userFile;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newResource = $userFile === null ? null : $this;
+        if ($newResource !== $userFile->getResource()) {
+            $userFile->setResource($newResource);
+        }
+
+        return $this;
     }
 }

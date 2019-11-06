@@ -1,0 +1,20 @@
+{# templates/query_booking/delete.html.twig #}
+
+{% extends 'base.connected.html.twig' %}
+ 
+{% block body %}
+
+{{ form_start(form, {'action': path('query_booking_delete', { 'queryBookingID': queryBooking.ID }), 'method': 'POST', 'class': 'form-horizontal'}) }}
+
+<legend><img src="{{ asset('images/dashboard-32.png') }}">&nbsp;</img>&nbsp;{{ queryBooking.name }}</legend>
+
+<p>{{ 'queryBooking.ask.delete'|trans({'%name%': queryBooking.name}) }}</p>
+
+<div class="btn-group">
+<a href="{{ path('query_booking_edit', { 'queryBookingID': queryBooking.ID }) }}" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> {{ 'cancel'|trans }}</a>
+<button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-ok"></i> {{ 'validate'|trans }}</button>
+</div>
+
+{{ form_end(form) }}
+
+{% endblock %}

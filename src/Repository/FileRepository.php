@@ -4,9 +4,9 @@ namespace App\Repository;
 use App\Entity\File;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
+
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**

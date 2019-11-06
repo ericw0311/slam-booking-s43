@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\BookingUser;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method BookingUser|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +19,16 @@ class BookingUserRepository extends ServiceEntityRepository
         parent::__construct($registry, BookingUser::class);
     }
 
-    // /**
-    //  * @return BookingUser[] Returns an array of BookingUser objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?BookingUser
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    public function getBookingUsers(\App\Entity\Booking $booking)
+  	{
+  	$qb = $this->createQueryBuilder('bu');
+  	$qb->select('uf.id userFileID');
+  	$qb->addSelect('bu.oorder');
+  	$qb->where('bu.booking = :booking')->setParameter('booking', $booking);
+  	$qb->innerJoin('bu.userFile', 'uf');
+  	$qb->orderBy('bu.oorder', 'ASC');
+  	$query = $qb->getQuery();
+  	$results = $query->getResult();
+  	return $results;
+  	}
 }

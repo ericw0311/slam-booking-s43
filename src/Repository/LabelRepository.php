@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\Label;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method Label|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +19,37 @@ class LabelRepository extends ServiceEntityRepository
         parent::__construct($registry, Label::class);
     }
 
-    // /**
-    //  * @return Label[] Returns an array of Label objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getLabelsCount(\App\Entity\File $file)
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    $qb = $this->createQueryBuilder('l');
+    $qb->select($qb->expr()->count('l'));
+    $qb->where('l.file = :file')->setParameter('file', $file);
+    $query = $qb->getQuery();
+    $singleScalar = $query->getSingleScalarResult();
+    return $singleScalar;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Label
+    public function getLabels(\App\Entity\File $file)
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    $qb = $this->createQueryBuilder('l');
+    $qb->where('l.file = :file')->setParameter('file', $file);
+    $qb->orderBy('l.name', 'ASC');
+
+    $query = $qb->getQuery();
+    $results = $query->getResult();
+    return $results;
+	}
+
+    public function getDisplayedLabels(\App\Entity\File $file, $firstRecordIndex, $maxRecord)
+    {
+    $qb = $this->createQueryBuilder('l');
+    $qb->where('l.file = :file')->setParameter('file', $file);
+    $qb->orderBy('l.name', 'ASC');
+    $qb->setFirstResult($firstRecordIndex);
+    $qb->setMaxResults($maxRecord);
+
+    $query = $qb->getQuery();
+    $results = $query->getResult();
+    return $results;
+	}
 }

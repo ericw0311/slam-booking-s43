@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\QueryBooking;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method QueryBooking|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +19,26 @@ class QueryBookingRepository extends ServiceEntityRepository
         parent::__construct($registry, QueryBooking::class);
     }
 
-    // /**
-    //  * @return QueryBooking[] Returns an array of QueryBooking objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('q.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    public function getQueryBookingCount(\App\Entity\File $file)
+      {
+      $queryBuilder = $this->createQueryBuilder('qb');
+      $queryBuilder->select($queryBuilder->expr()->count('qb'));
+      $queryBuilder->where('qb.file = :file')->setParameter('file', $file);
+      $query = $queryBuilder->getQuery();
+      $singleScalar = $query->getSingleScalarResult();
+      return $singleScalar;
+      }
 
-    /*
-    public function findOneBySomeField($value): ?QueryBooking
-    {
-        return $this->createQueryBuilder('q')
-            ->andWhere('q.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+      public function getDisplayedQueryBooking(\App\Entity\File $file, $firstRecordIndex, $maxRecord)
+      {
+      $queryBuilder = $this->createQueryBuilder('qb');
+      $queryBuilder->where('qb.file = :file')->setParameter('file', $file);
+      $queryBuilder->orderBy('qb.name', 'ASC');
+      $queryBuilder->setFirstResult($firstRecordIndex);
+      $queryBuilder->setMaxResults($maxRecord);
+
+      $query = $queryBuilder->getQuery();
+      $results = $query->getResult();
+      return $results;
+      }
 }

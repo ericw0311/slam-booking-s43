@@ -1,0 +1,40 @@
+{# templates/timetable/add.html.twig #}
+
+{% extends 'base.half.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'TIMETABLE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/time-32.png') }}">&nbsp;</img>{{ 'timetable.new'|trans }}
+</h4></div>
+
+{{ form_start(form, {'action': path('timetable_add'), 'method': 'POST'}) }}
+
+<form class="w3-container">
+
+<p><label>{{ 'timetable.name'|trans }}</label>
+{{ form_widget(form.name) }}
+<div class="w3-text-red">{{ form_errors(form.name) }}</div></p>
+
+{{ form_rest(form) }}
+
+<div class="w3-show-inline-block">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('timetable', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+</div>
+</div>
+
+</form>
+
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script>document.getElementById('timetable_name').focus();</script>
+{% endblock %}

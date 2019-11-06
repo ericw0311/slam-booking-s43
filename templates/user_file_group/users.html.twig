@@ -1,0 +1,66 @@
+{# templates/user_file_group/users.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/user-group-32.png') }}"></img>&nbsp;{{ userFileGroup.name }}
+</h4></div>
+
+<div class="w3-row">
+
+<div class="w3-half"><div class="w3-margin-right">
+<table class="w3-table w3-striped">
+<tr>
+	<th colspan=2>{{ 'users.selected'|trans }}</th>
+</tr>
+
+{% for userFile in selectedUserFiles %}
+	<tr>
+	<td><img src="{{ asset('images/' ~ userFile.imageName) }}">&nbsp;{{ userFile.name }}</td>
+	<td><a href="{{ path('user_file_group_users', { 'userFileGroupID': userFileGroup.ID, 'userFileIDList': userFile.entityIDList_unselect }) }}" class="w3-button w3-text-indigo" title="{{ 'user.unselect'|trans }}"><i class="fa fa-arrow-right w3-large"></i></a></td>
+	</tr>
+{% endfor %}
+</table>
+</div></div>
+
+<div class="w3-half">
+<table class="w3-table w3-striped">
+	<tr><th colspan=2>{{ 'users.available'|trans }}</th></tr>
+{% for userFile in availableUserFiles %}
+	<tr>
+	<td><a href="{{ path('user_file_group_users', { 'userFileGroupID': userFileGroup.ID, 'userFileIDList': userFile.entityIDList_select }) }}" class="w3-button w3-text-indigo" title="{{ 'user.select'|trans }}"><i class="fa fa-arrow-left w3-large"></i></a></td>
+	<td><img src="{{ asset('images/' ~ userFile.imageName) }}">&nbsp;{{ userFile.name }}</td>
+	</tr>
+{% endfor %}
+</table>
+</div>
+
+</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('user_file_group_edit', { 'userFileGroupID': userFileGroup.ID, 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	{% if selectedUserFiles|length < 1 %}
+	<button onclick="document.getElementById('validateModal').style.display='block'" class="w3-bar-item w3-button w3-green"><i class="fa fa-pencil"></i>&nbsp;<del>{{ 'validate'|trans }}</del></button>
+	{% else %}
+	<a href="{{ path('user_file_group_validate_users', { 'userFileGroupID': userFileGroup.ID, 'userFileIDList': userFileIDList }) }}" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+	{% endif %}
+</div>
+</div>
+
+<!-- Modal -->
+<div id="validateModal" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('validateModal').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'validate.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'userFileGroup.users.vna'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

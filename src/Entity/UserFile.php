@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserFileRepository")
@@ -107,6 +108,11 @@ class UserFile
      * @ORM\OneToMany(targetEntity="App\Entity\BookingUser", mappedBy="userFile")
      */
     private $bookingUsers;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Resource", inversedBy="userFile", cascade={"persist", "remove"})
+     */
+    private $resource;
 
     public function __construct(?User $user, ?File $file)
     {
@@ -264,6 +270,27 @@ class UserFile
         return $this;
     }
 
+    public function getFirstAndLastName()
+    {
+      if ($this->getFirstName() == 'X' and $this->getLastName() == 'X') {
+        if ($this->getUniqueName() != '') {
+            return $this->getUniqueName();
+        }
+        if ($this->getUserCreated()) {
+            return $this->getUserName();
+        }
+      }
+      return $this->getFirstName().' '.$this->getLastName();
+    }
+
+    /**
+    * @Assert\IsTrue(message="user.organisation.name.null")
+    */
+    public function isUniqueName()
+    {
+        return ($this->getAccountType() != 'ORGANISATION' or $this->getUniqueName() !== null);
+    }
+
     /**
      * @return Collection|UserFileGroup[]
      */
@@ -337,5 +364,17 @@ class UserFile
     public function updateDate()
     {
       $this->updatedAt = new \DateTime();
+    }
+
+    public function getResource(): ?Resource
+    {
+        return $this->resource;
+    }
+
+    public function setResource(?Resource $resource): self
+    {
+        $this->resource = $resource;
+
+        return $this;
     }
 }

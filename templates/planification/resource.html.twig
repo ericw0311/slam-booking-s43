@@ -1,0 +1,97 @@
+{# templates/planification/resource.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'PLANIFICATION' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	{% block planification %}{% endblock %}
+</h4></div>
+
+<div class="w3-row">
+
+<div class="w3-half"><div class="w3-margin-right">
+
+<table class="w3-table w3-striped">
+	<tr>
+{% if selectedResources|length > 1 %}
+	<th colspan=4>
+{% else %}
+	<th colspan=2>
+{% endif %}
+	{{ 'planification.resource.selected'|trans }}</th>
+    </tr>
+
+{% for resource in selectedResources %}
+	<tr>
+{% if selectedResources|length > 1 %}
+{% if loop.index > 1 %}
+	<td>{% block link_sortBefore %}{% endblock %}</td>
+{% else %}
+	<td></td>
+{% endif %}
+{% if loop.index < selectedResources|length %}
+	<td>{% block link_sortAfter %}{% endblock %}</td>
+{% else %}
+	<td></td>
+{% endif %}
+{% endif %}
+{% if resource.imageType == 'C' %}
+	<td><i class="w3-xlarge fa fa-{{ resource.imageName }}"></i>&nbsp;{{ resource.name }}</td>
+{% else %}
+	<td><img src="{{ asset('images/' ~ resource.imageName) }}">&nbsp;{{ resource.name }}</td>
+{% endif %}
+	<td>{% block link_unselect %}{% endblock %}</td>
+	</tr>
+{% endfor %}
+</table>
+
+</div></div>
+
+<div class="w3-half">
+<table class="w3-table w3-striped">
+	<tr><th colspan=2>{{ 'planification.resource.to.planify'|trans }}</th></tr>
+{% for resource in availableResources %}
+	<tr>
+	<td>{% block link_select %}{% endblock %}</td>
+{% if resource.imageType == 'C' %}
+	<td><i class="w3-xlarge fa fa-{{ resource.imageName }}"></i>&nbsp;{{ resource.name }}</td>
+{% else %}
+	<td><img src="{{ asset('images/' ~ resource.imageName) }}">&nbsp;{{ resource.name }}</td>
+{% endif %}
+	</tr>
+{% endfor %}
+</table>
+</div>
+
+</div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	{% block link_cancel %}{% endblock %}
+{% if selectedResources|length < 1 %}
+	<button onclick="document.getElementById('validateModal').style.display='block'" class="w3-bar-item w3-button w3-green"><i class="fa fa-pencil"></i>&nbsp;<del>{{ 'validate'|trans }}</del></button>
+{% else %}
+	{% block link_validate %}{% endblock %}
+{% endif %}
+</div>
+</div>
+
+<!-- Modal -->
+<div id="validateModal" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red">
+			<span onclick="document.getElementById('validateModal').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'validate.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'planification.validate.not.allowed'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

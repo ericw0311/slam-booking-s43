@@ -1,0 +1,34 @@
+{# templates/timetable/booking.list.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% extends 'booking.list.html.twig' %}
+
+{% block number_lines_and_columns_link %}
+	<a href="{{ path('timetable_number_lines_and_columns', { 'timetableID': timetable.ID, 'page': listContext.page }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-wrench"></i>&nbsp;{{ 'parameters'|trans }}</a>
+{% endblock %}
+
+{% block page_1_link %}
+	<a href="{{ path('timetable_booking_list', { 'timetableID': timetable.ID, 'page': 1 }) }}" class="w3-bar-item w3-button">1</a>
+{% endblock %}
+
+{% block page_minus_1_link %}
+	<a href="{{ path('timetable_booking_list', { 'timetableID': timetable.ID, 'page': (listContext.page-1) }) }}" class="w3-bar-item w3-button">{{ (listContext.page-1) }}</a>
+{% endblock %}
+
+{% block page_plus_1_link %}
+	<a href="{{ path('timetable_booking_list', { 'timetableID': timetable.ID, 'page': (listContext.page+1) }) }}" class="w3-bar-item w3-button">{{ (listContext.page+1) }}</a>
+{% endblock %}
+
+{% block page_link %}
+	<a href="{{ path('timetable_booking_list', { 'timetableID': timetable.ID, 'page': listContext.page }) }}" class="w3-bar-item w3-button w3-indigo">{{ listContext.page }}</a>
+{% endblock %}
+
+{% block last_page_link %}
+	<a href="{{ path('timetable_booking_list', { 'timetableID': timetable.ID, 'page': listContext.numberPages }) }}" class="w3-bar-item w3-button">{{ listContext.numberPages }}</a>
+{% endblock %}
+
+{% block back_link %}
+	<a href="{{ path('timetable_edit', { 'timetableID': timetable.ID }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'timetable.back'|trans }}</a>
+{% endblock %}

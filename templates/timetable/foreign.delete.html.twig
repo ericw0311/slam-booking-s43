@@ -1,0 +1,7 @@
+{# templates/timetable/foreign.delete.html.twig #}
+
+{% extends 'timetable/foreign.html.twig' %}
+
+{% block title %}
+	<img src="{{ asset('images/time-32.png') }}">&nbsp;{{ timetable.name }}:&nbsp;{{ 'delete.not.allowed'|trans }}
+{% endblock %}

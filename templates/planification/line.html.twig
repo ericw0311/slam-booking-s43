@@ -1,0 +1,72 @@
+{# templates/planification/line.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'PLANIFICATION' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<img src="{{ asset('images/planification-32.png') }}">&nbsp;</img>{{ planification.name }}
+</h4></div>
+
+{{ form_start(form, {'action': path('planification_line', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }), 'method': 'POST'}) }}
+
+<table class="w3-table w3-striped">
+<tr>
+	<td><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ ('day.MON')|trans }}</td>
+	<td>{{ form_row(form.activate_MON) }}</td>
+	<td>{{ form_row(form.timetable_MON) }}</td>
+</tr>
+<tr>
+	<td><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ ('day.TUE')|trans }}</td>
+	<td>{{ form_row(form.activate_TUE) }}</td>
+	<td>{{ form_row(form.timetable_TUE) }}</td>
+</tr>
+<tr>
+	<td><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ ('day.WED')|trans }}</td>
+	<td>{{ form_row(form.activate_WED) }}</td>
+	<td>{{ form_row(form.timetable_WED) }}</td>
+</tr>
+<tr>
+	<td><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ ('day.THU')|trans }}</td>
+	<td>{{ form_row(form.activate_THU) }}</td>
+	<td>{{ form_row(form.timetable_THU) }}</td>
+</tr>
+<tr>
+	<td><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ ('day.FRI')|trans }}</td>
+	<td>{{ form_row(form.activate_FRI) }}</td>
+	<td>{{ form_row(form.timetable_FRI) }}</td>
+</tr>
+<tr>
+	<td><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ ('day.SAT')|trans }}</td>
+	<td>{{ form_row(form.activate_SAT) }}</td>
+	<td>{{ form_row(form.timetable_SAT) }}</td>
+</tr>
+<tr>
+	<td><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ ('day.SUN')|trans }}</td>
+	<td>{{ form_row(form.activate_SUN) }}</td>
+	<td>{{ form_row(form.timetable_SUN) }}</td>
+</tr>
+</table>
+
+{{ form_errors(form) }}
+
+{{ form_rest(form) }}
+
+<div class="w3-show-inline-block">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path('planification_edit', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+</div>
+</div>
+
+{{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="{{ asset('scripts/planification_line.js') }}"></script>
+{% endblock %}

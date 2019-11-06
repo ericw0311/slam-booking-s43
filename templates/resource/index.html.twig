@@ -1,20 +1,36 @@
-{% extends 'base.html.twig' %}
+{# templates/resource/index.html.twig #}
 
-{% block title %}Hello ResourceController!{% endblock %}
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'RESOURCE' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% extends 'list.html.twig' %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/eric/slam-booking-s43/src/Controller/ResourceController.php'|file_link(0) }}">src/Controller/ResourceController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/eric/slam-booking-s43/templates/resource/index.html.twig'|file_link(0) }}">templates/resource/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% set create_path, list_path, display_create_path = 'resource_classification', 'resource', true %}
+
+{% block link %}
+
+{% if listResources[i*listContext.numberLinesDisplayed+j].internal %}
+
+{% set resource_image = rcIcons[listResources[i*listContext.numberLinesDisplayed+j].code] %}
+{% if listResources[i*listContext.numberLinesDisplayed+j].planified %}
+	<a href="{{ path('resource_edit', { 'resourceID': listResources[i*listContext.numberLinesDisplayed+j].ID }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/' ~ resource_image ~ '-32.png') }}">&nbsp;{{ listResources[i*listContext.numberLinesDisplayed+j].name }}<span class="w3-badge w3-right w3-green">P</span></a>
+{% else %}
+	<a href="{{ path('resource_edit', { 'resourceID': listResources[i*listContext.numberLinesDisplayed+j].ID }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/' ~ resource_image ~ '-32.png') }}">&nbsp;{{ listResources[i*listContext.numberLinesDisplayed+j].name }}</a>
+{% endif %}
+
+{% else %}
+
+{% set resource_icon = rtIcons[listResources[i*listContext.numberLinesDisplayed+j].type] %}
+{% if listResources[i*listContext.numberLinesDisplayed+j].planified %}
+	<a href="{{ path('resource_edit', { 'resourceID': listResources[i*listContext.numberLinesDisplayed+j].ID }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><i class="w3-xlarge fa fa-{{ resource_icon }}"></i>&nbsp;{{ listResources[i*listContext.numberLinesDisplayed+j].name }}<span class="w3-badge w3-right w3-green">P</span></a>
+{% else %}
+	<a href="{{ path('resource_edit', { 'resourceID': listResources[i*listContext.numberLinesDisplayed+j].ID }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><i class="w3-xlarge fa fa-{{ resource_icon }}"></i>&nbsp;{{ listResources[i*listContext.numberLinesDisplayed+j].name }}</a>
+{% endif %}
+
+{% endif %}
+
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Repository;
 use App\Entity\BookingLabel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method BookingLabel|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,32 +19,16 @@ class BookingLabelRepository extends ServiceEntityRepository
         parent::__construct($registry, BookingLabel::class);
     }
 
-    // /**
-    //  * @return BookingLabel[] Returns an array of BookingLabel objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?BookingLabel
-    {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+    public function getBookingLabels(\App\Entity\Booking $booking)
+  	{
+  	$qb = $this->createQueryBuilder('bl');
+  	$qb->select('l.id labelID');
+  	$qb->addSelect('bl.oorder');
+  	$qb->where('bl.booking = :booking')->setParameter('booking', $booking);
+  	$qb->innerJoin('bl.label', 'l');
+  	$qb->orderBy('bl.oorder', 'ASC');
+  	$query = $qb->getQuery();
+  	$results = $query->getResult();
+  	return $results;
+  	}
 }

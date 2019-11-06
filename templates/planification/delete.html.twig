@@ -1,0 +1,22 @@
+{# templates/planification/delete.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+
+{% extends 'base.connected.html.twig' %}
+ 
+{% block body %}
+
+{{ form_start(form, {'action': path('planification_delete', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }), 'method': 'POST', 'class': 'form-horizontal'}) }}
+
+<legend><img src="{{ asset('images/' ~ rtIcons[planification.type] ~ '-32.png') }}">&nbsp;{{ planification.name }}</legend>
+
+<p>{{ 'planification.ask.delete'|trans({'%name%': planification.name}) }}</p>
+
+<div class="btn-group">
+<a href="{{ path('planification_edit', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> {{ 'cancel'|trans }}</a>
+<button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-ok"></i> {{ 'validate'|trans }}</button>
+</div>
+
+{{ form_end(form) }}
+
+{% endblock %}

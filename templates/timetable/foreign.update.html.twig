@@ -1,0 +1,7 @@
+{# templates/timetable/foreign.update.html.twig #}
+
+{% extends 'timetable/foreign.html.twig' %}
+
+{% block title %}
+	<img src="{{ asset('images/time-32.png') }}">&nbsp;{{ timetable.name }}:&nbsp;{{ 'update.not.allowed'|trans }}
+{% endblock %}
