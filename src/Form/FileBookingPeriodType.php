@@ -20,7 +20,7 @@ class FileBookingPeriodType extends AbstractType
 			'translation_domain' => 'messages',
 			'choices' => array('DAY' => 'DAY', 'WEEK' => 'WEEK', 'MONTH' => 'MONTH', 'YEAR' => 'YEAR'),
 			'choice_label' => function ($value, $key, $index) { return 'file.booking.period.type.'.$key; },
-			'attr' => ['class' => 'w3-input w3-border w3-pale-green']
+			'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']
         ))
 		->add('beforeNumber', ChoiceType::class,
 			array('label' => 'file.booking.period.number', 'translation_domain' => 'messages',
@@ -28,7 +28,7 @@ class FileBookingPeriodType extends AbstractType
 			'10' => 10, '11' => 11, '12' => 12, '13' => 13, '14' => 14, '15' => 15, '16' => 16, '17' => 17, '18' => 18, '19' => 19,
 			'20' => 20, '21' => 21, '22' => 22, '23' => 23, '24' => 24, '25' => 25, '26' => 26, '27' => 27, '28' => 28, '29' => 29,
 			'30' => 30),
-			'attr' => ['class' => 'w3-input w3-border w3-pale-green']			
+			'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']
 		))
 		->add('after', CheckboxType::class, array('label' => 'file.booking.period.after.1', 'translation_domain' => 'messages', 'required' => false))
 			->add('afterType', ChoiceType::class, array(
@@ -36,7 +36,7 @@ class FileBookingPeriodType extends AbstractType
 			'translation_domain' => 'messages',
 			'choices' => array('DAY' => 'DAY', 'WEEK' => 'WEEK', 'MONTH' => 'MONTH', 'YEAR' => 'YEAR'),
 			'choice_label' => function ($value, $key, $index) { return 'file.booking.period.type.'.$key; },
-			'attr' => ['class' => 'w3-input w3-border w3-pale-green']
+			'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']
         ))
 		->add('afterNumber', ChoiceType::class,
 			array('label' => 'file.booking.period.number', 'translation_domain' => 'messages',
@@ -44,7 +44,7 @@ class FileBookingPeriodType extends AbstractType
 			'10' => 10, '11' => 11, '12' => 12, '13' => 13, '14' => 14, '15' => 15, '16' => 16, '17' => 17, '18' => 18, '19' => 19,
 			'20' => 20, '21' => 21, '22' => 22, '23' => 23, '24' => 24, '25' => 25, '26' => 26, '27' => 27, '28' => 28, '29' => 29,
 			'30' => 30),
-			'attr' => ['class' => 'w3-input w3-border w3-pale-green']
+			'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']
 		));
 	}
 

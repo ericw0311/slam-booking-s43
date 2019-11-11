@@ -16,7 +16,7 @@ class FileType extends AbstractType
     {
         $builder->add('name', TextType::class, array('label' => 'file.name',
 			'translation_domain' => 'messages',
-			'attr' => ['class' => 'w3-input w3-pale-green']));
+			'attr' => ['class' => 'w3-input w3-pale-yellow']));
     }
 
 	public function configureOptions(OptionsResolver $resolver)

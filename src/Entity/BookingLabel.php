@@ -79,12 +79,12 @@ class BookingLabel
         return $this;
     }
 
-    public function getOorder(): ?int
+    public function getOrder(): ?int
     {
         return $this->oorder;
     }
 
-    public function setOorder(int $oorder): self
+    public function setOrder(int $oorder): self
     {
         $this->oorder = $oorder;
 

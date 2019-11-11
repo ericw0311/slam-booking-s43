@@ -1,20 +1,15 @@
+{# templates/default/index.html.twig #}
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
-
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/eric/slam-booking-s43/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/eric/slam-booking-s43/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>
-    </ul>
+<div class="w3-panel w3-sand w3-round-large w3-margin-top">
+   <p>{{ 'welcome.user'|trans({'%name%': app.user.userName}) }}</p>
 </div>
+
+<div class="w3-margin-top">
+    <img class="center" src="{{ asset('images/welcome-half.jpg') }}" alt="Slam Booking">
+</div>
+
 {% endblock %}

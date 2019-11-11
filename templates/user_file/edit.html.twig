@@ -51,7 +51,7 @@
 {% elseif not connectedUserIsFileCreator %}
 	<button onclick="document.getElementById('unaFileCreator2').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-pencil"></i>&nbsp;<del>{{ 'modify'|trans }}</del></button>
 {% else %}
-	<a href="{{ path('user_file_modify', { 'userFileID': userFile.ID }) }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
+	<a href="{{ path('user_file_modify', { 'userFileID': userFile.ID }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
 {% endif %}
 
 {% if selectedUserIsFileCreator %}

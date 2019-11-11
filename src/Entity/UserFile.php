@@ -342,7 +342,7 @@ class UserFile
         if ($this->bookingUsers->contains($bookingUser)) {
             $this->bookingUsers->removeElement($bookingUser);
             // set the owning side to null (unless already changed)
-            if ($bookingUser->getUserFile() === $this) {
+            if ($bookingUser->getUserFiles() === $this) {
                 $bookingUser->setUserFile(null);
             }
         }

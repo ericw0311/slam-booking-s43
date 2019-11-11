@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_planification_resource",columns={"planification_period_id", "resource_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\PlanificationResourceRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class PlanificationResource
 {
@@ -94,12 +95,12 @@ class PlanificationResource
         return $this;
     }
 
-    public function getOorder(): ?int
+    public function getOrder(): ?int
     {
         return $this->oorder;
     }
 
-    public function setOorder(int $oorder): self
+    public function setOrder(int $oorder): self
     {
         $this->oorder = $oorder;
 

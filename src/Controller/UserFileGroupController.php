@@ -84,7 +84,7 @@ class UserFileGroupController extends AbstractController
       $displayedUserFiles = array();
       $index = 0;
 
-      foreach ($userFileGroup->getUserFile() as $userFile) {
+      foreach ($userFileGroup->getUserFiles() as $userFile) {
           $userFileIDList = ($userFileIDList == '') ? $userFile->getId() : ($userFileIDList.'-'.$userFile->getId());
 
           if ($index >= $firstRecordIndex and $index < ($firstRecordIndex + $maxRecords)) {
@@ -110,8 +110,8 @@ class UserFileGroupController extends AbstractController
 
       // Nombre d'utilisateurs suivant ceux qui sont affichés
       $numberUserAfter = 0;
-      if (count($userFileGroup->getUserFile()) > ($firstRecordIndex + $maxRecords)) {
-          $numberUserAfter = count($userFileGroup->getUserFile()) - ($firstRecordIndex + $maxRecords);
+      if (count($userFileGroup->getUserFiles()) > ($firstRecordIndex + $maxRecords)) {
+          $numberUserAfter = count($userFileGroup->getUserFiles()) - ($firstRecordIndex + $maxRecords);
       }
 
       return $this->render(
@@ -201,7 +201,7 @@ class UserFileGroupController extends AbstractController
       $logger->info('UserFileGroupController.user_file_group_validate_users DBG 3 <'.count($url_userFileID).'>');
 
       // Utilisateurs du groupe
-      $userFileGroupUserFiles = $userFileGroup->getUserFile();
+      $userFileGroupUserFiles = $userFileGroup->getUserFiles();
 
       foreach ($userFileGroupUserFiles as $userFile) {
           if (!in_array($userFile->getID(), $url_userFileID)) { // L'utilisateur n'appartient pas a la liste de l'Url. Il est supprimé.

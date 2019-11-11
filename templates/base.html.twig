@@ -48,7 +48,7 @@ $( function() {
 <body>
 <!-- Navbar (sit on top) -->
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-<div class="w3-bar w3-light-grey" id="myNavbar">
+<div class="w3-bar w3-khaki" id="myNavbar">
 {% if userContext.getCurrentUserFileAdministrator() %}
 	<a href="{{ path('default')}}" class="w3-bar-item w3-button w3-green"><i class="fa fa-home w3-xlarge"></i>&nbsp;{{ userContext.getCurrentFileName() }}</a>
 {% else %}

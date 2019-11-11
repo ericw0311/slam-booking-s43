@@ -1,6 +1,6 @@
 {# templates/resource_classification/add.html.twig #}
 
-{% extends 'base.html.twig' %}
+{% extends 'base.half.html.twig' %}
 
 {% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
 {% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
@@ -9,14 +9,14 @@
 <a href="{{ path('documentation', { 'pageCode': 'RESOURCE-CLASSIFICATION' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
 {% endblock %}
 
-{% block body %}
+{% block content %}
 
 <div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
 	<i class="w3-xlarge fa fa-{{ rtIcons[resourceType] }}"></i>&nbsp;{{ ('resourceType.create.classification.' ~ resourceType)|trans }}
 </h4></div>
 
-<div class="w3-panel w3-sand w3-round-large">
-	<p>{{ 'resourceClassification.create.warning'|trans }}</p>
+<div class="w3-panel w3-orange w3-round-large">
+	<p><b>{{ 'resourceClassification.create.warning'|trans }}</b></p>
 </div>
 
 {{ form_start(form, {'action': path('resource_classification_add', { 'resourceType': resourceType }), 'method': 'POST'}) }}

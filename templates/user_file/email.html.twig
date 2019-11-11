@@ -16,7 +16,10 @@
 
 <form class="w3-container">
 
-<p>{{ form_row(form.email) }}</p>
+<p><label>{{ 'user.email'|trans }}</label>
+{{ form_widget(form.email) }}
+<div class="w3-text-red">{{ form_errors(form.email) }}</div></p>
+
 <p>{{ form_row(form.firstName) }}</p>
 <p>{{ form_row(form.lastName) }}</p>
 

@@ -15,7 +15,7 @@ class NoteType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
-		$builder->add('note', TextareaType::class, array('label' => 'note', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-pale-green']));
+		$builder->add('note', TextareaType::class, array('label' => 'note', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-pale-yellow']));
     }
 
 	public function configureOptions(OptionsResolver $resolver)

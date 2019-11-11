@@ -301,7 +301,7 @@ class Resource
       $this->updatedAt = new \DateTime();
     }
 
-    public function getUserFile(): ?UserFile
+    public function getUserFiles(): ?UserFile
     {
         return $this->userFile;
     }

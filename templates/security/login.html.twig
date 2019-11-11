@@ -18,10 +18,10 @@
 
 <form class="w3-container">
 	<p><label>{{ 'user.name'|trans }}</label>
-	<input class="w3-input w3-border w3-pale-green form-control" type="text" id="username" name="username" value="{{ last_username }}"></p>
+	<input class="w3-input w3-border w3-pale-yellow form-control" type="text" id="username" name="username" value="{{ last_username }}"></p>
 
 	<p><label>{{ 'user.password'|trans }}</label>
-	<input class="w3-input w3-border w3-pale-green form-control" type="password" id="password" name="password"></p>
+	<input class="w3-input w3-border w3-pale-yellow form-control" type="password" id="password" name="password"></p>
 
 	<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 

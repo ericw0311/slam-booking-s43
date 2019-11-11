@@ -13,7 +13,7 @@ class SD_EmailType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-		$builder->add('email', EmailType::class, array('label' => 'user.email', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-pale-green']));
+		$builder->add('email', EmailType::class, array('label' => 'user.email', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']));
 	}
 
 	public function configureOptions(OptionsResolver $resolver)

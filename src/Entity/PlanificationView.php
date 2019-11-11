@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_planification_view",columns={"planification_period_id", "user_file_group_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\PlanificationViewRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class PlanificationView
 {
@@ -112,12 +112,12 @@ class PlanificationView
         return $this;
     }
 
-    public function getOorder(): ?int
+    public function getOrder(): ?int
     {
         return $this->oorder;
     }
 
-    public function setOorder(int $oorder): self
+    public function setOrder(int $oorder): self
     {
         $this->oorder = $oorder;
 

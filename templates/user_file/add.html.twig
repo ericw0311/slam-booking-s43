@@ -20,7 +20,11 @@
 <p>{{ form_row(form.accountType) }}</p>
 <p>{{ form_row(form.firstName) }}</p>
 <p>{{ form_row(form.lastName) }}</p>
-<p>{{ form_row(form.uniqueName) }}</p>
+
+<p><label>{{ 'user.organisation.name'|trans }}</label>
+{{ form_widget(form.uniqueName) }}
+<div class="w3-text-red">{{ form_errors(form.uniqueName) }}</div></p>
+
 <p>{{ form_row(form.administrator) }}</p>
 
 {{ form_rest(form) }}

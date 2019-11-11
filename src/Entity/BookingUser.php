@@ -67,7 +67,7 @@ class BookingUser
         return $this;
     }
 
-    public function getUserFile(): ?UserFile
+    public function getUserFiles(): ?UserFile
     {
         return $this->userFile;
     }
@@ -79,12 +79,12 @@ class BookingUser
         return $this;
     }
 
-    public function getOorder(): ?int
+    public function getOrder(): ?int
     {
         return $this->oorder;
     }
 
-    public function setOorder(int $oorder): self
+    public function setOrder(int $oorder): self
     {
         $this->oorder = $oorder;
 

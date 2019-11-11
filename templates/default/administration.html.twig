@@ -1,0 +1,12 @@
+{# templates/default/administration.html.twig #}
+
+<div class="w3-bar-block">
+	<a href="{{ path('user_file', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-round-large w3-pale-green"><img src="{{ asset('images/user-32.png') }}">&nbsp;{{ 'users'|trans }}<span class="w3-badge w3-right w3-green">{{ fileContext.userFileCount }}</span></a>
+	<a href="{{ path('user_file_group', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-round-large w3-pale-green"><img src="{{ asset('images/user-group-32.png') }}">&nbsp;{{ 'userFileGroup.plural'|trans }}<span class="w3-badge w3-right w3-green">{{ fileContext.userFileGroupCount }}</span></a>
+	<a href="{{ path('timetable', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-round-large w3-sand"><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ 'timetable.plural'|trans }}<span class="w3-badge w3-right w3-green">{{ fileContext.timetableCount }}</span></a>
+	<a href="{{ path('label', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-round-large w3-pale-green"><img src="{{ asset('images/label-32.png') }}">&nbsp;{{ 'label.plural'|trans }}<span class="w3-badge w3-right w3-green">{{ fileContext.labelCount }}</span></a>
+{% set badgeColor = (fileContext.resourceCount > 0) ? 'green' :'red' %}
+	<a href="{{ path('resource', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-round-large w3-sand"><img src="{{ asset('images/resource-32.png') }}">&nbsp;{{ 'resource.plural'|trans }}<span class="w3-badge w3-right w3-{{ badgeColor }}">{{ fileContext.resourceCount }}</span></a>
+{% set badgeColor = (fileContext.planificationCount > 0) ? 'green' :'red' %}
+	<a href="{{ path('planification', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-round-large w3-pale-green"><img src="{{ asset('images/planification-32.png') }}">&nbsp;{{ 'planification.plural'|trans }}<span class="w3-badge w3-right w3-{{ badgeColor }}">{{ fileContext.planificationCount }}</span></a>
+</div>

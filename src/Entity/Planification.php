@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -11,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
 * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_planification",columns={"file_id", "type", "name"})})
 * @ORM\Entity(repositoryClass="App\Repository\PlanificationRepository")
+* @ORM\HasLifecycleCallbacks()
 * @UniqueEntity(fields={"file", "type", "name"}, errorPath="name", message="planification.already.exists")
 */
 class Planification

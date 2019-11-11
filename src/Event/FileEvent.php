@@ -14,10 +14,17 @@ class FileEvent
 {
     static function postPersist($em, \App\Entity\User $user, \App\Entity\File $file, $translator)
     {
-      AdministrationApi::setCurrentFileIfNotDefined($em, $user, $file);
+      $currentFileID = AdministrationApi::getCurrentFileID($em, $user); // Sauvegarde du dossier en cours (vaut 0 si l'utilisateur n'a pas de dossier en cours).
+
+      AdministrationApi::setCurrentFile($em, $user, $file); // Le dossier créé est positionné comme dossier en cours (nécessaire pour ajouter l'utilisateur dossier qui va être créé au groupe de tous les utilisateurs)
+
       FileEvent::createTimetables($em, $user, $file, $translator);
       FileEvent::createUserFileGroup($em, $user, $file, $translator);
       FileEvent::createUserFile($em, $user, $file);
+
+      if ($currentFileID > 0) { // On repositionne le dossier en cours à la valeur initiale
+        AdministrationApi::setCurrentFileID($em, $user, $currentFileID); // Le dossier créé est positionné comme dossier en cours
+      }
     }
 
     // Rattache l'utilisateur courant au dossier

@@ -16,7 +16,7 @@ class UserParameterNLC
 	{
 		return $this->numberLines;
 	}
-    
+
 	public function setNumberColumns($numberColumns)
 	{
 		$this->numberColumns = $numberColumns;

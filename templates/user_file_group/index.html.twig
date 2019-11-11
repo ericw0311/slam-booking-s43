@@ -5,5 +5,5 @@
 {% set create_path, list_path, display_create_path = 'user_file_group_add', 'user_file_group', true %}
 
 {% block link %}
-	<a href="{{ path('user_file_group_edit', { 'userFileGroupID': listUserFileGroups[i*listContext.numberLinesDisplayed+j].ID, 'page': 1 }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/user-group-32.png') }}">&nbsp;{{ listUserFileGroups[i*listContext.numberLinesDisplayed+j].name }}<span class="w3-badge w3-right w3-green">{{ listUserFileGroups[i*listContext.numberLinesDisplayed+j].getUserFile()|length }}</span></a>
+	<a href="{{ path('user_file_group_edit', { 'userFileGroupID': listUserFileGroups[i*listContext.numberLinesDisplayed+j].ID, 'page': 1 }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/user-group-32.png') }}">&nbsp;{{ listUserFileGroups[i*listContext.numberLinesDisplayed+j].name }}<span class="w3-badge w3-right w3-green">{{ listUserFileGroups[i*listContext.numberLinesDisplayed+j].getUserFiles()|length }}</span></a>
 {% endblock %}

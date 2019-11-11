@@ -26,10 +26,10 @@ class UserParameterNLCType extends AbstractType
 			'70' => 70, '71' => 71, '72' => 72, '73' => 73, '74' => 74, '75' => 75, '76' => 76, '77' => 77, '78' => 78, '79' => 79,
 			'80' => 80, '81' => 81, '82' => 82, '83' => 83, '84' => 84, '85' => 85, '86' => 86, '87' => 87, '88' => 88, '89' => 89,
 			'90' => 90, '91' => 91, '92' => 92, '93' => 93, '94' => 94, '95' => 95, '96' => 96, '97' => 97, '98' => 98, '99' => 99, '100' => 100),
-	'attr' => ['class' => 'w3-input w3-border w3-pale-green']))
+	'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']))
 		->add('numberColumns', ChoiceType::class, array('label' => 'number.columns', 'translation_domain' => 'messages',
 			'choices'  => array('1' => 1, '2' => 2, '3' => 3, '4' => 4),
-			'attr' => ['class' => 'w3-input w3-border w3-pale-green']));
+			'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']));
 	}
 
 	public function configureOptions(OptionsResolver $resolver)

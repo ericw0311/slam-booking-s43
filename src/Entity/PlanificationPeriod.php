@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_planification_period",columns={"planification_id", "beginning_date"})})
  * @ORM\Entity(repositoryClass="App\Repository\PlanificationPeriodRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class PlanificationPeriod
 {

@@ -23,8 +23,8 @@ class UserPasswordType extends AbstractType
 			->add('uniqueName', HiddenType::class)
             ->add('password', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'first_options'  => array('label' => 'user.password', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-pale-green']),
-                'second_options' => array('label' => 'user.repeat.password', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-pale-green'])));
+                'first_options'  => array('label' => 'user.password', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-pale-yellow']),
+                'second_options' => array('label' => 'user.repeat.password', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-pale-yellow'])));
     }
 
     public function configureOptions(OptionsResolver $resolver)

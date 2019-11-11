@@ -15,7 +15,7 @@ class ResourceType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
     {
-		$builder->add('name', TextType::class, array('label' => 'resource.name', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-pale-green']));
+		$builder->add('name', TextType::class, array('label' => 'resource.name', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-pale-yellow']));
     }
 
 	public function configureOptions(OptionsResolver $resolver)

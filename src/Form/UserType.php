@@ -22,17 +22,17 @@ class UserType extends AbstractType
   				'translation_domain' => 'messages',
   				'choices' => array('INDIVIDUAL' => 'INDIVIDUAL', 'ORGANISATION' => 'ORGANISATION'),
   				'choice_label' => function ($value, $key, $index) { return 'user.account.type.'.$key; },
-  				'attr' => ['class' => 'w3-input w3-sand']
+  				'attr' => ['class' => 'w3-input w3-pale-yellow']
   			))
-              ->add('firstName', TextType::class, array('label' => 'user.firstName', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-sand']))
-              ->add('lastName', TextType::class, array('label' => 'user.lastName', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-sand']))
-              ->add('email', EmailType::class, array('label' => 'user.email', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-sand']))
-              ->add('userName', TextType::class, array('label' => 'user.name', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-sand']))
-  			->add('uniqueName', TextType::class, array('label' => 'user.organisation.name', 'translation_domain' => 'messages', 'required' => false, 'attr' => ['class' => 'w3-input w3-border w3-sand']))
+              ->add('firstName', TextType::class, array('label' => 'user.firstName', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']))
+              ->add('lastName', TextType::class, array('label' => 'user.lastName', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']))
+              ->add('email', EmailType::class, array('label' => 'user.email', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']))
+              ->add('userName', TextType::class, array('label' => 'user.name', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']))
+  			->add('uniqueName', TextType::class, array('label' => 'user.organisation.name', 'translation_domain' => 'messages', 'required' => false, 'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']))
               ->add('password', RepeatedType::class, array(
                   'type' => PasswordType::class,
-                  'first_options'  => array('label' => 'user.password', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-sand']),
-                  'second_options' => array('label' => 'user.repeat.password', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-sand'])));
+                  'first_options'  => array('label' => 'user.password', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-pale-yellow']),
+                  'second_options' => array('label' => 'user.repeat.password', 'translation_domain' => 'messages', 'attr' => ['class' => 'w3-input w3-border w3-pale-yellow'])));
     }
 
     public function configureOptions(OptionsResolver $resolver)

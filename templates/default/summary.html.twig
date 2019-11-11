@@ -1,0 +1,45 @@
+{# templates/default/summary.html.twig #}
+
+{% extends 'base.html.twig' %}
+ 
+{% block body %}
+
+{% if userContext.getCurrentUserFileAdministrator() %}
+
+<div class="w3-bar w3-margin-top">
+	<button class="w3-bar-item w3-button w3-khaki w3-border w3-hover-light-blue" onclick="displayTab('flow')">{{ 'summary'|trans }}</button>
+	<button class="w3-bar-item w3-button w3-khaki w3-border w3-hover-light-blue" onclick="displayTab('administration')">{{ 'administration'|trans }}</button>
+</div>
+
+<div id="flow" class="city">
+	{{ include('default/flow.html.twig') }}
+</div>
+<div id="administration" class="city" style="display:none">
+	{{ include('default/administration.html.twig') }}
+</div>
+
+{% else %}
+<div class="w3-margin-top">
+{{ include('default/flow.html.twig') }}
+</div>
+
+{% endif %}
+
+{% endblock %}
+
+
+
+{% block javascripts %}
+
+<script>
+function displayTab(tabCode) {
+  var i;
+  var x = document.getElementsByClassName("city");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(tabCode).style.display = "block";  
+}
+</script>
+
+{% endblock %}
