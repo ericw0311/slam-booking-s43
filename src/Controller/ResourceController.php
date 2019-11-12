@@ -33,7 +33,7 @@ use App\Api\PlanningApi;
 class ResourceController extends AbstractController
 {
   /**
-     * @Route("/resource/{page}", name="resource", requirements={"page"="\d+"})
+     * @Route("/{_locale}/resource/{page}", name="resource", requirements={"page"="\d+"})
      */
   public function index($page)
   {
@@ -56,7 +56,7 @@ class ResourceController extends AbstractController
       return $this->render('resource/index.html.twig', array('userContext' => $userContext, 'listContext' => $listContext, 'listResources' => $resources_list));
   }
   /**
-   * @Route("/resource/classification", name="resource_classification")
+   * @Route("/{_locale}/resource/classification", name="resource_classification")
    */
   public function classification(Request $request)
   {
@@ -92,7 +92,7 @@ class ResourceController extends AbstractController
       return $this->render('resource/classification.html.twig', array('userContext' => $userContext, 'activeRC' => $activeRC));
   }
   /**
-   * @Route("/resource/add_internal/{type}/{code}", name="resource_add_internal")
+   * @Route("/{_locale}/resource/add_internal/{type}/{code}", name="resource_add_internal")
    */
   public function add_internal(Request $request, $type, $code)
   {
@@ -121,7 +121,7 @@ class ResourceController extends AbstractController
       return $this->render('resource/add.html.twig', array('userContext' => $userContext, 'resourceClassification' => null, 'resource' => $resource, 'form' => $form->createView()));
   }
   /**
-   * @Route("/resource/add_external/{type}/{resourceClassificationID}", name="resource_add_external")
+   * @Route("/{_locale}/resource/add_external/{type}/{resourceClassificationID}", name="resource_add_external")
    * @ParamConverter("resourceClassification", options={"mapping": {"resourceClassificationID": "id"}})
    */
   public function add_external(Request $request, $type, \App\Entity\ResourceClassification $resourceClassification)
@@ -151,7 +151,7 @@ class ResourceController extends AbstractController
       return $this->render('resource/add.html.twig', array('userContext' => $userContext, 'resourceClassification' => $resourceClassification, 'resource' => $resource, 'form' => $form->createView()));
   }
   /**
-   * @Route("/resource/edit/{resourceID}", name="resource_edit")
+   * @Route("/{_locale}/resource/edit/{resourceID}", name="resource_edit")
    * @ParamConverter("resource", options={"mapping": {"resourceID": "id"}})
    */
   public function edit(Request $request, \App\Entity\Resource $resource)
@@ -169,7 +169,7 @@ class ResourceController extends AbstractController
   }
   // Modification d'une ressource
   /**
-   * @Route("/resource/modify/{resourceID}", name="resource_modify")
+   * @Route("/{_locale}/resource/modify/{resourceID}", name="resource_modify")
    * @ParamConverter("resource", options={"mapping": {"resourceID": "id"}})
    */
   public function modify(Request $request, \App\Entity\Resource $resource)
@@ -190,7 +190,7 @@ class ResourceController extends AbstractController
   }
   // Suppression d'une ressource
   /**
-   * @Route("/resource/delete/{resourceID}", name="resource_delete")
+   * @Route("/{_locale}/resource/delete/{resourceID}", name="resource_delete")
    * @ParamConverter("resource", options={"mapping": {"resourceID": "id"}})
    */
   public function delete(Request $request, \App\Entity\Resource $resource)
@@ -204,7 +204,7 @@ class ResourceController extends AbstractController
       return $this->redirectToRoute('resource', array('page' => 1));
   }
   /**
-   * @Route("/resource/foreign/{resourceID}", name="resource_foreign")
+   * @Route("/{_locale}/resource/foreign/{resourceID}", name="resource_foreign")
    * @ParamConverter("resource", options={"mapping": {"resourceID": "id"}})
    */
   public function foreign(Request $request, \App\Entity\Resource $resource)
@@ -217,7 +217,7 @@ class ResourceController extends AbstractController
       return $this->render('resource/foreign.html.twig', array('userContext' => $userContext, 'resource' => $resource, 'listPlanifications' => $listPlanifications));
   }
   /**
-   * @Route("/resource/booking_list/{resourceID}/{page}", name="resource_booking_list", requirements={"page"="\d+"})
+   * @Route("/{_locale}/resource/booking_list/{resourceID}/{page}", name="resource_booking_list", requirements={"page"="\d+"})
    * @ParamConverter("resource", options={"mapping": {"resourceID": "id"}})
    */
   public function booking_list(Resource $resource, $page)

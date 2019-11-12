@@ -18,7 +18,7 @@ use App\Form\QueryBookingType;
 class QueryBookingController extends AbstractController
 {
   /**
-   * @Route("/query_booking/{page}", name="query_booking", requirements={"page"="\d+"})
+   * @Route("/{_locale}/query_booking/{page}", name="query_booking", requirements={"page"="\d+"})
    */
   public function index($page)
   {
@@ -35,7 +35,7 @@ class QueryBookingController extends AbstractController
 
   // Ajout d'un tableau de bord
   /**
-   * @Route("/query_booking/add", name="query_booking_add")
+   * @Route("/{_locale}/query_booking/add", name="query_booking_add")
    */
   public function add(Request $request)
   {
@@ -58,7 +58,7 @@ class QueryBookingController extends AbstractController
 
   // Edition du detail d'un tableau de bord
   /**
-   * @Route("/query_booking/edit/{queryBookingID}", name="query_booking_edit")
+   * @Route("/{_locale}/query_booking/edit/{queryBookingID}", name="query_booking_edit")
    * @ParamConverter("queryBooking", options={"mapping": {"queryBookingID": "id"}})
    */
   public function edit(Request $request, QueryBooking $queryBooking)
@@ -71,7 +71,7 @@ class QueryBookingController extends AbstractController
 
   // Modification d'un tableau de bord
   /**
-     * @Route("/query_booking/modify/{queryBookingID}", name="query_booking_modify")
+     * @Route("/{_locale}/query_booking/modify/{queryBookingID}", name="query_booking_modify")
      * @ParamConverter("queryBooking", options={"mapping": {"queryBookingID": "id"}})
      */
   public function modify(Request $request, QueryBooking $queryBooking)
@@ -94,7 +94,7 @@ class QueryBookingController extends AbstractController
 
   // Suppression d'un tableau de bord
   /**
-     * @Route("/query_booking/delete/{queryBookingID}", name="query_booking_delete")
+     * @Route("/{_locale}/query_booking/delete/{queryBookingID}", name="query_booking_delete")
      * @ParamConverter("queryBooking", options={"mapping": {"queryBookingID": "id"}})
      */
   public function delete(Request $request, QueryBooking $queryBooking)

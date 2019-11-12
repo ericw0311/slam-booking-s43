@@ -1,7 +1,7 @@
 {# templates/label/edit.html.twig #}
 
 {% extends 'base.html.twig' %}
- 
+
 {% block body %}
 
 <div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
@@ -19,7 +19,7 @@
 <div class="w3-show-inline-block w3-margin-top">
 <div class="w3-bar w3-border w3-round">
 	<a href="{{ path('label', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'label.back.to.list'|trans }}</a>
-	<a href="{{ path('label_modify', { 'labelID': label.ID }) }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
+	<a href="{{ path('label_modify', { 'labelID': label.ID }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
 {% if numberBookings > 0 %}
 	<button onclick="document.getElementById('dnaBooking').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
 {% else %}
@@ -31,7 +31,7 @@
 <!-- Modal -->
 <div id="dnaBooking" class="w3-modal w3-animate-opacity">
 	<div class="w3-modal-content">
-		<header class="w3-container w3-red"> 
+		<header class="w3-container w3-red">
 			<span onclick="document.getElementById('dnaBooking').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
 			<h3>{{ 'delete.not.allowed'|trans }}</h3>
 		</header>

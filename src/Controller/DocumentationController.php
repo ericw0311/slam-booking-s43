@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DocumentationController extends AbstractController
 {
     /**
-     * @Route("/documentation", name="documentation")
+     * @Route("/{_locale}/documentation", name="documentation")
      */
     public function index()
     {

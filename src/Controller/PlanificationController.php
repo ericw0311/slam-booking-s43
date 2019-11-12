@@ -42,7 +42,7 @@ class PlanificationController extends AbstractController
 {
   // Affichage des planifications du dossier en cours
   /**
-   * @Route("/planification/{page}", name="planification", requirements={"page"="\d+"})
+   * @Route("/{_locale}/planification/{page}", name="planification", requirements={"page"="\d+"})
    */
   public function index($page)
   {
@@ -61,7 +61,7 @@ class PlanificationController extends AbstractController
 
   // Ajout d'une planification: Sélection du type de ressources à planifier
   /**
-   * @Route("/planification/type", name="planification_type")
+   * @Route("/{_locale}/planification/type", name="planification_type")
    */
   public function type()
   {
@@ -76,7 +76,7 @@ class PlanificationController extends AbstractController
 
   // Initialisation des ressources à planifier
   /**
-   * @Route("/planification/initresource/{type}/{resourceIDList}", defaults={"resourceIDList" = null}, name="planification_init_resource")
+   * @Route("/{_locale}/planification/initresource/{type}/{resourceIDList}", defaults={"resourceIDList" = null}, name="planification_init_resource")
    */
   public function init_resource($type, $resourceIDList)
   {
@@ -91,7 +91,7 @@ class PlanificationController extends AbstractController
 
   // Validation des ressources à planifier
   /**
-   * @Route("/planification/validate_init_resource/{type}/{resourceIDList}", name="planification_validate_init_resource")
+   * @Route("/{_locale}/planification/validate_init_resource/{type}/{resourceIDList}", name="planification_validate_init_resource")
    */
   public function validate_init_resource(Request $request, $type, $resourceIDList)
   {
@@ -144,7 +144,7 @@ class PlanificationController extends AbstractController
 
   // Mise a jour des ressources à planifier
   /**
-   * @Route("/planification/update_resource/{planificationID}/{planificationPeriodID}/{resourceIDList}",
+   * @Route("/{_locale}/planification/update_resource/{planificationID}/{planificationPeriodID}/{resourceIDList}",
    * defaults={"resourceIDList" = null},
    * name="planification_update_resource")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
@@ -164,7 +164,7 @@ class PlanificationController extends AbstractController
 
   // Validation des ressources à planifier
   /**
-   * @Route("/planification/validate_update_resource/{planificationID}/{planificationPeriodID}/{resourceIDList}", name="planification_validate_update_resource")
+   * @Route("/{_locale}/planification/validate_update_resource/{planificationID}/{planificationPeriodID}/{resourceIDList}", name="planification_validate_update_resource")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    */
@@ -223,7 +223,7 @@ class PlanificationController extends AbstractController
 
   // Edition du detail d'une planification
   /**
-   * @Route("/planification/edit_last_period/{planificationID}", name="planification_edit_lp")
+   * @Route("/{_locale}/planification/edit_last_period/{planificationID}", name="planification_edit_lp")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    */
   public function edit_last_period(Planification $planification)
@@ -236,7 +236,7 @@ class PlanificationController extends AbstractController
 
   // Edition du detail d'une planification
   /**
-   * @Route("/planification/edit/{planificationID}/{planificationPeriodID}", name="planification_edit")
+   * @Route("/{_locale}/planification/edit/{planificationID}/{planificationPeriodID}", name="planification_edit")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    */
@@ -260,7 +260,7 @@ class PlanificationController extends AbstractController
 
   // Mise a jour des lignes de planification
   /**
-   * @Route("/planification/line/{planificationID}/{planificationPeriodID}", name="planification_line")
+   * @Route("/{_locale}/planification/line/{planificationID}/{planificationPeriodID}", name="planification_line")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    */
@@ -360,7 +360,7 @@ class PlanificationController extends AbstractController
 
   // Modification d'une planification
   /**
-   * @Route("/planification/modify/{planificationID}/{planificationPeriodID}", name="planification_modify")
+   * @Route("/{_locale}/planification/modify/{planificationID}/{planificationPeriodID}", name="planification_modify")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    */
@@ -383,7 +383,7 @@ class PlanificationController extends AbstractController
 
   // Suppression d'une planification
   /**
-   * @Route("/planification/delete/{planificationID}/{planificationPeriodID}", name="planification_delete")
+   * @Route("/{_locale}/planification/delete/{planificationID}/{planificationPeriodID}", name="planification_delete")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    */
@@ -399,7 +399,7 @@ class PlanificationController extends AbstractController
   }
 
   /**
-     * @Route("/planification/period_create/{planificationID}/{planificationPeriodID}", name="planification_period_create")
+     * @Route("/{_locale}/planification/period_create/{planificationID}/{planificationPeriodID}", name="planification_period_create")
      * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
      * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
      */
@@ -463,7 +463,7 @@ class PlanificationController extends AbstractController
 
   // Suppression d'une période planification (uniquement la dernière si pas de réservations et au moins une période antérieure)
   /**
-   * @Route("/planification/period_delete/{planificationID}/{planificationPeriodID}", name="planification_period_delete")
+   * @Route("/{_locale}/planification/period_delete/{planificationID}/{planificationPeriodID}", name="planification_period_delete")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    */
@@ -484,7 +484,7 @@ class PlanificationController extends AbstractController
   }
 
   /**
-   * @Route("/planification/booking_list/{planificationID}/{planificationPeriodID}/{page}", name="planification_period_booking_list", requirements={"page"="\d+"})
+   * @Route("/{_locale}/planification/booking_list/{planificationID}/{planificationPeriodID}/{page}", name="planification_period_booking_list", requirements={"page"="\d+"})
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    */
@@ -512,7 +512,7 @@ class PlanificationController extends AbstractController
 
   // Vues d'une planification. Positionnement sur la premiere vue
   /**
-   * @Route("/planification/view_first/{planificationID}/{planificationPeriodID}", name="planification_view_first")
+   * @Route("/{_locale}/planification/view_first/{planificationID}/{planificationPeriodID}", name="planification_view_first")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    */
@@ -533,7 +533,7 @@ class PlanificationController extends AbstractController
 
   // Vues d'une planification
   /**
-   * @Route("/planification/view/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_view")
+   * @Route("/{_locale}/planification/view/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_view")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    * @ParamConverter("planificationView", options={"mapping": {"planificationViewID": "id"}})
@@ -573,7 +573,7 @@ class PlanificationController extends AbstractController
 
   // Ajout d'une vue à une période de planification
   /**
-   * @Route("/planification/view_add/{planificationID}/{planificationPeriodID}", name="planification_view_add")
+   * @Route("/{_locale}/planification/view_add/{planificationID}/{planificationPeriodID}", name="planification_view_add")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    */
@@ -593,7 +593,7 @@ class PlanificationController extends AbstractController
 
   // Validation de l'ajout d'une vue à une période de planification
   /**
-   * @Route("/planification/view_add_validate/{planificationID}/{planificationPeriodID}/{userFileGroupID}", name="planification_view_add_validate")
+   * @Route("/{_locale}/planification/view_add_validate/{planificationID}/{planificationPeriodID}/{userFileGroupID}", name="planification_view_add_validate")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    * @ParamConverter("userFileGroup", options={"mapping": {"userFileGroupID": "id"}})
@@ -613,7 +613,7 @@ class PlanificationController extends AbstractController
       $allUserGroupView = $pvRepository->findOneBy(array('planificationPeriod' => $planificationPeriod, 'userFileGroup' => $allUserGroup)); // Recherche de la vue du groupe de tous les utilisateurs.
       $allUserGroupViewActive = $allUserGroupView->getActive();
 
-      $planificationView = new PlanificationView($planificationPeriod, $userFileGroup);
+      $planificationView = new PlanificationView($connectedUser, $planificationPeriod, $userFileGroup);
       $planificationView->setOrder($maxOrder+1);
       if ($manualViewCount <= 0) { // On ajoute la première vue manuelle
           $planificationView->setActive(1); // La vue manuelle est activée
@@ -629,7 +629,7 @@ class PlanificationController extends AbstractController
 
   // Suppression d'une vue
   /**
-  * @Route("/planification/view_delete/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_view_delete")
+  * @Route("/{_locale}/planification/view_delete/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_view_delete")
   * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
   * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
   * @ParamConverter("planificationView", options={"mapping": {"planificationViewID": "id"}})
@@ -662,7 +662,7 @@ class PlanificationController extends AbstractController
 
   // Tri avant d'une vue
   /**
-  * @Route("/planification/view_sort_before/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_view_sort_before")
+  * @Route("/{_locale}/planification/view_sort_before/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_view_sort_before")
   * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
   * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
   * @ParamConverter("planificationView", options={"mapping": {"planificationViewID": "id"}})
@@ -685,7 +685,7 @@ class PlanificationController extends AbstractController
 
   // Tri apres d'une vue
   /**
-  * @Route("/planification/view_sort_after/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_view_sort_after")
+  * @Route("/{_locale}/planification/view_sort_after/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_view_sort_after")
   * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
   * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
   * @ParamConverter("planificationView", options={"mapping": {"planificationViewID": "id"}})
@@ -708,7 +708,7 @@ class PlanificationController extends AbstractController
 
   // Active la vue associée au groupe de tous les utilisateurs
   /**
-   * @Route("/planification/activate_all_users_view/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_activate_all_users_view")
+   * @Route("/{_locale}/planification/activate_all_users_view/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_activate_all_users_view")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    * @ParamConverter("planificationView", options={"mapping": {"planificationViewID": "id"}})
@@ -733,7 +733,7 @@ class PlanificationController extends AbstractController
 
   // Active la vue associée aux groupes personnalisés
   /**
-   * @Route("/planification/activate_manual_views/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_activate_manual_views")
+   * @Route("/{_locale}/planification/activate_manual_views/{planificationID}/{planificationPeriodID}/{planificationViewID}", name="planification_activate_manual_views")
    * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
    * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
    * @ParamConverter("planificationView", options={"mapping": {"planificationViewID": "id"}})

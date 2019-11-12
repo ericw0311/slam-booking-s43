@@ -24,7 +24,7 @@ use App\Api\PlanningApi;
 class LabelController extends AbstractController
 {
   /**
-   * @Route("/label/{page}", name="label", requirements={"page"="\d+"})
+   * @Route("/{_locale}/label/{page}", name="label", requirements={"page"="\d+"})
    */
   public function index($page)
   {
@@ -41,7 +41,7 @@ class LabelController extends AbstractController
 
   // Ajout d'une étiquete
   /**
-   * @Route("/label/add", name="label_add")
+   * @Route("/{_locale}/label/add", name="label_add")
    */
   public function add(Request $request)
   {
@@ -64,7 +64,7 @@ class LabelController extends AbstractController
 
   // Edition du detail d'une étiquete
   /**
-   * @Route("/label/edit/{labelID}", name="label_edit")
+   * @Route("/{_locale}/label/edit/{labelID}", name="label_edit")
    * @ParamConverter("label", options={"mapping": {"labelID": "id"}})
    */
   public function edit(Request $request, Label $label)
@@ -79,7 +79,7 @@ class LabelController extends AbstractController
 
   // Modification d'une étiquete
   /**
-     * @Route("/label/modify/{labelID}", name="label_modify")
+     * @Route("/{_locale}/label/modify/{labelID}", name="label_modify")
      * @ParamConverter("label", options={"mapping": {"labelID": "id"}})
      */
   public function modify(Request $request, Label $label)
@@ -102,7 +102,7 @@ class LabelController extends AbstractController
 
   // Suppression d'une étiquete
   /**
-     * @Route("/label/delete/{labelID}", name="label_delete")
+     * @Route("/{_locale}/label/delete/{labelID}", name="label_delete")
      * @ParamConverter("label", options={"mapping": {"labelID": "id"}})
      */
   public function delete(Request $request, Label $label)
@@ -117,7 +117,7 @@ class LabelController extends AbstractController
   }
 
   /**
-   * @Route("/label/booking_list/{labelID}/{page}", name="label_booking_list", requirements={"page"="\d+"})
+   * @Route("/{_locale}/label/booking_list/{labelID}/{page}", name="label_booking_list", requirements={"page"="\d+"})
    * @ParamConverter("label", options={"mapping": {"labelID": "id"}})
    */
   public function booking_list(Label $label, $page)

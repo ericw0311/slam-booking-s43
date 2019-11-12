@@ -20,7 +20,7 @@ use App\Api\ResourceApi;
 class ResourceClassificationController extends AbstractController
 {
   /**
-   * @Route("/resource_classification/{resourceType}", name="resource_classification_index")
+   * @Route("/{_locale}/resource_classification/{resourceType}", name="resource_classification_index")
    */
 public function index($resourceType)
 {
@@ -48,7 +48,7 @@ public function index($resourceType)
 }
 
 /**
- * @Route("/resource_classification/activate_internal/{resourceType}/{resourceClassificationCode}", name="resource_classification_activate_internal")
+ * @Route("/{_locale}/resource_classification/activate_internal/{resourceType}/{resourceClassificationCode}", name="resource_classification_activate_internal")
  */
 public function activate_internal(Request $request, $resourceType, $resourceClassificationCode)
 {
@@ -75,7 +75,7 @@ public function activate_internal(Request $request, $resourceType, $resourceClas
 }
 
 /**
- * @Route("/resource_classification/unactivate_internal/{resourceType}/{resourceClassificationCode}", name="resource_classification_unactivate_internal")
+ * @Route("/{_locale}/resource_classification/unactivate_internal/{resourceType}/{resourceClassificationCode}", name="resource_classification_unactivate_internal")
  */
 public function unactivate_internal(Request $request, $resourceType, $resourceClassificationCode)
 {
@@ -102,7 +102,7 @@ public function unactivate_internal(Request $request, $resourceType, $resourceCl
 }
 
 /**
- * @Route("/resource_classification/activate_external/{resourceType}/{resourceClassificationID}", name="resource_classification_activate_external")
+ * @Route("/{_locale}/resource_classification/activate_external/{resourceType}/{resourceClassificationID}", name="resource_classification_activate_external")
  * @ParamConverter("resourceClassification", options={"mapping": {"resourceClassificationID": "id"}})
  */
 public function activate_external(Request $request, $resourceType, \App\Entity\ResourceClassification $resourceClassification)
@@ -118,7 +118,7 @@ public function activate_external(Request $request, $resourceType, \App\Entity\R
 }
 
 /**
- * @Route("/resource_classification/unactivate_external/{resourceType}/{resourceClassificationID}", name="resource_classification_unactivate_external")
+ * @Route("/{_locale}/resource_classification/unactivate_external/{resourceType}/{resourceClassificationID}", name="resource_classification_unactivate_external")
  * @ParamConverter("resourceClassification", options={"mapping": {"resourceClassificationID": "id"}})
  */
 public function unactivate_external(Request $request, $resourceType, \App\Entity\ResourceClassification $resourceClassification)
@@ -133,7 +133,7 @@ public function unactivate_external(Request $request, $resourceType, \App\Entity
 }
 
 /**
- * @Route("/resource_classification/add/{resourceType}", name="resource_classification_add")
+ * @Route("/{_locale}/resource_classification/add/{resourceType}", name="resource_classification_add")
  */
 public function add(Request $request, $resourceType)
 {
@@ -161,7 +161,7 @@ public function add(Request $request, $resourceType)
 }
 
 /**
- * @Route("/resource_classification/modify/{resourceType}/{resourceClassificationID}", name="resource_classification_modify")
+ * @Route("/{_locale}/resource_classification/modify/{resourceType}/{resourceClassificationID}", name="resource_classification_modify")
  * @ParamConverter("resourceClassification", options={"mapping": {"resourceClassificationID": "id"}})
  */
 public function modify(Request $request, $resourceType, \App\Entity\ResourceClassification $resourceClassification)
@@ -185,7 +185,7 @@ public function modify(Request $request, $resourceType, \App\Entity\ResourceClas
 }
 
 /**
- * @Route("/resource_classification/delete/{resourceType}/{resourceClassificationID}", name="resource_classification_delete")
+ * @Route("/{_locale}/resource_classification/delete/{resourceType}/{resourceClassificationID}", name="resource_classification_delete")
  * @ParamConverter("resourceClassification", options={"mapping": {"resourceClassificationID": "id"}})
  */
 public function delete(Request $request, $resourceType, \App\Entity\ResourceClassification $resourceClassification)
@@ -207,7 +207,7 @@ public function delete(Request $request, $resourceType, \App\Entity\ResourceClas
 }
 
 /**
- * @Route("/resource_classification/foreign_internal/{resourceType}/{resourceClassificationCode}", name="resource_classification_foreign_internal")
+ * @Route("/{_locale}/resource_classification/foreign_internal/{resourceType}/{resourceClassificationCode}", name="resource_classification_foreign_internal")
  */
 public function foreign_internal($resourceType, $resourceClassificationCode)
 {
@@ -234,7 +234,7 @@ public function foreign_internal($resourceType, $resourceClassificationCode)
 }
 
 /**
- * @Route("/resource_classification/foreign_external/{resourceType}/{resourceClassificationID}/{action}", name="resource_classification_foreign_external")
+ * @Route("/{_locale}/resource_classification/foreign_external/{resourceType}/{resourceClassificationID}/{action}", name="resource_classification_foreign_external")
  * @ParamConverter("resourceClassification", options={"mapping": {"resourceClassificationID": "id"}})
  */
 public function foreign_external($resourceType, \App\Entity\ResourceClassification $resourceClassification, $action)

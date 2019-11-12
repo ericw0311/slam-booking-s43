@@ -25,7 +25,7 @@ use App\Form\UserParameterNLCType;
 class UserFileGroupController extends AbstractController
 {
   /**
-   * @Route("/user_file_group/{page}", name="user_file_group", requirements={"page"="\d+"})
+   * @Route("/{_locale}/user_file_group/{page}", name="user_file_group", requirements={"page"="\d+"})
    */
   public function index($page)
   {
@@ -42,7 +42,7 @@ class UserFileGroupController extends AbstractController
 
   // Ajout d'un groupe d'utilisateurs
   /**
-   * @Route("/user_file_group/add", name="user_file_group_add")
+   * @Route("/{_locale}/user_file_group/add", name="user_file_group_add")
    */
   public function add(Request $request)
   {
@@ -65,7 +65,7 @@ class UserFileGroupController extends AbstractController
 
   // Edition du detail d'un groupe d'utilisateurs
   /**
-   * @Route("/user_file_group/edit/{userFileGroupID}/{page}", name="user_file_group_edit", requirements={"page"="\d+"})
+   * @Route("/{_locale}/user_file_group/edit/{userFileGroupID}/{page}", name="user_file_group_edit", requirements={"page"="\d+"})
    * @ParamConverter("userFileGroup", options={"mapping": {"userFileGroupID": "id"}})
    */
   public function edit(Request $request, UserFileGroup $userFileGroup, $page)
@@ -124,7 +124,7 @@ class UserFileGroupController extends AbstractController
 
   // Modification d'un groupe d'utilisateurs
   /**
-     * @Route("/user_file_group/modify/{userFileGroupID}/{page}", name="user_file_group_modify", requirements={"page"="\d+"})
+     * @Route("/{_locale}/user_file_group/modify/{userFileGroupID}/{page}", name="user_file_group_modify", requirements={"page"="\d+"})
      * @ParamConverter("userFileGroup", options={"mapping": {"userFileGroupID": "id"}})
   */
   public function modify(Request $request, UserFileGroup $userFileGroup, $page)
@@ -147,7 +147,7 @@ class UserFileGroupController extends AbstractController
 
   // Suppression d'un groupe d'utilisateurs
   /**
-     * @Route("/user_file_group/delete/{userFileGroupID}", name="user_file_group_delete")
+     * @Route("/{_locale}/user_file_group/delete/{userFileGroupID}", name="user_file_group_delete")
      * @ParamConverter("userFileGroup", options={"mapping": {"userFileGroupID": "id"}})
      */
   public function delete(Request $request, UserFileGroup $userFileGroup)
@@ -163,7 +163,7 @@ class UserFileGroupController extends AbstractController
 
   // Mise a jour de la liste des utilisateurs
   /**
-   * @Route("/user_file_group/users/{userFileGroupID}/{userFileIDList}",
+   * @Route("/{_locale}/user_file_group/users/{userFileGroupID}/{userFileIDList}",
    * defaults={"userFileIDList" = null},
    * name="user_file_group_users")
    * @ParamConverter("userFileGroup", options={"mapping": {"userFileGroupID": "id"}})
@@ -183,7 +183,7 @@ class UserFileGroupController extends AbstractController
 
   // Validation de la mise a jour de la liste des utilisateurs
   /**
-   * @Route("/user_file_group/validate_users/{userFileGroupID}/{userFileIDList}",
+   * @Route("/{_locale}/user_file_group/validate_users/{userFileGroupID}/{userFileIDList}",
    * defaults={"userFileIDList" = null},
    * name="user_file_group_validate_users")
    * @ParamConverter("userFileGroup", options={"mapping": {"userFileGroupID": "id"}})
@@ -224,7 +224,7 @@ class UserFileGroupController extends AbstractController
 
   // Affichage du détail des Foreign key
   /**
-   * @Route("/user_file_group/foreign/{userFileGroupID}", name="user_file_group_foreign")
+   * @Route("/{_locale}/user_file_group/foreign/{userFileGroupID}", name="user_file_group_foreign")
    * @ParamConverter("userFileGroup", options={"mapping": {"userFileGroupID": "id"}})
    */
   public function foreign(UserFileGroup $userFileGroup)

@@ -62,8 +62,9 @@ class PlanificationView
      */
     private $planificationViewResources;
 
-    public function __construct(?PlanificationPeriod $planificationPeriod, ?UserFileGroup $userFileGroup)
+    public function __construct(?User $user, ?PlanificationPeriod $planificationPeriod, ?UserFileGroup $userFileGroup)
     {
+      $this->setUser($user);
       $this->setPlanificationPeriod($planificationPeriod);
       $this->setUserFileGroup($userFileGroup);
       $this->setActive(true);

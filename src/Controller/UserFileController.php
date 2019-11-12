@@ -31,7 +31,7 @@ use App\Api\PlanningApi;
 class UserFileController extends AbstractController
 {
   /**
-   * @Route("/userfile/{page}", name="user_file", requirements={"page"="\d+"})
+   * @Route("/{_locale}/userfile/{page}", name="user_file", requirements={"page"="\d+"})
    */
   public function index($page)
   {
@@ -50,7 +50,7 @@ class UserFileController extends AbstractController
   // Si l'utilisateur (user) correspondant existe, le userFile est cree a partir de l'utilisateur trouve.
   // Si l'utilisateur (user) correspondant n'existe pas, le userFile est cree par un formulaire (2eme etape).
   /**
-   * @Route("/userfile/email", name="user_file_email")
+   * @Route("/{_locale}/userfile/email", name="user_file_email")
    */
   public function email(Request $request)
   {
@@ -93,7 +93,7 @@ $userFile->setAdministrator(false);
   // 2eme etape de l'ajout d'un utilisateur au dossier en cours (userFile): saisie de son email.
   // L'utilisateur (user) correspondant a l'email saisi a l'etape 1 n'existe pas, le userFile est cree par un formulaire.
   /**
-   * @Route("/userfile/add/{email}", name="user_file_add")
+   * @Route("/{_locale}/userfile/add/{email}", name="user_file_add")
    */
   public function add(Request $request, $email)
   {
@@ -119,7 +119,7 @@ $userFile->setAdministrator(false);
   }
   // Affichage du detail d'un utilisateur du dossier en cours (userFile)
   /**
-  * @Route("/userfile/edit/{userFileID}", name="user_file_edit")
+  * @Route("/{_locale}/userfile/edit/{userFileID}", name="user_file_edit")
   * @ParamConverter("userFile", options={"mapping": {"userFileID": "id"}})
   */
   public function edit(\App\Entity\UserFile $userFile)
@@ -159,7 +159,7 @@ $userFile->setAdministrator(false);
   }
   // Modification d'un utilisateur du dossier en cours (userFile)
   /**
-  * @Route("/userfile/modify/{userFileID}", name="user_file_modify")
+  * @Route("/{_locale}/userfile/modify/{userFileID}", name="user_file_modify")
   * @ParamConverter("userFile", options={"mapping": {"userFileID": "id"}})
   */
   public function modify(Request $request, \App\Entity\UserFile $userFile)
@@ -206,7 +206,7 @@ if ($userFileUserCreated) { // L'utilisateur à modifier a un compte utilisateur
   }
   // Suppression d'un utilisateur du dossier en cours (userFile)
   /**
-  * @Route("/userfile/delete/{userFileID}", name="user_file_delete")
+  * @Route("/{_locale}/userfile/delete/{userFileID}", name="user_file_delete")
   * @ParamConverter("userFile", options={"mapping": {"userFileID": "id"}})
   */
   public function delete(Request $request, \App\Entity\UserFile $userFile)
@@ -230,7 +230,7 @@ if ($userFileUserCreated) { // L'utilisateur à modifier a un compte utilisateur
 
   //  Gestion des utilisateurs ressource
   /**
-  * @Route("/userfile/resource/{userFileID}", name="user_file_resource")
+  * @Route("/{_locale}/userfile/resource/{userFileID}", name="user_file_resource")
   * @ParamConverter("userFile", options={"mapping": {"userFileID": "id"}})
   */
   public function resource(Request $request, \App\Entity\UserFile $userFile)
@@ -256,7 +256,7 @@ if ($userFileUserCreated) { // L'utilisateur à modifier a un compte utilisateur
       return $this->redirectToRoute('user_file_resource_internal', array('userFileID' => $userFile->getID(), 'resourceClassificationCode' => $firstInternalResourceClassificationCode, 'yes' => 0));
   }
   /**
-  * @Route("/userfile/resourceinternal/{userFileID}/{resourceClassificationCode}/{yes}", name="user_file_resource_internal")
+  * @Route("/{_locale}/userfile/resourceinternal/{userFileID}/{resourceClassificationCode}/{yes}", name="user_file_resource_internal")
   * @ParamConverter("userFile", options={"mapping": {"userFileID": "id"}})
   */
   public function resource_internal(Request $request, \App\Entity\UserFile $userFile, $resourceClassificationCode, $yes)
@@ -280,7 +280,7 @@ if ($userFileUserCreated) { // L'utilisateur à modifier a un compte utilisateur
 );
   }
   /**
-  * @Route("/userfile/resourceexternal/{userFileID}/{resourceClassificationID}/{yes}", name="user_file_resource_external")
+  * @Route("/{_locale}/userfile/resourceexternal/{userFileID}/{resourceClassificationID}/{yes}", name="user_file_resource_external")
   * @ParamConverter("userFile", options={"mapping": {"userFileID": "id"}})
 * @ParamConverter("resourceClassification", options={"mapping": {"resourceClassificationID": "id"}})
   */
@@ -305,7 +305,7 @@ if ($userFileUserCreated) { // L'utilisateur à modifier a un compte utilisateur
 );
   }
   /**
-  * @Route("/userfile/resourcevalidateinternal/{userFileID}/{resourceClassificationCode}/{yes}", name="user_file_resource_validate_internal")
+  * @Route("/{_locale}/userfile/resourcevalidateinternal/{userFileID}/{resourceClassificationCode}/{yes}", name="user_file_resource_validate_internal")
   * @ParamConverter("userFile", options={"mapping": {"userFileID": "id"}})
   */
   public function resource_validate_internal(Request $request, \App\Entity\UserFile $userFile, $resourceClassificationCode, $yes)
@@ -354,7 +354,7 @@ if ($userFileUserCreated) { // L'utilisateur à modifier a un compte utilisateur
       return $this->redirectToRoute('user_file_edit', array('userFileID' => $userFile->getID()));
   }
   /**
-  * @Route("/userfile/resourcevalidateexternal/{userFileID}/{resourceClassificationID}/{yes}", name="user_file_resource_validate_external")
+  * @Route("/{_locale}/userfile/resourcevalidateexternal/{userFileID}/{resourceClassificationID}/{yes}", name="user_file_resource_validate_external")
   * @ParamConverter("userFile", options={"mapping": {"userFileID": "id"}})
 * @ParamConverter("resourceClassification", options={"mapping": {"resourceClassificationID": "id"}})
   */
@@ -404,7 +404,7 @@ if ($userFileUserCreated) { // L'utilisateur à modifier a un compte utilisateur
       return $this->redirectToRoute('user_file_edit', array('userFileID' => $userFile->getID()));
   }
   /**
-   * @Route("/userfile/booking_list/{userFileID}/{page}", name="user_file_booking_list", requirements={"page"="\d+"})
+   * @Route("/{_locale}/userfile/booking_list/{userFileID}/{page}", name="user_file_booking_list", requirements={"page"="\d+"})
    * @ParamConverter("userFile", options={"mapping": {"userFileID": "id"}})
    */
   public function booking_list(UserFile $userFile, $page)

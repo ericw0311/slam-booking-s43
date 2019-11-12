@@ -31,9 +31,9 @@
 {% endfor %}
 {% endif %}
 	<tr>
-		<td>{{ form_row(form.beginningTime) }}</td>
+		<td>{{ form_widget(form.beginningTime) }}<div class="w3-text-red">{{ form_errors(form.beginningTime) }}</div></td>
 		<td>&nbsp;</td>
-		<td>{{ form_row(form.endTime) }}</td>
+		<td>{{ form_widget(form.endTime) }}<div class="w3-text-red">{{ form_errors(form.endTime) }}</div></td>
 	</tr>
 </table>
 

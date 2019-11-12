@@ -31,7 +31,7 @@ use App\Api\PlanningApi;
 class TimetableController extends AbstractController
 {
   /**
-   * @Route("/timetable/{page}", name="timetable", requirements={"page"="\d+"})
+   * @Route("/{_locale}/timetable/{page}", name="timetable", requirements={"page"="\d+"})
    */
   public function index($page)
   {
@@ -48,7 +48,7 @@ class TimetableController extends AbstractController
   }
 
   /**
-   * @Route("/timetable/add", name="timetable_add")
+   * @Route("/{_locale}/timetable/add", name="timetable_add")
    */
   public function add(Request $request)
   {
@@ -73,7 +73,7 @@ class TimetableController extends AbstractController
       return $this->render('timetable/add.html.twig', array('userContext' => $userContext, 'form' => $form->createView()));
   }
   /**
-   * @Route("/timetable/edit/{timetableID}", name="timetable_edit")
+   * @Route("/{_locale}/timetable/edit/{timetableID}", name="timetable_edit")
    * @ParamConverter("timetable", options={"mapping": {"timetableID": "id"}})
    */
   public function edit(Request $request, Timetable $timetable)
@@ -92,7 +92,7 @@ class TimetableController extends AbstractController
   }
   // Modification d'un dossier
   /**
-     * @Route("/timetable/modify/{timetableID}", name="timetable_modify")
+     * @Route("/{_locale}/timetable/modify/{timetableID}", name="timetable_modify")
      * @ParamConverter("timetable", options={"mapping": {"timetableID": "id"}})
      */
   public function modify(Request $request, Timetable $timetable)
@@ -114,7 +114,7 @@ class TimetableController extends AbstractController
 
   // Suppression d'une grille horaire
   /**
-     * @Route("/timetable/delete/{timetableID}", name="timetable_delete")
+     * @Route("/{_locale}/timetable/delete/{timetableID}", name="timetable_delete")
      * @ParamConverter("timetable", options={"mapping": {"timetableID": "id"}})
      */
   public function delete(Request $request, Timetable $timetable)
@@ -130,7 +130,7 @@ class TimetableController extends AbstractController
 
   // Affichage des periodes de planification d'une grille horaire (message de suppression)
   /**
-     * @Route("/timetable/foreigndelete/{timetableID}", name="timetable_foreign_delete")
+     * @Route("/{_locale}/timetable/foreigndelete/{timetableID}", name="timetable_foreign_delete")
      * @ParamConverter("timetable", options={"mapping": {"timetableID": "id"}})
      */
   public function foreign_delete(Request $request, Timetable $timetable)
@@ -145,7 +145,7 @@ class TimetableController extends AbstractController
 
   // Affichage des periodes de planification d'une grille horaire (message de modification)
   /**
-     * @Route("/timetable/foreignupdate/{timetableID}", name="timetable_foreign_update")
+     * @Route("/{_locale}/timetable/foreignupdate/{timetableID}", name="timetable_foreign_update")
      * @ParamConverter("timetable", options={"mapping": {"timetableID": "id"}})
      */
   public function foreign_update(Request $request, Timetable $timetable)
@@ -160,7 +160,7 @@ class TimetableController extends AbstractController
 
   // Ajout d'un creneau horaire
   /**
-     * @Route("/timetable/addline/{timetableID}", name="timetable_add_line")
+     * @Route("/{_locale}/timetable/addline/{timetableID}", name="timetable_add_line")
      * @ParamConverter("timetable", options={"mapping": {"timetableID": "id"}})
      */
   public function add_line(Request $request, Timetable $timetable)
@@ -194,7 +194,7 @@ class TimetableController extends AbstractController
   }
   // Modification d'un creneau horaire
   /**
-     * @Route("/timetable/modifyline/{timetableID}/{timetableLineID}", name="timetable_modify_line")
+     * @Route("/{_locale}/timetable/modifyline/{timetableID}/{timetableLineID}", name="timetable_modify_line")
      * @ParamConverter("timetable", options={"mapping": {"timetableID": "id"}})
    * @ParamConverter("timetableLine", options={"mapping": {"timetableLineID": "id"}})
      */
@@ -221,7 +221,7 @@ class TimetableController extends AbstractController
   }
   // Suppression d'un creneau horaire
   /**
-     * @Route("/timetable/deleteline/{timetableID}/{timetableLineID}", name="timetable_delete_line")
+     * @Route("/{_locale}/timetable/deleteline/{timetableID}/{timetableLineID}", name="timetable_delete_line")
    * @ParamConverter("timetableLine", options={"mapping": {"timetableLineID": "id"}})
      */
   public function delete_line(Request $request, $timetableID, TimetableLine $timetableLine)
@@ -235,7 +235,7 @@ class TimetableController extends AbstractController
       return $this->redirectToRoute('timetable_edit', array('timetableID' => $timetableID));
   }
   /**
-   * @Route("/timetable/booking_list/{timetableID}/{page}", name="timetable_booking_list", requirements={"page"="\d+"})
+   * @Route("/{_locale}/timetable/booking_list/{timetableID}/{page}", name="timetable_booking_list", requirements={"page"="\d+"})
    * @ParamConverter("timetable", options={"mapping": {"timetableID": "id"}})
    */
   public function booking_list(Timetable $timetable, $page)

@@ -10,7 +10,7 @@ use App\Entity\FileContext;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/default", name="default")
+     * @Route("/{_locale}/default", name="default")
      */
     public function index()
     {
@@ -26,7 +26,7 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * @Route("/default/summary", name="default_summary")
+     * @Route("/{_locale}/default/summary", name="default_summary")
      */
     public function summary()
     {

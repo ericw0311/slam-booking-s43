@@ -1,7 +1,7 @@
 {# templates/query_booking/edit.html.twig #}
 
 {% extends 'base.html.twig' %}
- 
+
 {% block body %}
 
 <div class="w3-panel w3-border-bottom w3-text-indigo">
@@ -11,7 +11,7 @@
 <div class="w3-show-inline-block">
 <div class="w3-bar w3-border w3-round">
 	<a href="{{ path('query_booking', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'queryBooking.back.to.list'|trans }}</a>
-	<a href="{{ path('query_booking_modify', { 'queryBookingID': queryBooking.ID }) }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
+	<a href="{{ path('query_booking_modify', { 'queryBookingID': queryBooking.ID }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
 	<button onclick="document.getElementById('askDelete').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</button>
 </div>
 </div>
