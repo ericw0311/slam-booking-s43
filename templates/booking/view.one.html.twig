@@ -1,0 +1,57 @@
+{# templates/booking/view.one.html.twig #}
+
+{% extends 'booking/create.or.update.html.twig' %}
+
+{% block entered_by %}
+<div class="w3-panel w3-pale-blue w3-round-large">
+	<p>{{ 'booking.entered.on.by'|trans({'%bookingDate%': dateLongue(booking.createdAt), '%bookingTime%': booking.createdAt|date("H:i"), '%userName%': booking.user.getFirstAndLastName()}) }}</p>
+</div>
+{% endblock %}
+
+{% block period_end_color %}w3-light-grey{% endblock %}
+
+{% block period_end_link %}
+<ul class="w3-ul w3-border">
+	<li class="w3-light-grey"><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ dateLongue(endDate) }}&nbsp;&rarr;&nbsp;{{ timetableLine(endTimetableLine) }}</li>
+</ul>
+{% endblock %}
+
+{% block user_file_color %}w3-transparent{% endblock %}
+
+{% block user_file_list_link %}
+<ul class="w3-ul w3-border w3-margin-top">
+	<li><img src="{{ asset('images/' ~ image) }}">&nbsp;{{ userFiles[0].getFirstAndLastName() }}</li>
+</ul>
+{% endblock %}
+
+{% block labels_color %}w3-transparent{% endblock %}
+
+{% block label_list_link %}
+<ul class="w3-ul w3-border w3-margin-top">
+	<li><img src="{{ asset('images/label-32.png') }}">&nbsp;{{ labels[0].getName() }}</li>
+</ul>
+{% endblock %}
+
+{% block note_color %}w3-light-grey{% endblock %}
+
+{% block booking_buttons %}
+<a href="{{ path('planning_one', { 'planificationID': planification.ID, 'date': planningDate|date('Ymd') }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'planning.back'|trans }}</a>
+{% if authorisationType == 'P' %}
+<button type="button" onclick="document.getElementById('boopAlert').style.display='block'" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;<del>{{ 'modify'|trans }}</del></button>
+<button type="button" onclick="document.getElementById('boopAlert').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+<button type="button" onclick="document.getElementById('boopAlert').style.display='block'" class="w3-bar-item w3-button w3-green"><i class="fa fa-repeat"></i>&nbsp;<del>{{ 'duplicate'|trans }}</del></button>
+{% elseif authorisationType == 'U' %}
+<button type="button" onclick="document.getElementById('buAlert').style.display='block'" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;<del>{{ 'modify'|trans }}</del></button>
+<button type="button" onclick="document.getElementById('buAlert').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
+<button type="button" onclick="document.getElementById('buAlert').style.display='block'" class="w3-bar-item w3-button w3-green"><i class="fa fa-repeat"></i>&nbsp;<del>{{ 'duplicate'|trans }}</del></button>
+{% else %}
+<a href="{{ path('booking_one_init_update', { 'planningDate': planningDate|date('Ymd'), 'bookingID': booking.id, 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID }) }}" class="w3-bar-item w3-button w3-blue"><i class="fa fa-pencil"></i>&nbsp;{{ 'modify'|trans }}</a>
+<button type="button" onclick="document.getElementById('askDeleteBookingOne').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</button>
+<a href="{{ path('booking_one_init_duplicate', { 'planningDate': planningDate|date('Ymd'), 'bookingID': booking.id, 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID }) }}" class="w3-bar-item w3-button w3-green"><i class="fa fa-repeat"></i>&nbsp;{{ 'duplicate'|trans }}</a>
+{% endif %}
+{% endblock %}
+
+{% block modal %}
+<!-- Le bloc modal est inclus au niveau des fichiers many et one car les pages qui héritent de create.or.update.html.twig n'incluent pas nécessairement la variable bookingPeriod -->
+{{ include('booking/modal.html.twig') }}
+{% endblock %}

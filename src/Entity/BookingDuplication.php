@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_booking_duplication",columns={"origin_booking_id", "ddate"})})
  * @ORM\Entity(repositoryClass="App\Repository\BookingDuplicationRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class BookingDuplication
 {
@@ -33,8 +34,9 @@ class BookingDuplication
      */
     private $originBooking;
 
+    // J'ai supprimé le cascade "delete" pour éviter que la suppression d'une réservation duppliquée ne supprime la réservation d'origine.
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Booking", inversedBy="bookingDuplications")
+     * @ORM\OneToOne(targetEntity="App\Entity\Booking", inversedBy="newBookingDuplication", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $newBooking;
@@ -46,12 +48,12 @@ class BookingDuplication
     private $user;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
-  	/**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -68,19 +70,17 @@ class BookingDuplication
     public function setGap(int $gap): self
     {
         $this->gap = $gap;
-
         return $this;
     }
 
-    public function getDdate(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
         return $this->ddate;
     }
 
-    public function setDdate(\DateTimeInterface $ddate): self
+    public function setDate(\DateTimeInterface $ddate): self
     {
         $this->ddate = $ddate;
-
         return $this;
     }
 
@@ -92,7 +92,6 @@ class BookingDuplication
     public function setOriginBooking(?Booking $originBooking): self
     {
         $this->originBooking = $originBooking;
-
         return $this;
     }
 
@@ -101,13 +100,11 @@ class BookingDuplication
         return $this->newBooking;
     }
 
-    public function setNewBooking(?Booking $newBooking): self
+    public function setNewBooking(Booking $newBooking): self
     {
         $this->newBooking = $newBooking;
-
         return $this;
     }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -116,7 +113,6 @@ class BookingDuplication
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 

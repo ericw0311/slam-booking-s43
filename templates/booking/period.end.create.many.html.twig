@@ -1,0 +1,19 @@
+{# templates/booking/period.end.create.many.html.twig #}
+
+{% extends 'booking/period.end.html.twig' %}
+
+{% block previousFirstDateNumberLink %}
+	<a href="{{ path('booking_many_end_period_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'firstDateNumber': previousFirstDateNumber, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-pale-blue w3-border w3-hover-light-blue" title="{{ 'days.previous'|trans }}"><i class="fa fa-caret-left"></i></a>
+{% endblock %}
+
+{% block nextFirstDateNumberLink %}
+	<a href="{{ path('booking_many_end_period_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'firstDateNumber': nextFirstDateNumber, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-pale-blue w3-border w3-hover-light-blue" title="{{ 'days.next'|trans }}"><i class="fa fa-caret-right"></i></a>
+{% endblock %}
+
+{% block createOrUpdateBookingLink %}
+	<a href="{{ path('booking_many_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': planningLine.timetableLinesList, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ dateLongue(endPeriodDay.date) }}&nbsp;&rarr;&nbsp;{{ timetableLine(planningLine.timetableLine) }}</a>
+{% endblock %}
+
+{% block booking_buttons %}
+	<a href="{{ path('booking_many_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'cancel'|trans }}</a>
+{% endblock %}

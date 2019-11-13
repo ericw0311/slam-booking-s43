@@ -1,0 +1,69 @@
+<!-- Booking period alert -->
+<div id="bnaBefore" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('bnaBefore').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'booking.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'booking.bna.before'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate)}) }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="bnaAfter" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('bnaAfter').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'booking.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'booking.bna.after'|trans({'%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+		</div>
+	</div>
+</div>
+
+<div id="bpAlert" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('bpAlert').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'booking.period'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+{% if bookingPeriod.before and bookingPeriod.after %}
+			<p>{{ 'booking.period.from.until'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate), '%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+{% elseif bookingPeriod.before %}
+			<p>{{ 'booking.period.from'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate)}) }}</p>
+{% elseif bookingPeriod.after %}
+			<p>{{ 'booking.period.until'|trans({'%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+{% else %}
+			<p>{{ 'booking.period'|trans }}</p>
+{% endif %}
+		</div>
+	</div>
+</div>
+
+<div id="bnaEndPeriod" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('bnaEndPeriod').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'booking.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'booking.bna.end.period'|trans({'%periodEndDate%': dateLongue(bookingPeriod.planificationPeriod.planningEndDate)}) }}</p>
+		</div>
+	</div>
+</div>
+
+<!-- Journée fermée -->
+<div id="bnaDayClosed" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('bnaDayClosed').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'booking.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'booking.bna.day.closed'|trans }}</p>
+		</div>
+	</div>
+</div>

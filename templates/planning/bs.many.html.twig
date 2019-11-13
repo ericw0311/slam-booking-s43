@@ -1,0 +1,124 @@
+{# templates/planning/many.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% set maxNumberColumns = constant('App\\Entity\\Constants::PLANNING_MAX_NUMBER_COLUMNS') %}
+{% set maxNumberLines = constant('App\\Entity\\Constants::PLANNING_MAX_NUMBER_LINES') %}
+
+{% extends 'base.connected.html.twig' %}
+ 
+{% block body %}
+
+{{ form_start(form, {'attr': {
+						'class': 'form-inline',
+	'action': path('planning_many_pp', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd') }),
+						'method': 'POST',
+					}}) }}
+
+<div class="col-sm-3">
+
+{% block listRow %}
+{% for i_p in planifications %}
+<div class="row">
+{% if i_p.internal %}
+
+{% if i_p.ID == planification.ID %}
+	<a href="{{ path('planning_many', { 'planificationID': i_p.ID, 'date': date|date('Ymd') }) }}" class="list-group-item active"><img src="{{ asset('images/' ~ rcIcons[i_p.code] ~ '-32.png') }}">&nbsp;{{ i_p.name }}</a>
+{% else %}
+	<a href="{{ path('planning_many', { 'planificationID': i_p.ID, 'date': date|date('Ymd') }) }}" class="list-group-item"><img src="{{ asset('images/' ~ rcIcons[i_p.code] ~ '-32.png') }}">&nbsp;{{ i_p.name }}</a>
+{% endif %}
+
+{% else %}
+
+{% if i_p.ID == planification.ID %}
+	<a href="{{ path('planning_many', { 'planificationID': i_p.ID, 'date': date|date('Ymd') }) }}" class="list-group-item active"><img src="{{ asset('images/' ~ rtIcons[i_p.type] ~ '-32.png') }}">&nbsp;{{ i_p.name }}</a>
+{% else %}
+	<a href="{{ path('planning_many', { 'planificationID': i_p.ID, 'date': date|date('Ymd') }) }}" class="list-group-item"><img src="{{ asset('images/' ~ rtIcons[i_p.type] ~ '-32.png') }}">&nbsp;{{ i_p.name }}</a>
+{% endif %}
+
+{% endif %}
+</div>
+{% endfor %}
+{% endblock %}
+
+</div>
+
+<div class="col-sm-9">
+
+<legend>
+
+<a href="{{ path('planning_many', { 'planificationID': planification.ID, 'date': previousDate|date('Ymd') }) }}" class="glyphicon glyphicon-chevron-left" title="{{ 'day.previous'|trans }}"></a>
+<span style="color:blue">{{ dateLongue(date) }}</span>
+<a href="{{ path('planning_many', { 'planificationID': planification.ID, 'date': nextDate|date('Ymd') }) }}" class="glyphicon glyphicon-chevron-right" title="{{ 'day.next'|trans }}"></a>
+{{ form_widget(form.date) }}
+<button type="submit" class="btn btn-default" title="{{ 'planning.display.date'|trans }}">
+	<span class="glyphicon glyphicon-th"></span>
+</button>
+
+{% if planningContext.numberColumns > 1 %}
+<a href="{{ path('planning_many_set_number_columns', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd'), 'numberColumns': (planningContext.numberColumns-1) }) }}" title="{{ 'planning.reduce.left'|trans }}"><span class="glyphicon glyphicon-triangle-left"></span></a>
+{% else %}
+<button type="button" class="glyphicon glyphicon-triangle-left btn-link" style="color:grey" disabled="disabled"></button>
+{% endif %}
+
+{% if planningContext.numberColumns < maxNumberColumns %}
+<a href="{{ path('planning_many_set_number_columns', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd'), 'numberColumns': (planningContext.numberColumns+1) }) }}" title="{{ 'planning.stretch.right'|trans }}"><span class="glyphicon glyphicon-triangle-right"></span></a>
+{% else %}
+<button type="button" class="glyphicon glyphicon-triangle-right btn-link" style="color:grey" disabled="disabled"></button>
+{% endif %}
+
+{% if planningContext.numberLines > 1 %}
+<a href="{{ path('planning_many_set_number_lines', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd'), 'numberLines': (planningContext.numberLines-1) }) }}" title="{{ 'planning.reduce.top'|trans }}"><span class="glyphicon glyphicon-triangle-top"></span></a>
+{% else %}
+<button type="button" class="glyphicon glyphicon-triangle-top btn-link" style="color:grey" disabled="disabled"></button>
+{% endif %}
+
+{% if planningContext.numberLines < maxNumberLines %}
+<a href="{{ path('planning_many_set_number_lines', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd'), 'numberLines': (planningContext.numberLines+1) }) }}" title="{{ 'planning.stretch.bottom'|trans }}"><span class="glyphicon glyphicon-triangle-bottom"></span></a>
+{% else %}
+<button type="button" class="glyphicon glyphicon-triangle-bottom btn-link" style="color:grey" disabled="disabled"></button>
+{% endif %}
+
+<a href="{{ path('planning_one_pp', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd') }) }}" title="{{ 'planning.stretched.out'|trans }}"><span class="glyphicon glyphicon-resize-full"></span></a>
+
+{% if not userContext.getCurrentUserFileAdministrator() and (bookingPeriod.before or bookingPeriod.after) %}
+<button type="button" class="glyphicon glyphicon-alert btn-link" style="color:red" data-toggle="modal" data-target="#bpAlert"></button>
+{% endif %}
+
+</legend>
+
+<div class="row">
+
+{% for j in 1..planningContext.numberColumns %}
+    <div class="col-sm-{{ (12/planningContext.numberColumns) }}">
+{% for i in 1..planningContext.numberLines %}
+{{ include('planning/day.html.twig', { 'booking_create': 'booking_many_create', 'booking_view': 'booking_many_view', 'day_key': ('1-' ~ i ~ '-' ~ j) }) }}
+{% endfor %}
+    </div>
+{% endfor %}
+
+</div>
+
+</div>
+
+{{ form_end(form) }}
+
+{{ include('planning/modal.html.twig') }}
+
+{% endblock %}
+
+{% block message %}
+
+<div class="col-sm-12">
+
+{% for flash_message in app.session.flashBag.get('notice') %}
+<div class="alert alert-success sb-message">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	{{ flash_message|trans }}
+</div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

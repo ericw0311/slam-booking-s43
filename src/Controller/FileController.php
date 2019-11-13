@@ -70,6 +70,7 @@ class FileController extends AbstractController
         }
         return $this->render('file/add.html.twig', array('userContext' => $userContext, 'form' => $form->createView()));
     }
+
     /**
      * @Route("/{_locale}/file/edit/{fileID}", name="file_edit")
      * @ParamConverter("file", options={"mapping": {"fileID": "id"}})
@@ -83,6 +84,7 @@ class FileController extends AbstractController
 $fileEditContext = new FileEditContext($em, $file); // contexte dossier
 return $this->render('file/edit.html.twig', array('userContext' => $userContext, 'file' => $file, 'fileEditContext' => $fileEditContext));
     }
+
     // Modification d'un dossier
     /**
        * @Route("/{_locale}/file/modify/{fileID}", name="file_modify")
@@ -254,6 +256,35 @@ $em->remove($file);
         return $this->render(
     'file/booking.period.html.twig',
     array('userContext' => $userContext, 'file' => $file, 'form' => $form->createView())
+);
+    }
+
+    // Met à jour le nombre de lignes et colonnes d'affichage des listes
+    /**
+       * @Route("/{_locale}/file/number_lines_columns/{fileID}/{page}", name="file_number_lines_and_columns", requirements={"page"="\d+"})
+       * @ParamConverter("file", options={"mapping": {"fileID": "id"}})
+   */
+    public function number_lines_and_columns(Request $request, File $file, $page)
+    {
+        $connectedUser = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
+        $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
+        $numberLines = AdministrationApi::getNumberLines($em, $connectedUser, 'booking');
+        $numberColumns = AdministrationApi::getNumberColumns($em, $connectedUser, 'booking');
+        $userParameterNLC = new UserParameterNLC($numberLines, $numberColumns);
+        $form = $this->createForm(UserParameterNLCType::class, $userParameterNLC);
+        if ($request->isMethod('POST')) {
+            $form->submit($request->request->get($form->getName()));
+            if ($form->isSubmitted() && $form->isValid()) {
+                AdministrationApi::setNumberLines($em, $connectedUser, 'booking', $userParameterNLC->getNumberLines());
+                AdministrationApi::setNumberColumns($em, $connectedUser, 'booking', $userParameterNLC->getNumberColumns());
+                $request->getSession()->getFlashBag()->add('notice', 'number.lines.columns.updated.ok');
+                return $this->redirectToRoute('file_booking_list', array('fileID' => $file->getId(), 'page' => 1));
+            }
+        }
+        return $this->render(
+    'file/number.lines.and.columns.html.twig',
+    array('userContext' => $userContext, 'file' => $file, 'page' => $page, 'form' => $form->createView())
 );
     }
 }

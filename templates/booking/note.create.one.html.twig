@@ -1,0 +1,16 @@
+{# templates/booking/note.create.one.html.twig #}
+
+{% extends 'booking/note.html.twig' %}
+
+{% block form_start %}
+{{ form_start(form) }}
+{% endblock %}
+
+{% block booking_buttons %}
+	<a href="{{ path('booking_one_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+{% endblock %}
+
+{% block form_end %}
+{{ form_end(form) }}
+{% endblock %}

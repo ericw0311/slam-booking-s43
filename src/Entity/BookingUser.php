@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_booking_user",columns={"booking_id", "user_file_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\BookingUserRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class BookingUser
 {
@@ -41,12 +42,12 @@ class BookingUser
     private $user;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
-  	/**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -67,7 +68,7 @@ class BookingUser
         return $this;
     }
 
-    public function getUserFiles(): ?UserFile
+    public function getUserFile(): ?UserFile
     {
         return $this->userFile;
     }

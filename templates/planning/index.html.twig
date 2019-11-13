@@ -1,20 +1,22 @@
-{% extends 'base.html.twig' %}
+{# templates/planning/index.html.twig #}
 
-{% block title %}Hello PlanningController!{% endblock %}
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% extends 'list.html.twig' %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+{% set create_path, list_path, display_create_path = 'planning_add', 'planning_list', false %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/eric/slam-booking-s43/src/Controller/PlanningController.php'|file_link(0) }}">src/Controller/PlanningController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/eric/slam-booking-s43/templates/planning/index.html.twig'|file_link(0) }}">templates/planning/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'PLANNING' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block link %}
+
+{% if listPlanifications[i*listContext.numberLinesDisplayed+j].internal %}
+	<a href="{{ path('planning_one', { 'planificationID': listPlanifications[i*listContext.numberLinesDisplayed+j].ID, 'date': date|date('Ymd') }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/' ~ rcIcons[listPlanifications[i*listContext.numberLinesDisplayed+j].code] ~ '-32.png') }}">&nbsp;{{ listPlanifications[i*listContext.numberLinesDisplayed+j].name }}</a>
+{% else %}
+	<a href="{{ path('planning_one', { 'planificationID': listPlanifications[i*listContext.numberLinesDisplayed+j].ID, 'date': date|date('Ymd') }) }}" class="w3-bar-item w3-button w3-{{ lineColor }} w3-round-large"><img src="{{ asset('images/' ~ rtIcons[listPlanifications[i*listContext.numberLinesDisplayed+j].type] ~ '-32.png') }}">&nbsp;{{ listPlanifications[i*listContext.numberLinesDisplayed+j].name }}</a>
+{% endif %}
+
 {% endblock %}

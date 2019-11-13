@@ -59,7 +59,7 @@ $( function() {
 	<div class="w3-dropdown-hover">
 	<button class="w3-button"><img src="{{ asset('images/booking-16.png') }}">&nbsp;Slam Booking</button>
 	<div class="w3-dropdown-content w3-bar-block w3-card-4">
-		{#<a href="{{ path('planning') }}" class="w3-bar-item w3-button"><img src="{{ asset('images/planning-16.png') }}">&nbsp;{{ 'planning'|trans }}</a>#}
+		<a href="{{ path('planning') }}" class="w3-bar-item w3-button"><img src="{{ asset('images/planning-16.png') }}">&nbsp;{{ 'planning'|trans }}</a>
 		<a href="{{ path('query_booking', { 'page': 1 }) }}" class="w3-bar-item w3-button"><img src="{{ asset('images/dashboard-16.png') }}">&nbsp;{{ 'dashboard.plural'|trans }}</a>
 	</div>
 	</div>

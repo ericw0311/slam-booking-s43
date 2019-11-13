@@ -1,0 +1,54 @@
+{# templates/booking/labels.html.twig #}
+
+{% extends 'booking/booking.html.twig' %}
+
+{% block booking_details %}
+
+<div class="w3-row">
+
+<div class="w3-half">
+<table class="w3-table w3-striped">
+<tr>
+{% if selectedLabels|length > 1 %}
+	<th colspan=4>
+{% else %}
+	<th colspan=2>
+{% endif %}
+	{{ 'labels.selected'|trans }}</th></tr>
+
+{% for label in selectedLabels %}
+	<tr>
+{% if selectedLabels|length > 1 %}
+{% if loop.index > 1 %}
+	<td>{% block link_sortBefore %}{% endblock %}</td>
+{% else %}
+	<td></td>
+{% endif %}
+{% if loop.index < selectedLabels|length %}
+	<td>{% block link_sortAfter %}{% endblock %}</td>
+{% else %}
+	<td></td>
+{% endif %}
+{% endif %}
+	<td><img src="{{ asset('images/' ~ label.imageName) }}">&nbsp;{{ label.name }}</td>
+	<td>{% block link_unselect %}{% endblock %}</td>
+	</tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="w3-half">
+<table class="w3-table w3-striped">
+	<tr><th colspan=2>{{ 'labels.available'|trans }}</th></tr>
+{% for label in availableLabels %}
+	<tr>
+	<td>{% block link_select %}{% endblock %}</td>
+	<td><img src="{{ asset('images/' ~ label.imageName) }}">&nbsp;{{ label.name }}</td>
+	</tr>
+{% endfor %}
+</table>
+</div>
+
+</div> 
+
+{% endblock %}

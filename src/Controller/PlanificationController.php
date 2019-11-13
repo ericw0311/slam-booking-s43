@@ -755,4 +755,35 @@ class PlanificationController extends AbstractController
       $em->flush();
       return $this->redirectToRoute('planification_view', array('planificationID' => $planification->getID(), 'planificationPeriodID' => $planificationPeriod->getID(), 'planificationViewID' => $planificationView->getID()));
   }
+
+  // Met à jour le nombre de lignes et colonnes d'affichage des listes
+  /**
+   * @Route("/{_locale}/planification/number_lines_columns/{planificationID}/{planificationPeriodID}/{page}", name="planification_period_number_lines_and_columns", requirements={"page"="\d+"})
+   * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
+   * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
+   */
+  public function number_lines_and_columns(Request $request, Planification $planification, PlanificationPeriod $planificationPeriod, $page)
+  {
+      $connectedUser = $this->getUser();
+      $em = $this->getDoctrine()->getManager();
+      $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
+      $numberLines = AdministrationApi::getNumberLines($em, $connectedUser, 'booking');
+      $numberColumns = AdministrationApi::getNumberColumns($em, $connectedUser, 'booking');
+      $upRepository = $em->getRepository(UserParameter::class);
+      $userParameterNLC = new UserParameterNLC($numberLines, $numberColumns);
+      $form = $this->createForm(UserParameterNLCType::class, $userParameterNLC);
+      if ($request->isMethod('POST')) {
+          $form->submit($request->request->get($form->getName()));
+          if ($form->isSubmitted() && $form->isValid()) {
+              AdministrationApi::setNumberLines($em, $connectedUser, 'booking', $userParameterNLC->getNumberLines());
+              AdministrationApi::setNumberColumns($em, $connectedUser, 'booking', $userParameterNLC->getNumberColumns());
+              $request->getSession()->getFlashBag()->add('notice', 'number.lines.columns.updated.ok');
+              return $this->redirectToRoute('planification_period_booking_list', array('planificationID' => $planification->getId(), 'planificationPeriodID' => $planificationPeriod->getId(), 'page' => 1));
+          }
+      }
+      return $this->render(
+      'planification/number.lines.and.columns.html.twig',
+      array('userContext' => $userContext, 'planification' => $planification, 'planificationPeriod' => $planificationPeriod, 'page' => $page, 'form' => $form->createView())
+  );
+}
 }

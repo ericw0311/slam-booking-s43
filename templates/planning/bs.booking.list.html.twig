@@ -1,0 +1,36 @@
+{# templates/planning/booking.list.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% extends 'list.html.twig' %}
+
+{% set create_path, list_path, display_create_path = 'booking_add', list_path, false %}
+
+{% block list %}
+
+<div class="row">
+
+{% for i in 0..listContext.numberColumnsDisplayed-1 if listContext.numberColumnsDisplayed > 0 %}
+    <div class="col-sm-{{ (12/listContext.numberColumnsDisplayed) }}">
+	{% for j in 0..listContext.numberLinesDisplayed-1 if (i*listContext.numberLinesDisplayed+j) < listContext.numberRecordsDisplayed %}
+
+	{% if listBookings[i*listContext.numberLinesDisplayed+j].resource_internal %}
+	{% set resource_image = rcIcons[listBookings[i*listContext.numberLinesDisplayed+j].resource_code] %}
+	{% else %}
+	{% set resource_image = rtIcons[listBookings[i*listContext.numberLinesDisplayed+j].resource_type] %}
+	{% endif %}
+
+	{% if listBookings[i*listContext.numberLinesDisplayed+j].administrator %}
+	{% set user_image = 'administrator' %}
+	{% else %}
+	{% set user_image = 'user' %}
+	{% endif %}
+<a href="{{ path(planning_path, { 'planificationID': listBookings[i*listContext.numberLinesDisplayed+j].planificationID, 'date': listBookings[i*listContext.numberLinesDisplayed+j].beginningDate|date('Ymd') }) }}" class="list-group-item"><img src="{{ asset('images/' ~ resource_image ~ '-32.png') }}">&nbsp;{{ listBookings[i*listContext.numberLinesDisplayed+j].resource_name }}&nbsp;<img src="{{ asset('images/time-16.png') }}">&nbsp;{{ periode(listBookings[i*listContext.numberLinesDisplayed+j].beginningDate, listBookings[i*listContext.numberLinesDisplayed+j].endDate) }}&nbsp;<img src="{{ asset('images/' ~ user_image ~ '-16.png') }}">&nbsp;{{ listBookings[i*listContext.numberLinesDisplayed+j].user_first_name }}&nbsp;{{ listBookings[i*listContext.numberLinesDisplayed+j].user_last_name }}</a>
+	{% endfor %}
+    </div>
+{% endfor %}
+
+</div>
+
+{% endblock %}

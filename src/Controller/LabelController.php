@@ -139,4 +139,33 @@ class LabelController extends AbstractController
   array('userContext' => $userContext, 'listContext' => $listContext, 'label' => $label, 'listBookings' => $listBookings, 'planning_path' => $planning_path)
 );
   }
+
+  // Met à jour le nombre de lignes et colonnes d'affichage des listes
+  /**
+     * @Route("/{_locale}/label/number_lines_columns/{labelID}/{page}", name="label_number_lines_and_columns", requirements={"page"="\d+"})
+     * @ParamConverter("label", options={"mapping": {"labelID": "id"}})
+ */
+  public function number_lines_and_columns(Request $request, Label $label, $page)
+  {
+      $connectedUser = $this->getUser();
+      $em = $this->getDoctrine()->getManager();
+      $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
+      $numberLines = AdministrationApi::getNumberLines($em, $connectedUser, 'booking');
+      $numberColumns = AdministrationApi::getNumberColumns($em, $connectedUser, 'booking');
+      $userParameterNLC = new UserParameterNLC($numberLines, $numberColumns);
+      $form = $this->createForm(UserParameterNLCType::class, $userParameterNLC);
+      if ($request->isMethod('POST')) {
+          $form->submit($request->request->get($form->getName()));
+          if ($form->isSubmitted() && $form->isValid()) {
+              AdministrationApi::setNumberLines($em, $connectedUser, 'booking', $userParameterNLC->getNumberLines());
+              AdministrationApi::setNumberColumns($em, $connectedUser, 'booking', $userParameterNLC->getNumberColumns());
+              $request->getSession()->getFlashBag()->add('notice', 'number.lines.columns.updated.ok');
+              return $this->redirectToRoute('label_booking_list', array('labelID' => $label->getId(), 'page' => 1));
+          }
+      }
+      return $this->render(
+  'label/number.lines.and.columns.html.twig',
+  array('userContext' => $userContext, 'label' => $label, 'page' => $page, 'form' => $form->createView())
+);
+  }
 }

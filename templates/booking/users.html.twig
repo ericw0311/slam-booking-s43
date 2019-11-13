@@ -1,0 +1,70 @@
+{# templates/booking/users.html.twig #}
+
+{% extends 'booking/booking.html.twig' %}
+
+{% block booking_details %}
+
+<div class="w3-row">
+
+<div class="w3-half">
+<table class="w3-table w3-striped">
+<tr>
+{% if selectedUserFiles|length > 1 %}
+	<th colspan=4>
+{% else %}
+	<th colspan=2>
+{% endif %}
+	{{ 'users.selected'|trans }}</th></tr>
+
+{% for userFile in selectedUserFiles %}
+	<tr>
+{% if selectedUserFiles|length > 1 %}
+{% if loop.index > 1 %}
+	<td>{% block link_sortBefore %}{% endblock %}</td>
+{% else %}
+	<td></td>
+{% endif %}
+{% if loop.index < selectedUserFiles|length %}
+	<td>{% block link_sortAfter %}{% endblock %}</td>
+{% else %}
+	<td></td>
+{% endif %}
+{% endif %}
+	<td><img src="{{ asset('images/' ~ userFile.imageName) }}">&nbsp;{{ userFile.name }}</td>
+	<td>{% block link_unselect %}{% endblock %}</td>
+	</tr>
+{% endfor %}
+</table>
+
+</div>
+
+<div class="w3-half">
+<table class="w3-table w3-striped">
+	<tr><th colspan=2>{{ 'users.available'|trans }}</th></tr>
+{% for userFile in availableUserFiles %}
+	<tr>
+	<td>{% block link_select %}{% endblock %}</td>
+	<td><img src="{{ asset('images/' ~ userFile.imageName) }}">&nbsp;{{ userFile.name }}</td>
+	</tr>
+{% endfor %}
+</table>
+</div>
+
+</div> 
+
+{% endblock %}
+
+{% block modal %}
+<!-- Modal -->
+<div id="validateModal" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('validateModal').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'validate.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'booking.validate.not.allowed'|trans }}</p>
+		</div>
+	</div>
+</div>
+{% endblock %}

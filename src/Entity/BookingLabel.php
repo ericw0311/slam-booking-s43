@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_booking_label",columns={"booking_id", "label_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\BookingLabelRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class BookingLabel
 {
@@ -41,12 +42,12 @@ class BookingLabel
     private $user;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
-  	/**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 

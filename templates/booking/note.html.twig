@@ -1,0 +1,17 @@
+{# templates/booking/note.html.twig #}
+
+{% extends 'booking/booking.html.twig' %}
+
+{% block booking_details %}
+
+{{ form_errors(form) }}
+{{ form_row(form.note) }}
+{{ form_rest(form) }}
+
+{% endblock %}
+
+{% block javascript %}
+<script>
+	document.getElementById("note_note").focus();
+</script>
+{% endblock %}

@@ -258,4 +258,34 @@ class TimetableController extends AbstractController
           array('userContext' => $userContext, 'listContext' => $listContext, 'timetable' => $timetable, 'listBookings' => $listBookings, 'planning_path' => $planning_path)
 );
   }
+
+  // Met à jour le nombre de lignes et colonnes d'affichage des listes
+  /**
+     * @Route("/{_locale}/timetable/number_lines_columns/{timetableID}/{page}", name="timetable_number_lines_and_columns", requirements={"page"="\d+"})
+     * @ParamConverter("timetable", options={"mapping": {"timetableID": "id"}})
+     */
+  public function number_lines_and_columns(Request $request, Timetable $timetable, $page)
+  {
+      $connectedUser = $this->getUser();
+      $em = $this->getDoctrine()->getManager();
+      $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
+      $numberLines = AdministrationApi::getNumberLines($em, $connectedUser, 'booking');
+      $numberColumns = AdministrationApi::getNumberColumns($em, $connectedUser, 'booking');
+      $upRepository = $em->getRepository(UserParameter::class);
+      $userParameterNLC = new UserParameterNLC($numberLines, $numberColumns);
+      $form = $this->createForm(UserParameterNLCType::class, $userParameterNLC);
+      if ($request->isMethod('POST')) {
+          $form->submit($request->request->get($form->getName()));
+          if ($form->isSubmitted() && $form->isValid()) {
+              AdministrationApi::setNumberLines($em, $connectedUser, 'booking', $userParameterNLC->getNumberLines());
+              AdministrationApi::setNumberColumns($em, $connectedUser, 'booking', $userParameterNLC->getNumberColumns());
+              $request->getSession()->getFlashBag()->add('notice', 'number.lines.columns.updated.ok');
+              return $this->redirectToRoute('timetable_booking_list', array('timetableID' => $timetable->getId(), 'page' => 1));
+          }
+      }
+      return $this->render(
+          'timetable/number.lines.and.columns.html.twig',
+          array('userContext' => $userContext, 'timetable' => $timetable, 'page' => $page, 'form' => $form->createView())
+);
+  }
 }

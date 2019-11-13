@@ -1,0 +1,31 @@
+{# templates/planning/number.lines.and.columns.html.twig #}
+
+{% extends 'base.half.html.twig' %}
+ 
+{% block content %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+	<i class="fa fa-wrench w3-xlarge"></i>&nbsp;{{ 'number.lines.columns'|trans }}
+</h4></div>
+
+{{ form_start(form, {'action': path('planning_number_lines_and_columns', { 'list_path': list_path, 'page': page }), 'method': 'POST'}) }}
+
+<form class="w3-container">
+
+<p>{{ form_row(form.numberLines) }}</p>
+<p>{{ form_row(form.numberColumns) }}</p>
+
+{{ form_rest(form) }}
+
+<div class="w3-show-inline-block">
+<div class="w3-bar w3-border w3-round">
+	<a href="{{ path(list_path, { 'page': page }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<button type="submit" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</button>
+</div>
+</div>
+
+</form>
+
+{{ form_end(form) }}
+
+{% endblock %}

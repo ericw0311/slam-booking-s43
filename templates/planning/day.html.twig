@@ -1,0 +1,91 @@
+{# templates/planning/day.html.twig #}
+
+<table class="w3-table w3-striped w3-border">
+	<tr>
+{% if planningContext.displayDate() %}
+	<th class="w3-text-blue">{{ dateCourte(planningContext.getDay(day_key).date) }}</th>
+{% else %}
+	<th></th>
+{% endif %}
+{% for planificationResource in planificationResources %}
+	<th>
+{% if planificationResource.resource.internal %}
+	<img src="{{ asset('images/' ~ rcIcons[planificationResource.resource.code] ~ '-16.png') }}">&nbsp;{{ planificationResource.resource.name }}
+{% else %}
+	<i class="w3-xlarge fa fa-{{ rtIcons[planificationResource.resource.type] }}"></i>&nbsp;{{ planificationResource.resource.name }}
+{% endif %}
+	</th>
+{% endfor %}
+	</tr>
+{% if planningContext.getDay(day_key).type == 'X' %}
+<tr>
+	<td></td><td colspan={{ planificationResources|length }}><button type="button" onclick="document.getElementById('bnaEndPeriod').style.display='block'" class="w3-button w3-text-red"><i class="fa fa-ban"></i></button></td>
+</tr>
+{% elseif planningContext.getDay(day_key).type == 'C' %}
+<tr>
+	<td></td><td colspan={{ planificationResources|length }}><button type="button" onclick="document.getElementById('bnaDayClosed').style.display='block'" class="w3-button w3-text-red"><i class="fa fa-ban"></i></button></td>
+</tr>
+{% else %}
+{% for timetableLine in planningContext.getDay(day_key).timetableLines %}
+<tr>
+	<td>{{ timetableLine(timetableLine) }}</td>
+{% for planificationResource in planificationResources %}
+
+{% set key = planningContext.getDay(day_key).date|date('Ymd') ~ '-' ~ planification.ID ~ '-' ~ planificationPeriod.ID ~ '-' ~ planningContext.getDay(day_key).planificationLine.ID ~ '-' ~ planificationResource.resource.ID ~ '-' ~ timetableLine.timetable.ID ~ '-' ~ timetableLine.ID %}
+
+{% if bookings[key] is defined %}
+{% if bookings[key].type == 'H' %}
+{% if bookings[key].numberTimetableLines > 1 %}
+		<td class="w3-{{ bookings[key].cellClass }}" rowspan={{ bookings[key].numberTimetableLines }}>
+{% else %}
+		<td class="w3-{{ bookings[key].cellClass }}">
+{% endif %}
+<table><tr><td>
+<img src="{{ asset('images/user-16.png') }}">&nbsp;
+{{ bookings[key].firstUserName }}
+
+{% if (bookings[key].numberUsers > 1) %}
+&nbsp;<span class="w3-badge w3-green">&plus;{{ (bookings[key].numberUsers-1) }}</span>
+{% endif %}
+
+{% if (bookings[key].numberLabels > 0) %}
+<img src="{{ asset('images/label-16.png') }}">&nbsp;{{ bookings[key].firstLabelName }}
+{% endif %}
+
+{% if (bookings[key].numberLabels > 1) %}
+<span class="w3-badge w3-orange">&plus;{{ (bookings[key].numberLabels-1) }}</span>
+{% endif %}
+
+{% if bookings[key].getNoteExists() %}
+<img src="{{ asset('images/note-16.png') }}" title="{{ bookings[key].note }}">&nbsp;
+{% endif %}
+
+{% if planningContext.displayButtons %}
+{% if userContext.getCurrentUserFileAdministrator() or bookings[key].userId == userContext.user.id %}
+<a href="{{ path(booking_view, { 'planningDate': date|date('Ymd'), 'bookingID': bookings[key].id, 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': planificationResource.resource.ID }) }}" class="w3-button w3-text-indigo" title="{{ 'view.and.modify'|trans }}"><i class="fa fa-pencil"></i></a>
+{% else %}
+<a href="{{ path(booking_view, { 'planningDate': date|date('Ymd'), 'bookingID': bookings[key].id, 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': planificationResource.resource.ID }) }}" class="w3-button w3-text-indigo" title="{{ 'view'|trans }}"><i class="fa fa-eye"></i></a>
+{% endif %}
+{% endif %}
+</td></tr></table>
+
+		</td>
+{% endif %}
+{% else %}
+		<td>
+{% if planningContext.displayButtons %}
+{% if planningContext.getDay(day_key).type == 'B' %}
+<button type="button" onclick="document.getElementById('bnaBefore').style.display='block'" class="w3-button w3-text-red"><i class="fa fa-plus"></i></button>
+{% elseif planningContext.getDay(day_key).type == 'A' %}
+<button type="button" onclick="document.getElementById('bnaAfter').style.display='block'" class="w3-button w3-text-red"><i class="fa fa-plus"></i></button>
+{% else %}
+<a href="{{ path(booking_create, { 'planningDate': date|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': planificationResource.resource.ID, 'timetableLinesList': (planningContext.getDay(day_key).date|date('Ymd') ~ '+' ~ timetableLine.timetable.ID ~ '+' ~ timetableLine.ID), 'userFileIDList': userContext.getCurrentUserFile().getID(), 'labelIDList': 0, 'noteID': 0 }) }}" class="w3-button w3-text-indigo" title="{{ 'booking.book'|trans }}"><i class="fa fa-plus"></i></a>
+{% endif %}
+{% endif %}
+		</td>
+{% endif %}
+{% endfor %}
+</tr>
+{% endfor %}
+{% endif %}
+</table>

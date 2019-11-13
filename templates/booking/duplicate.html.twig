@@ -1,0 +1,66 @@
+{# templates/booking/duplicate.html.twig #}
+
+{% extends 'booking/booking.html.twig' %}
+
+{% block booking_details %}
+
+{% if newBookingID > 0 %}
+<div class="w3-panel w3-pale-blue w3-round-large">
+	<p><i class="fa fa-star"></i>&nbsp;{{ 'booking.duplicate.exists'|trans({'%newBookingDate%': dateLongue(planningContext.getFirstDuplicateDate())}) }}</p>
+{% elseif ctrlBookingLineID > 0 %}
+<div class="w3-panel w3-pale-red w3-round-large">
+	<p><i class="fa fa-star"></i>&nbsp;{{ 'booking.duplicate.ko'|trans({'%newBookingDate%': dateLongue(planningContext.getFirstDuplicateDate())}) }}</p>
+{% else %}
+<div class="w3-panel w3-pale-green w3-round-large">
+	<p><i class="fa fa-star"></i>&nbsp;{{ 'booking.duplicate.ok'|trans({'%newBookingDate%': dateLongue(planningContext.getFirstDuplicateDate())}) }}</p>
+{% endif %}
+</div>
+
+<div class="w3-row">
+
+<div class="w3-half">
+{% for j in 1..planningContext.numberColumns %}
+{% for i in 1..planningContext.numberLines %}
+{{ include('planning/day.html.twig', { 'day_key': ('1-' ~ i ~ '-' ~ j) }) }}
+{% endfor %}
+{% endfor %}
+</div>
+
+<div class="w3-half">
+{% for j in 1..planningContext.numberColumns %}
+{% for i in 1..planningContext.numberLines %}
+{{ include('planning/day.html.twig', { 'day_key': ('2-' ~ i ~ '-' ~ j) }) }}
+{% endfor %}
+{% endfor %}
+</div>
+
+</div> 
+
+{% endblock %}
+
+{% block booking_buttons %}
+{% block planning_link %}{% endblock %}
+{% if previousGap > 0 %}
+	{% block duplicate_previous_week_link %}{% endblock %}
+{% else %}
+	<button type="button" onclick="document.getElementById('naPreviousWeek').style.display='block'" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-chevron-left"></i>&nbsp;<del>{{ 'week.previous'|trans }}</del></button>
+{% endif %}
+
+{% if newBookingID <= 0 and ctrlBookingLineID <= 0 %}
+	{% if planningContext.getDay('2-1-1').type == 'B' %}
+		<button type="button" onclick="document.getElementById('bnaBefore').style.display='block'" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;<del>{{ 'duplicate'|trans }}</del></button>
+	{% elseif planningContext.getDay('2-1-1').type == 'A' %}
+		<button type="button" onclick="document.getElementById('bnaAfter').style.display='block'" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;<del>{{ 'duplicate'|trans }}</del></button>
+	{% else %}
+		{% block duplicate_validate_link %}{% endblock %}
+	{% endif %}
+{% elseif newBookingID > 0 %}
+	{% block duplicate_delete_link %}{% endblock %}
+{% endif %}
+{% block duplicate_next_week_link %}{% endblock %}
+{% endblock %}
+
+{% block modal %}
+{{ include('planning/modal.html.twig') }}
+{{ include('booking/modal.html.twig') }}
+{% endblock %}

@@ -1,0 +1,38 @@
+{# templates/booking/booking.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% extends 'base.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'BOOKING' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+
+{% block form_start %}{% endblock %}
+
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+{% if resource.internal %}
+	<img src="{{ asset('images/' ~ rcIcons[resource.code] ~ '-32.png') }}">&nbsp;{{ resource.name }}
+{% else %}
+	<i class="w3-xlarge fa fa-{{ rtIcons[resource.type] }}"></i>&nbsp;{{ resource.name }}
+{% endif %}
+</h4></div>
+
+{% block booking_details %}{% endblock %}
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+	{% block booking_buttons %}{% endblock %}
+</div>
+</div>
+
+{% block form_end %}{% endblock %}
+
+{% block modal %}{% endblock %}
+
+{% block javascript %}{% endblock %}
+
+{% endblock %}

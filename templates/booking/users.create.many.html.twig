@@ -1,0 +1,28 @@
+{# templates/booking/users.create.many.html.twig #}
+
+{% extends 'booking/users.html.twig' %}
+
+{% block link_sortBefore %}
+	<a href="{{ path('booking_many_users_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'labelIDList': labelIDList, 'noteID': noteID, 'userFileIDInitialList': userFileIDInitialList, 'userFileIDList': userFile.entityIDList_sortBefore }) }}" class="w3-button w3-text-indigo" title="{{ 'sort.before'|trans }}"><i class="fa fa-arrow-up w3-large"></i></a>
+{% endblock %}
+
+{% block link_sortAfter %}
+	<a href="{{ path('booking_many_users_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'labelIDList': labelIDList, 'noteID': noteID, 'userFileIDInitialList': userFileIDInitialList, 'userFileIDList': userFile.entityIDList_sortAfter }) }}" class="w3-button w3-text-indigo" title="{{ 'sort.after'|trans }}"><i class="fa fa-arrow-down w3-large"></i></a>
+{% endblock %}
+
+{% block link_unselect %}
+	<a href="{{ path('booking_many_users_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'labelIDList': labelIDList, 'noteID': noteID, 'userFileIDInitialList': userFileIDInitialList, 'userFileIDList': userFile.entityIDList_unselect }) }}" class="w3-button w3-text-indigo" title="{{ 'user.unselect'|trans }}"><i class="fa fa-arrow-right w3-large"></i></a>
+{% endblock %}
+
+{% block link_select %}
+	<a href="{{ path('booking_many_users_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'labelIDList': labelIDList, 'noteID': noteID, 'userFileIDInitialList': userFileIDInitialList, 'userFileIDList': userFile.entityIDList_select }) }}" class="w3-button w3-text-indigo" title="{{ 'user.select'|trans }}"><i class="fa fa-arrow-left w3-large"></i></a>
+{% endblock %}
+
+{% block booking_buttons %}
+	<a href="{{ path('booking_many_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDInitialList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'cancel'|trans }}</a>
+{% if selectedUserFiles|length < 1 %}
+	<button type="button" onclick="document.getElementById('validateModal').style.display='block'" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;<del>{{ 'validate'|trans }}</del></button>
+{% else %}
+	<a href="{{ path('booking_many_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+{% endif %}
+{% endblock %}

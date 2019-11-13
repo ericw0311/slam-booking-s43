@@ -118,7 +118,7 @@ class BookingApi
 	}
 
 	$numberUsers = count($bookingUsers);
-	return $bookingUsers[0]->getUserFiles()->getFirstAndLastName();
+	return $bookingUsers[0]->getUserFile()->getFirstAndLastName();
 	}
 
 	// Gestion des étiquettes des réservations
@@ -448,11 +448,11 @@ class BookingApi
 		$bookingUsers = $buRepository->findBy(array('booking' => $booking), array('oorder' => 'asc'));
 
 		foreach ($bookingUsers as $bookingUser) {
-			// Je ne parviens pas à mettre le nom des utilisateurs en clair... array_push($emailArray, [$bookingUser->getUserFiles()->getEmail() => $bookingUser->getUserFiles()->getFirstAndLastName()]);
+			// Je ne parviens pas à mettre le nom des utilisateurs en clair... array_push($emailArray, [$bookingUser->getUserFile()->getEmail() => $bookingUser->getUserFile()->getFirstAndLastName()]);
 			// alors que ça, ça marche bien... ->setTo(['eric.pierre.willard@gmail.com', 'maxence.willard@gmail.com' => 'Maxence Willard'])
 
-			if (!$fileAdministrator or !$bookingUser->getUserFiles()->getAdministrator()) { // On traite le cas ou l'utilisateur est déjà dans la liste en tant que administrateur du dossier.
-				array_push($emailArray, $bookingUser->getUserFiles()->getEmail());
+			if (!$fileAdministrator or !$bookingUser->getUserFile()->getAdministrator()) { // On traite le cas ou l'utilisateur est déjà dans la liste en tant que administrateur du dossier.
+				array_push($emailArray, $bookingUser->getUserFile()->getEmail());
 			}
 		}
 	}
@@ -527,7 +527,7 @@ class BookingApi
 	$bookingUsers = $buRepository->findBy(array('booking' => $booking), array('id' => 'asc'));
 	foreach ($bookingUsers as $bookingUser) {
 
-		$newBookingUser = new BookingUser($connectedUser, $newBooking, $bookingUser->getUserFiles());
+		$newBookingUser = new BookingUser($connectedUser, $newBooking, $bookingUser->getUserFile());
 		$newBookingUser->setOrder($bookingUser->getOrder());
 		$em->persist($newBookingUser);
 	}

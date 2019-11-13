@@ -1,0 +1,39 @@
+{# templates/booking/delete.one.html.twig #}
+
+{% extends 'booking/create.or.update.html.twig' %}
+
+{% block form_start %}
+{{ form_start(form) }}
+{% endblock %}
+
+{% block entered_by %}
+<div class="alert alert-danger"><span class="glyphicon glyphicon-star"></span>&nbsp;{{ 'booking.entered.on.by'|trans({'%bookingDate%': dateLongue(booking.createdAt), '%bookingTime%': booking.createdAt|date("H:i"), '%userName%': booking.user.getFirstAndLastName()}) }}</div>
+{% endblock %}
+
+{% block userFiles_list_link %}
+	<li class="list-group-item"><img src="{{ asset('images/' ~ image) }}">&nbsp;{{ userFiles[0].getFirstAndLastName() }}</li>
+{% endblock %}
+
+{% block userFiles_table_link %}
+{% endblock %}
+
+{% block period_end_link %}
+	<li class="list-group-item"><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ dateLongue(endDate) }}&nbsp;&rarr;&nbsp;{{ timetableLine(endTimetableLine) }}</li>
+{% endblock %}
+
+{% block labels_list_link %}
+	<li class="list-group-item"><img src="{{ asset('images/label-32.png') }}">&nbsp;{{ labels[0].getName() }}</li>
+{% endblock %}
+
+{% block booking_buttons %}
+	<a href="{{ path('planning_one', { 'planificationID': planification.ID, 'date': planningDate|date('Ymd') }) }}" class="btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> {{ 'cancel'|trans }}</a>
+    <button type="submit" class="btn btn-danger"><i class="glyphicon glyphicon-ok"></i> {{ 'validate'|trans }}</button>
+{% endblock %}
+
+{% block ask_delete %}
+<div><p class="text-danger">{{ 'booking.ask.delete'|trans }}</p></div>
+{% endblock %}
+
+{% block form_end %}
+{{ form_end(form) }}
+{% endblock %}

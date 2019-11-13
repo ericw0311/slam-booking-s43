@@ -1,0 +1,83 @@
+{# templates/booking/create.or.update.one.html.twig #}
+
+{% extends 'booking/booking.html.twig' %}
+
+{% block booking_details %}
+
+{% block entered_by %}{% endblock %}
+
+<div class="w3-row">
+
+<div class="w3-half"><div class="w3-margin-right">
+
+<ul class="w3-ul w3-border">
+	<li class="{% block period_end_color %}{% endblock %}"><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ dateLongue(beginningDate) }}&nbsp;&rarr;&nbsp;{{ timetableLine(beginningTimetableLine) }}</li>
+</ul>
+
+{% if userFiles|length == 1 %}
+
+{% set image = (userFiles[0].administrator) ? 'administrator-32.png' : 'user-32.png' %}
+{% block user_file_list_link %}{% endblock %}
+
+{% else %}
+
+<table class="w3-table w3-striped w3-margin-top">
+	<tr>
+	<th class="{% block user_file_color %}{% endblock %}">{{ 'users'|trans }}{% block user_file_table_link %}{% endblock %}</th>
+	</tr>
+{% for userFile in userFiles %}
+	<tr>
+{% set image = (userFile.administrator) ? 'administrator-32.png' : 'user-32.png' %}
+	<td><img src="{{ asset('images/' ~ image) }}">&nbsp;{{ userFile.getFirstAndLastName() }}</td>
+	</tr>
+{% endfor %}
+</table>
+
+{% endif %}
+
+</div></div>
+
+<div class="w3-half">
+
+{% block period_end_link %}{% endblock %}
+
+{% if labels|length < 1 %}
+
+{% block label_empty_list_link %}{% endblock %}
+
+{% elseif labels|length == 1 %}
+
+{% block label_list_link %}{% endblock %}
+
+{% else %}
+
+<table class="w3-table w3-striped w3-margin-top">
+	<tr>
+	<th class="{% block label_color %}{% endblock %}">{{ 'label.plural'|trans }}{% block label_table_link %}{% endblock %}</th>
+	</tr>
+{% for label in labels %}
+	<tr>
+	<td><img src="{{ asset('images/label-32.png') }}">&nbsp;{{ label.getName() }}</td>
+	</tr>
+{% endfor %}
+</table>
+
+{% endif %}
+
+</div>
+
+</div> 
+
+{% if noteID <= 0 %}
+
+{% block note_empty_link %}{% endblock %}
+
+{% else %}
+
+<ul class="w3-ul w3-border w3-margin-top">
+	<li class="{% block note_color %}{% endblock %}">{{ note.note }}{% block note_update_link %}{% endblock %}{% block note_delete_link %}{% endblock %}</li>
+</ul>
+
+{% endif %}
+
+{% endblock %}

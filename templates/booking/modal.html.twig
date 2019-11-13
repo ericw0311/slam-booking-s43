@@ -1,0 +1,83 @@
+<!-- Booking out of period alert -->
+<div id="boopAlert" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('boopAlert').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'booking.period'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+{% if bookingPeriod.before and bookingPeriod.after %}
+			<p>{{ 'booking.out.of.period.from.until'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate), '%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+{% elseif bookingPeriod.before %}
+			<p>{{ 'booking.out.of.period.from'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate)}) }}</p>
+{% elseif bookingPeriod.after %}
+			<p>{{ 'booking.out.of.period.until'|trans({'%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+{% else %}
+			<p>{{ 'booking.period'|trans }}</p>
+{% endif %}
+		</div>
+	</div>
+</div>
+
+<!-- Contrôle utilisateur de la réservation -->
+<div id="buAlert" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('buAlert').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'update.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'booking.created.by.another.user'|trans }}</p>
+		</div>
+	</div>
+</div>
+
+<!-- Demandes de suppression de réservations -->
+<div id="askDeleteBookingMany" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-khaki">
+			<span onclick="document.getElementById('askDeleteBookingMany').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'deletion'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-khaki">
+			<p>{{ 'booking.ask.delete'|trans }}</p>
+			<div class="w3-show-inline-block w3-right w3-margin-bottom">
+			<div class="w3-bar w3-border w3-round">
+				<button onclick="document.getElementById('askDeleteBookingMany').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
+				<a href="{{ path('booking_many_delete', { 'planningDate': planningDate|date('Ymd'), 'bookingID': booking.id, 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="askDeleteBookingOne" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-khaki">
+			<span onclick="document.getElementById('askDeleteBookingOne').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'deletion'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-khaki">
+			<p>{{ 'booking.ask.delete'|trans }}</p>
+			<div class="w3-show-inline-block w3-right w3-margin-bottom">
+			<div class="w3-bar w3-border w3-round">
+				<button onclick="document.getElementById('askDeleteBookingOne').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
+				<a href="{{ path('booking_one_delete', { 'planningDate': planningDate|date('Ymd'), 'bookingID': booking.id, 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+			</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Contrôle de navigation en duplication -->
+<div id="naPreviousWeek" class="w3-modal w3-animate-opacity">
+	<div class="w3-modal-content">
+		<header class="w3-container w3-red"> 
+			<span onclick="document.getElementById('naPreviousWeek').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
+			<h3>{{ 'booking.not.allowed'|trans }}</h3>
+		</header>
+		<div class="w3-container w3-bottombar w3-border-red">
+			<p>{{ 'booking.duplicate.previous.week.ko'|trans }}</p>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,64 @@
+{# templates/booking/create.one.html.twig #}
+
+{% extends 'booking/create.or.update.html.twig' %}
+
+{% block period_end_color %}w3-pale-blue{% endblock %}
+
+{% block period_end_link %}
+<div class="w3-bar-block">
+	<a href="{{ path('booking_one_end_period_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'firstDateNumber': 1, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-round-large w3-pale-blue" title="{{ 'booking.period.end.update'|trans }}"><img src="{{ asset('images/time-32.png') }}">&nbsp;{{ dateLongue(endDate) }}&nbsp;&rarr;&nbsp;{{ timetableLine(endTimetableLine) }}</a>
+</div>
+{% endblock %}
+
+{% block user_file_color %}w3-pale-yellow{% endblock %}
+
+{% block user_file_list_link %}
+<div class="w3-bar-block w3-margin-top">
+	<a href="{{ path('booking_one_users_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'labelIDList': labelIDList, 'noteID': noteID, 'userFileIDInitialList': userFileIDList, 'userFileIDList': userFileIDList }) }}" class="w3-bar-item w3-button w3-round-large w3-pale-yellow" title="{{ 'user.list.update'|trans }}"><img src="{{ asset('images/' ~ image) }}">&nbsp;{{ userFiles[0].getFirstAndLastName() }}</a>
+</div>
+{% endblock %}
+
+{% block user_file_table_link %}
+	&nbsp;<a href="{{ path('booking_one_users_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'labelIDList': labelIDList, 'noteID': noteID, 'userFileIDInitialList': userFileIDList, 'userFileIDList': userFileIDList }) }}" class="w3-button w3-text-indigo" title="{{ 'user.list.update'|trans }}"><i class="fa fa-pencil"></i></a>
+{% endblock %}
+
+{% block label_color %}w3-pale-yellow{% endblock %}
+
+{% block label_empty_list_link %}
+{% if numberLabels > 0 %}
+<div class="w3-bar-block w3-margin-top">
+	<a href="{{ path('booking_one_labels_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'noteID': noteID, 'labelIDInitialList': labelIDList, 'labelIDList': labelIDList }) }}" class="w3-bar-item w3-button w3-round-large w3-pale-yellow" title="{{ 'label.list.update'|trans }}"><img src="{{ asset('images/label-32.png') }}">&nbsp;{{ 'label.no'|trans }}</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block label_list_link %}
+<div class="w3-bar-block w3-margin-top">
+	<a href="{{ path('booking_one_labels_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'noteID': noteID, 'labelIDInitialList': labelIDList, 'labelIDList': labelIDList }) }}" class="w3-bar-item w3-button w3-round-large w3-pale-yellow" title="{{ 'label.list.update'|trans }}"><img src="{{ asset('images/label-32.png') }}">&nbsp;{{ labels[0].getName() }}</a>
+</div>
+{% endblock %}
+
+{% block label_table_link %}
+	&nbsp;<a href="{{ path('booking_one_labels_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'noteID': noteID, 'labelIDInitialList': labelIDList, 'labelIDList': labelIDList }) }}" class="w3-button w3-text-indigo" title="{{ 'label.list.update'|trans }}"><i class="fa fa-pencil"></i></a>
+{% endblock %}
+
+{% block note_color %}w3-pale-blue{% endblock %}
+
+{% block note_empty_link %}
+<div class="w3-bar-block w3-margin-top">
+	<a href="{{ path('booking_one_note_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-round-large w3-pale-blue" title="{{ 'note.enter'|trans }}"><img src="{{ asset('images/note-32.png') }}">&nbsp;{{ 'note.no'|trans }}</a>
+</div>
+{% endblock %}
+
+{% block note_update_link %}
+	&nbsp;<a href="{{ path('booking_one_note_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-button w3-text-indigo" title="{{ 'modify'|trans }}"><i class="fa fa-pencil"></i></a>
+{% endblock %}
+
+{% block note_delete_link %}
+	&nbsp;<a href="{{ path('booking_one_note_delete_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': note.ID }) }}" class="w3-button w3-text-indigo" title="{{ 'delete'|trans }}"><i class="fa fa-trash"></i></a>
+{% endblock %}
+
+{% block booking_buttons %}
+	<a href="{{ path('planning_one', { 'planificationID': planification.ID, 'date': planningDate|date('Ymd') }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'cancel'|trans }}</a>
+	<a href="{{ path('booking_one_validate_create', { 'planningDate': planningDate|date('Ymd'), 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'resourceID': resource.ID, 'timetableLinesList': timetableLinesList, 'userFileIDList': userFileIDList, 'labelIDList': labelIDList, 'noteID': noteID }) }}" class="w3-bar-item w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+{% endblock %}

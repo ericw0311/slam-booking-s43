@@ -1,0 +1,68 @@
+{# templates/booking/period.end.html.twig #}
+
+{% extends 'booking/booking.html.twig' %}
+
+{% block booking_details %}
+
+<div class="w3-bar">
+
+{% if previousFirstDateNumber > 0 %}
+	{% block previousFirstDateNumberLink %}{% endblock %}
+{% endif %}
+{% for endPeriodDay in endPeriodDays %}
+	<button class="w3-bar-item w3-button w3-pale-blue w3-border w3-hover-light-blue" onclick="displayTab({{ endPeriodDay.date|date('Ymd') }})">{{ dateCourte(endPeriodDay.date) }}</button>
+{% endfor %}
+{% if nextFirstDateNumber > 0 %}
+	{% block nextFirstDateNumberLink %}{% endblock %}
+{% endif %}
+</div>
+
+{% for endPeriodDay in endPeriodDays %}
+{% if loop.index <= 1 %}
+<div id="{{ endPeriodDay.date|date('Ymd') }}" class="city">
+{% else %}
+<div id="{{ endPeriodDay.date|date('Ymd') }}" class="city" style="display:none">
+{% endif %}
+
+{% if endPeriodDay.type == 'A' %}
+	<button type="button" onclick="document.getElementById('bnaAfter').style.display='block'" class="w3-button w3-text-red"><i class="fa fa-ban"></i></button>
+{% elseif endPeriodDay.type == 'B' %}
+	<button type="button" onclick="document.getElementById('bnaBefore').style.display='block'" class="w3-button w3-text-red"><i class="fa fa-ban"></i></button>
+{% elseif endPeriodDay.type == 'X' %}
+	<button type="button" onclick="document.getElementById('bnaEndPeriod').style.display='block'" class="w3-button w3-text-red"><i class="fa fa-ban"></i></button>
+{% else %}
+
+	<div class="w3-bar-block">
+{% set lineNumber = 0 %}
+{% for planningLine in endPeriodDay.planningLines %}
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (lineNumber is odd) ? 'sand' : 'transparent' %}
+{% if planningLine.type == 'O' %}
+	{% block createOrUpdateBookingLink %}{% endblock %}
+{% else %}
+	<a href="#" class="w3-bar-item w3-button w3-round-large w3-pale-red"><img src="{{ asset('images/booking-32.png') }}">&nbsp;{{ dateLongue(endPeriodDay.date) }}&nbsp;&rarr;&nbsp;{{ timetableLine(planningLine.timetableLine) }}</a>
+{% endif %}
+{% endfor %}
+	</div>
+{% endif %}
+</div>
+{% endfor %}
+
+{% endblock %}
+
+{% block modal %}
+{{ include('planning/modal.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+<script>
+function displayTab(tabCode) {
+  var i;
+  var x = document.getElementsByClassName("city");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(tabCode).style.display = "block";  
+}
+</script>
+{% endblock %}

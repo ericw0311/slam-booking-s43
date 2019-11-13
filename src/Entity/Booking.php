@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -8,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Booking
 {
@@ -63,12 +63,12 @@ class Booking
     private $file;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime")
+     * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
-  	/**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updatedAt;
 
@@ -91,6 +91,11 @@ class Booking
      * @ORM\OneToMany(targetEntity="App\Entity\BookingDuplication", mappedBy="originBooking", orphanRemoval=true)
      */
     private $bookingDuplications;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\BookingDuplication", mappedBy="newBooking", cascade={"persist", "remove"})
+     */
+    private $newBookingDuplication;
 
     public function __construct(?User $user, ?File $file, ?Planification $planification, ?Resource $resource)
     {
@@ -117,7 +122,6 @@ class Booking
     public function setPlanification(?Planification $planification): self
     {
         $this->planification = $planification;
-
         return $this;
     }
 
@@ -129,7 +133,6 @@ class Booking
     public function setResource(?Resource $resource): self
     {
         $this->resource = $resource;
-
         return $this;
     }
 
@@ -141,7 +144,6 @@ class Booking
     public function setNote(?string $note): self
     {
         $this->note = $note;
-
         return $this;
     }
 
@@ -159,7 +161,6 @@ class Booking
     public function setBeginningDate(\DateTimeInterface $beginningDate): self
     {
         $this->beginningDate = $beginningDate;
-
         return $this;
     }
 
@@ -171,7 +172,6 @@ class Booking
     public function setEndDate(\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
-
         return $this;
     }
 
@@ -183,7 +183,6 @@ class Booking
     public function setFormNote(?Note $formNote): self
     {
         $this->formNote = $formNote;
-
         return $this;
     }
 
@@ -195,7 +194,6 @@ class Booking
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -207,9 +205,13 @@ class Booking
     public function setFile(?File $file): self
     {
         $this->file = $file;
-
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+  	{
+  		return $this->createdAt;
+  	}
 
     /**
      * @return Collection|BookingLine[]
@@ -349,5 +351,22 @@ class Booking
       public function updateDate()
       {
           $this->updatedAt = new \DateTime();
+      }
+
+      public function getNewBookingDuplication(): ?BookingDuplication
+      {
+          return $this->newBookingDuplication;
+      }
+
+      public function setNewBookingDuplication(BookingDuplication $newBookingDuplication): self
+      {
+          $this->newBookingDuplication = $newBookingDuplication;
+
+          // set the owning side of the relation if necessary
+          if ($this !== $newBookingDuplication->getNewBooking()) {
+              $newBookingDuplication->setNewBooking($this);
+          }
+
+          return $this;
       }
 }

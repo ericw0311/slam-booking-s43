@@ -1,0 +1,114 @@
+{# templates/planning/many.html.twig #}
+
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
+{% set maxNumberColumns = constant('App\\Entity\\Constants::PLANNING_MAX_NUMBER_COLUMNS') %}
+{% set maxNumberLines = constant('App\\Entity\\Constants::PLANNING_MAX_NUMBER_LINES') %}
+
+{% extends 'base.html.twig' %}
+
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'PLANNING' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
+{% block body %}
+
+{{ form_start(form, {'attr': {
+						'class': 'form-inline',
+	'action': path('planning_many_pp', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd') }),
+						'method': 'POST',
+					}}) }}
+
+<div class="w3-row">
+
+<div class="w3-col s2">
+<div class="w3-bar-block w3-margin-top w3-margin-right">
+
+{% set lineNumber = 0 %}
+{% for i_p in planifications %}
+
+{% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (lineNumber is odd) ? 'sand' : 'transparent' %}
+{% set lineColor = (i_p.ID == planification.ID) ? 'indigo' : lineColor %}
+
+{% if i_p.internal %}
+	<a href="{{ path('planning_many', { 'planificationID': i_p.ID, 'date': date|date('Ymd') }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><img src="{{ asset('images/' ~ rcIcons[i_p.code] ~ '-32.png') }}">&nbsp;{{ i_p.name }}</a>
+{% else %}
+	<a href="{{ path('planning_many', { 'planificationID': i_p.ID, 'date': date|date('Ymd') }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-{{ rtIcons[i_p.type] }}"></i>&nbsp;{{ i_p.name }}</a>
+{% endif %}
+
+{% endfor %}
+</div>
+</div>
+
+<div class="w3-col s10">
+
+<div class="w3-panel w3-border-bottom"><h4>
+<a href="{{ path('planning_many', { 'planificationID': planification.ID, 'date': previousDate|date('Ymd') }) }}" class="w3-button w3-text-indigo" title="{{ 'day.previous'|trans }}"><i class="fa fa-chevron-circle-left"></i></a>
+<span class="w3-text-blue">{{ dateLongue(date) }}</span>
+<a href="{{ path('planning_many', { 'planificationID': planification.ID, 'date': nextDate|date('Ymd') }) }}" class="w3-button w3-text-indigo" title="{{ 'day.next'|trans }}"><i class="fa fa-chevron-circle-right"></i></a>
+{{ form_widget(form.date) }}
+<button type="submit" class="w3-button w3-text-indigo" title="{{ 'planning.display.date'|trans }}"><i class="fa fa-calendar-check-o"></i></button>
+{% if planningContext.numberColumns > 1 %}
+<a href="{{ path('planning_many_set_number_columns', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd'), 'numberColumns': (planningContext.numberColumns-1) }) }}" class="w3-button w3-text-indigo" title="{{ 'planning.reduce.left'|trans }}"><i class="fa fa-caret-left"></i></a>
+{% else %}
+<button type="button" class="w3-button" disabled="disabled"><i class="fa fa-caret-left"></i></button>
+{% endif %}
+
+{% if planningContext.numberColumns < maxNumberColumns %}
+<a href="{{ path('planning_many_set_number_columns', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd'), 'numberColumns': (planningContext.numberColumns+1) }) }}" class="w3-button w3-text-indigo" title="{{ 'planning.stretch.right'|trans }}"><i class="fa fa-caret-right"></i></a>
+{% else %}
+<button type="button" class="w3-button" disabled="disabled"><i class="fa fa-caret-right"></i></button>
+{% endif %}
+
+{% if planningContext.numberLines > 1 %}
+<a href="{{ path('planning_many_set_number_lines', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd'), 'numberLines': (planningContext.numberLines-1) }) }}" class="w3-button w3-text-indigo" title="{{ 'planning.reduce.top'|trans }}"><i class="fa fa-caret-up"></i></a>
+{% else %}
+<button type="button" class="w3-button" disabled="disabled"><i class="fa fa-caret-up"></i></button>
+{% endif %}
+
+{% if planningContext.numberLines < maxNumberLines %}
+<a href="{{ path('planning_many_set_number_lines', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd'), 'numberLines': (planningContext.numberLines+1) }) }}" class="w3-button w3-text-indigo" title="{{ 'planning.stretch.bottom'|trans }}"><i class="fa fa-caret-down"></i></a>
+{% else %}
+<button type="button" class="w3-button" disabled="disabled"><i class="fa fa-caret-down"></i></button>
+{% endif %}
+
+<a href="{{ path('planning_one_pp', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'date': date|date('Ymd') }) }}" class="w3-button w3-text-indigo" title="{{ 'planning.stretched.out'|trans }}"><i class="fa fa-expand"></i></a>
+
+{% if not userContext.getCurrentUserFileAdministrator() and (bookingPeriod.before or bookingPeriod.after) %}
+<button type="button" onclick="document.getElementById('bpAlert').style.display='block'" class="w3-button w3-text-red"><i class="fa fa-exclamation"></i></button>
+{% endif %}
+</h4></div>
+
+<div class="w3-row">
+
+{% for j in 1..planningContext.numberColumns %}
+	<div class="w3-col m{{ (12/planningContext.numberColumns) }}">
+{% for i in 1..planningContext.numberLines %}
+{% if j < planningContext.numberColumns and i < planningContext.numberLines %}
+<div class="w3-margin-right w3-margin-bottom">
+{% elseif j < planningContext.numberColumns %}
+<div class="w3-margin-right">
+{% elseif i < planningContext.numberLines %}
+<div class="w3-margin-bottom">
+{% else %}
+<div>
+{% endif %}
+{{ include('planning/day.html.twig', { 'booking_create': 'booking_many_create', 'booking_view': 'booking_many_view', 'day_key': ('1-' ~ i ~ '-' ~ j) }) }}
+</div>
+{% endfor %}
+	</div>
+{% endfor %}
+
+</div>
+
+</div>
+
+</div>
+
+{{ form_end(form) }}
+
+{{ include('planning/modal.html.twig') }}
+
+{% endblock %}

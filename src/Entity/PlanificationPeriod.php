@@ -94,7 +94,6 @@ class PlanificationPeriod
     public function setBeginningDate(?\DateTimeInterface $beginningDate): self
     {
         $this->beginningDate = $beginningDate;
-
         return $this;
     }
 
@@ -106,7 +105,6 @@ class PlanificationPeriod
     public function setEndDate(?\DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
-
         return $this;
     }
 
@@ -118,7 +116,6 @@ class PlanificationPeriod
     public function setPlanification(?Planification $planification): self
     {
         $this->planification = $planification;
-
         return $this;
     }
 
@@ -130,8 +127,28 @@ class PlanificationPeriod
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
+    }
+
+    public function setEndDateToNull(): self
+    {
+        $this->endDate = null;
+        return $this;
+    }
+
+    public function isEndDateNull(): ?bool
+    {
+        return ($this->endDate == null);
+    }
+
+    // Date de fin de planification affichée dans le planning. Elle est affichée que si elle n'est pas nulle mais dans le fichier planning/modal.html.twig, la date transmise ne doit être jamais nulle même apparamment si la fonction n'est pas appelée.
+    public function getPlanningEndDate(): ?\DateTimeInterface
+    {
+        if (!$this->isEndDateNull()) {
+            return $this->endDate;
+        } else {
+            return (new \DateTime());
+        }
     }
 
     /**

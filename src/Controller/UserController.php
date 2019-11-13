@@ -44,7 +44,7 @@ class UserController extends AbstractController
              ->setFrom(['slam.booking.web@gmail.com' => 'Slam Booking'])
              ->setTo($user->getEmail())
              ->setBody(
-                 $this->renderView('email/registration.html.twig', array('user' => $user)),
+                 $this->renderView('emails/registration.html.twig', array('user' => $user)),
                  'text/html'
              );
              $mailer->send($message);

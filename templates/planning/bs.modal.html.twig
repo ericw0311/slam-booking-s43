@@ -1,0 +1,155 @@
+<div id="bnaBefore" class="modal fade" role="dialog">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">{{ 'booking.not.allowed'|trans }}</h4>
+		</div>
+		<div class="modal-body">
+			<p>{{ 'booking.bna.before'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate)}) }}</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|trans }}</button>
+		</div>
+	</div>
+</div>
+</div>
+
+<div id="bnaAfter" class="modal fade" role="dialog">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">{{ 'booking.not.allowed'|trans }}</h4>
+		</div>
+		<div class="modal-body">
+			<p>{{ 'booking.bna.after'|trans({'%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|trans }}</button>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- Booking period alert -->
+<div id="bpAlert" class="modal fade" role="dialog">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">{{ 'booking.period'|trans }}</h4>
+		</div>
+		<div class="modal-body">
+{% if bookingPeriod.before and bookingPeriod.after %}
+			<p>{{ 'booking.period.from.until'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate), '%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+{% elseif bookingPeriod.before %}
+			<p>{{ 'booking.period.from'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate)}) }}</p>
+{% elseif bookingPeriod.after %}
+			<p>{{ 'booking.period.until'|trans({'%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+{% else %}
+			<p>{{ 'booking.period'|trans }}</p>
+{% endif %}
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|trans }}</button>
+		</div>
+	</div>
+</div>
+</div>
+
+<div id="bnaEndPeriod" class="modal fade" role="dialog">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">{{ 'booking.not.allowed'|trans }}</h4>
+		</div>
+		<div class="modal-body">
+			<p>{{ 'booking.bna.end.period'|trans({'%periodEndDate%': dateLongue(bookingPeriod.planificationPeriod.planningEndDate)}) }}</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|trans }}</button>
+		</div>
+	</div>
+</div>
+</div>
+
+<div id="bnaDayClosed" class="modal fade" role="dialog">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">{{ 'booking.not.allowed'|trans }}</h4>
+		</div>
+		<div class="modal-body">
+			<p>{{ 'booking.bna.day.closed'|trans }}</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|trans }}</button>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- Booking out of period alert -->
+<div id="boopAlert" class="modal fade" role="dialog">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">{{ 'booking.period'|trans }}</h4>
+		</div>
+		<div class="modal-body">
+{% if bookingPeriod.before and bookingPeriod.after %}
+			<p>{{ 'booking.out.of.period.from.until'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate), '%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+{% elseif bookingPeriod.before %}
+			<p>{{ 'booking.out.of.period.from'|trans({'%firstBookingDate%': dateLongue(bookingPeriod.firstAllowedBookingDate)}) }}</p>
+{% elseif bookingPeriod.after %}
+			<p>{{ 'booking.out.of.period.until'|trans({'%lastBookingDate%': dateLongue(bookingPeriod.lastAllowedBookingDate)}) }}</p>
+{% else %}
+			<p>{{ 'booking.period'|trans }}</p>
+{% endif %}
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|trans }}</button>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- Duplication -->
+<div id="naPreviousWeek" class="modal fade" role="dialog">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">{{ 'booking.not.allowed'|trans }}</h4>
+		</div>
+		<div class="modal-body">
+			<p>{{ 'booking.duplicate.previous.week.ko'|trans }}</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|trans }}</button>
+		</div>
+	</div>
+</div>
+</div>
+
+<!-- Contrôle utilisateur de la réservation -->
+<div id="buAlert" class="modal fade" role="dialog">
+<div class="modal-dialog">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">{{ 'update.not.allowed'|trans }}</h4>
+		</div>
+		<div class="modal-body">
+			<p>{{ 'booking.created.by.another.user'|trans }}</p>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'close'|trans }}</button>
+		</div>
+	</div>
+</div>
+</div>
