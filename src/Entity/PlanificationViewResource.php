@@ -56,7 +56,6 @@ class PlanificationViewResource
     public function setPlanificationView(?PlanificationView $planificationView): self
     {
         $this->planificationView = $planificationView;
-
         return $this;
     }
 
@@ -68,7 +67,6 @@ class PlanificationViewResource
     public function setPlanificationResource(?PlanificationResource $planificationResource): self
     {
         $this->planificationResource = $planificationResource;
-
         return $this;
     }
 
@@ -80,9 +78,15 @@ class PlanificationViewResource
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
         return $this;
     }
+
+    public function __construct(?PlanificationView $planificationView, ?PlanificationResource $planificationResource)
+  	{
+  	$this->setPlanificationView($planificationView);
+  	$this->setPlanificationResource($planificationResource);
+  	$this->setActive(true);
+  	}
 
     /**
     * @ORM\PrePersist

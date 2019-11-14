@@ -20,6 +20,8 @@ use App\Entity\PlanificationResource;
 use App\Entity\PlanificationLine;
 use App\Entity\PlanificationLinesNDB;
 use App\Entity\PlanificationView;
+use App\Entity\PlanificationViewResource;
+use App\Entity\PlanificationViewResourceNDB;
 use App\Entity\PlanificationContext;
 use App\Entity\Timetable;
 use App\Entity\UserParameterNLC;
@@ -545,8 +547,10 @@ class PlanificationController extends AbstractController
       $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
       $planificationContext = new PlanificationContext($em, $userContext->getCurrentFile(), $planification, $planificationPeriod); // contexte planification
 
-      $pvRepository = $em->getRepository(PlanificationView::class);
       $ufgRepository = $em->getRepository(UserFileGroup::class);
+      $prRepository = $em->getRepository(PlanificationResource::class);
+      $pvRepository = $em->getRepository(PlanificationView::class);
+      $pvrRepository = $em->getRepository(PlanificationViewResource::class);
 
       $planificationViews = $pvRepository->getViews($planificationPeriod);
 
@@ -565,6 +569,23 @@ class PlanificationController extends AbstractController
               $allUserGroupView = $pvRepository->findOneBy(array('planificationPeriod' => $planificationPeriod, 'userFileGroup' => $allUserGroup)); // Recherche de la vue du groupe de tous les utilisateurs.
               $allUserGroupViewActive = $allUserGroupView->getActive();
       }
+
+    	// Recherche des ressources planifiées
+    	$planificationResources = $prRepository->findBy(array('planificationPeriod' => $planificationPeriod), array('oorder' => 'asc'));
+      $planificationViewResources = array();
+
+    	foreach ($planificationResources as $planificationResource) {
+
+        $planificationViewResourceDB = $pvrRepository->findOneBy(array('planificationView' => $planificationView, 'planificationResource' => $planificationResource)); // Recherche de la vue-ressource. DOIT TOUJOURS EXISTER
+        $planificationViewResource = new PlanificationViewResourceNDB();
+        $planificationViewResource->setId($planificationViewResourceDB->getId());
+        $planificationViewResource->setActive($planificationViewResourceDB->getActive());
+        $planificationViewResource->setInternal($planificationResource->getResource()->getInternal());
+        $planificationViewResource->setType($planificationResource->getResource()->getType());
+        $planificationViewResource->setCode($planificationResource->getResource()->getCode());
+        $planificationViewResource->setName($planificationResource->getResource()->getName());
+        array_push($planificationViewResources, $planificationViewResource);
+    	}
 
       return $this->render('planification/view.html.twig', array('userContext' => $userContext, 'planification' => $planification, 'planificationPeriod' => $planificationPeriod, 'planificationView' => $planificationView,
       'planificationViews' => $planificationViews, 'manualViewCount' => $manualViewCount, 'minManualOrder' => $minManualOrder, 'maxManualOrder' => $maxManualOrder,

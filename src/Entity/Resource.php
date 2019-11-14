@@ -112,7 +112,6 @@ class Resource
     public function setInternal(bool $internal): self
     {
         $this->internal = $internal;
-
         return $this;
     }
 
@@ -164,7 +163,6 @@ class Resource
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -176,7 +174,6 @@ class Resource
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -188,7 +185,6 @@ class Resource
     public function setFile(?File $file): self
     {
         $this->file = $file;
-
         return $this;
     }
 

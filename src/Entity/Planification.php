@@ -101,7 +101,6 @@ class Planification
     public function setType(string $type): self
     {
         $this->type = $type;
-
         return $this;
     }
 
@@ -113,7 +112,6 @@ class Planification
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -125,7 +123,6 @@ class Planification
     public function setInternal(bool $internal): self
     {
         $this->internal = $internal;
-
         return $this;
     }
 
@@ -137,7 +134,6 @@ class Planification
     public function setCode(?string $code): self
     {
         $this->code = $code;
-
         return $this;
     }
 
@@ -149,7 +145,6 @@ class Planification
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -161,7 +156,12 @@ class Planification
     public function setFile(?File $file): self
     {
         $this->file = $file;
+        return $this;
+    }
 
+    public function setCodeNull(): self
+    {
+        $this->code = null;
         return $this;
     }
 
