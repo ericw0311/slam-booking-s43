@@ -18,6 +18,7 @@ class PlanificationViewEvent
     {
 	$ppRepository = $em->getRepository(PlanificationPeriod::class);
 	$prRepository = $em->getRepository(PlanificationResource::class);
+  $pvRepository = $em->getRepository(PlanificationView::class);
 	$pvrRepository = $em->getRepository(PlanificationViewResource::class);
 
 	// Recherche des ressources planifiées de la période de la vue créée
@@ -33,16 +34,25 @@ class PlanificationViewEvent
 		if ($previousPP === null) { // Première période de la planification. On active toutes les ressources.
 			$active = true;
 		} else {
-			$previousPVR = $pvrRepository->findOneBy(array('planificationView' => $previousPP, 'planificationResource' => $planificationResource)); // Recherche de la vue-ressource de la période précédente.
-			if ($previousPVR === null) { // Si la vue ressource de la période précédente n'est pas trouvée, on active la vue-ressource de la période créée, mais logiquement les vues-ressources existent pour chaque période.
-				$active = true;
-			} else {
-				$active = $previousPVR->getActive();
-			}
-		}
+      // Recherche de la vue de la période précédente du même groupe d'utilisateurs
+      $previousPV = $pvRepository->findOneBy(array('planificationPeriod' => $previousPP, 'userFileGroup' => $planificationView->getUserFileGroup()));
+      if ($previousPV === null) { // L'utilisateur crée une vue pour un groupe d'utilisateurs qui n'existe pas pour la période précédente.
+        $active = true;
+      } else {
+        // Recherche de la ressource planifiée de la période précédente.
+        $previousPR = $prRepository->findOneBy(array('planificationPeriod' => $previousPP, 'resource' => $planificationResource->getResource()));
+        if ($previousPR === null) { // La ressource peut ne pas exister pour la période précédente.
+          $active = true;
+        } else {
+          // Recherche de la vue-ressource de la période précédente pour le meme groupe d'utilisateurs et la même ressource.
+          $previousPVR = $pvrRepository->findOneBy(array('planificationView' => $previousPV, 'planificationResource' => $previousPR));
+          $active = $previousPVR->getActive();
+        }
+      }
+    }
 		$planificationViewResource->setActive($active);
 		$em->persist($planificationViewResource);
 	}
-    $em->flush();
-    }
+  $em->flush();
+  }
 }

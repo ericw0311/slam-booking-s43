@@ -4,6 +4,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_planification_view_resource",columns={"planification_view_id", "planification_resource_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\PlanificationViewResourceRepository")
  * @ORM\HasLifecycleCallbacks()
  */
