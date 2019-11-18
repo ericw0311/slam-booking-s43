@@ -2,6 +2,9 @@
 
 {% extends 'base.html.twig' %}
 
+{% set rtIcons = constant('App\\Entity\\Constants::RESOURCE_TYPE_ICON') %}
+{% set rcIcons = constant('App\\Entity\\Constants::RESOURCE_CLASSIFICATION_ICON') %}
+
 {% block documentation %}
 <a href="{{ path('documentation', { 'pageCode': 'PLANIFICATION' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
 {% endblock %}
@@ -57,6 +60,34 @@
 {% endif %}
 </div>
 </div>
+
+<table class="w3-table w3-striped">
+	<tbody>
+{% for planificationViewResource in planificationViewResources %}
+	<tr>
+{% if planificationViewResource.internal %}
+{% set resource_image = rcIcons[planificationViewResource.code] %}
+	<td><img src="{{ asset('images/' ~ resource_image ~ '-32.png') }}">&nbsp;{{ planificationViewResource.name }}</td>
+{% else %}
+{% set resource_icon = rtIcons[planificationViewResource.type] %}
+	<td><i class="w3-xlarge fa fa-{{ resource_icon }}"></i>&nbsp;{{ planificationViewResource.name }}</td>
+{% endif %}
+{% if planificationViewResource.active %}
+	<td><img src="{{ asset('images/green-check-32.png') }}"></td>
+{% else %}
+	<td><img src="{{ asset('images/red-cross-32.png') }}"></td>
+{% endif %}
+	<td>
+{% if planificationViewResource.active %}
+	<a href="{{ path('planification_unactivate_view_resource', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewID': planificationView.id, 'planificationViewResourceID': planificationViewResource.id }) }}" class="w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'unactivate'|trans }}</a>
+{% else %}
+	<a href="{{ path('planification_activate_view_resource', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewID': planificationView.id, 'planificationViewResourceID': planificationViewResource.id }) }}" class="w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'activate'|trans }}</a>
+{% endif %}
+	</td>
+	</tr>
+{% endfor %}
+	</tbody>
+</table>
 
 </div>
 

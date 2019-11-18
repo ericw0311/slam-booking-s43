@@ -240,6 +240,9 @@ planificationPeriod.deleted.ok: La période a bien été supprimée
 planificationPeriod.una.booking: Des réservations sont saisies pour cette période. Modification impossible
 planificationPeriod.una.closed: Cette période de planification est clotûrée, elle n'est pas modifiable
 
+planificationViewResource.activated.ok: La ressource a bien été activée pour la vue sélectionnée
+planificationViewResource.unactivated.ok: La ressource a bien été désactivée pour la vue sélectionnée
+
 planning: Planning
 planning.back: Retour au planning
 planning.calendar: Calendrier

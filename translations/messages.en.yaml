@@ -240,6 +240,9 @@ planificationPeriod.deleted.ok: The period has been deleted
 planificationPeriod.una.booking: Des réservations sont saisies pour cette période. Modification impossible
 planificationPeriod.una.closed: This planification period is closed. It is not updatable
 
+planificationViewResource.activated.ok: The resource has been activated for the selected view
+planificationViewResource.unactivated.ok: The resource has been unactivated for the selected view
+
 planning: Planning
 planning.back: Back to planning
 planning.calendar: Calendar

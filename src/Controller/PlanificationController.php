@@ -589,7 +589,7 @@ class PlanificationController extends AbstractController
 
       return $this->render('planification/view.html.twig', array('userContext' => $userContext, 'planification' => $planification, 'planificationPeriod' => $planificationPeriod, 'planificationView' => $planificationView,
       'planificationViews' => $planificationViews, 'manualViewCount' => $manualViewCount, 'minManualOrder' => $minManualOrder, 'maxManualOrder' => $maxManualOrder,
-      'planificationContext' => $planificationContext, 'allUserGroupViewActive' => $allUserGroupViewActive));
+      'planificationContext' => $planificationContext, 'allUserGroupViewActive' => $allUserGroupViewActive, 'planificationViewResources' => $planificationViewResources));
   }
 
   // Ajout d'une vue à une période de planification
@@ -775,6 +775,42 @@ class PlanificationController extends AbstractController
       }
       $em->flush();
       return $this->redirectToRoute('planification_view', array('planificationID' => $planification->getID(), 'planificationPeriodID' => $planificationPeriod->getID(), 'planificationViewID' => $planificationView->getID()));
+  }
+
+  // Active la resource pour la vue sélectionnée
+  /**
+   * @Route("/{_locale}/planification/activate_view_resource/{planificationID}/{planificationPeriodID}/{planificationViewID}/{planificationViewResourceID}", name="planification_activate_view_resource")
+   * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
+   * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
+   * @ParamConverter("planificationView", options={"mapping": {"planificationViewID": "id"}})
+   * @ParamConverter("planificationViewResource", options={"mapping": {"planificationViewResourceID": "id"}})
+   */
+  public function activate_view_resource(Request $request, Planification $planification, PlanificationPeriod $planificationPeriod, PlanificationView $planificationView, PlanificationViewResource $planificationViewResource)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $planificationViewResource->setActive(1);
+    $em->flush();
+    $request->getSession()->getFlashBag()->add('notice', 'planificationViewResource.activated.ok');
+
+    return $this->redirectToRoute('planification_view', array('planificationID' => $planification->getID(), 'planificationPeriodID' => $planificationPeriod->getID(), 'planificationViewID' => $planificationView->getID()));
+  }
+
+  // Désactive la resource pour la vue sélectionnée
+  /**
+   * @Route("/{_locale}/planification/unactivate_view_resource/{planificationID}/{planificationPeriodID}/{planificationViewID}/{planificationViewResourceID}", name="planification_unactivate_view_resource")
+   * @ParamConverter("planification", options={"mapping": {"planificationID": "id"}})
+   * @ParamConverter("planificationPeriod", options={"mapping": {"planificationPeriodID": "id"}})
+   * @ParamConverter("planificationView", options={"mapping": {"planificationViewID": "id"}})
+   * @ParamConverter("planificationViewResource", options={"mapping": {"planificationViewResourceID": "id"}})
+   */
+  public function unactivate_view_resource(Request $request, Planification $planification, PlanificationPeriod $planificationPeriod, PlanificationView $planificationView, PlanificationViewResource $planificationViewResource)
+  {
+    $em = $this->getDoctrine()->getManager();
+    $planificationViewResource->setActive(0);
+    $em->flush();
+    $request->getSession()->getFlashBag()->add('notice', 'planificationViewResource.unactivated.ok');
+
+    return $this->redirectToRoute('planification_view', array('planificationID' => $planification->getID(), 'planificationPeriodID' => $planificationPeriod->getID(), 'planificationViewID' => $planificationView->getID()));
   }
 
   // Met à jour le nombre de lignes et colonnes d'affichage des listes
