@@ -483,6 +483,8 @@ view.add: Ajouter une vue
 view.ask.delete:  Voulez-vous vraiment supprimer la vue rattachée au groupe %name% ?
 view.created.ok: La vue a bien été créee
 view.deleted.ok: La vue a bien été supprimée
+view.differentiated:  Vues différenciées
 view.dna.all.users: La vue rattachée au groupe de tous les utilisateurs ne peut pas être suprimée
 view.no.group.to.add: Il n'y a pas de groupe d'utilisateurs à ajouter
 view.select: Sélectionnez un groupe d'utilisateurs
+view.unique:  Vue unique

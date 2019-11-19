@@ -483,6 +483,8 @@ view.add: Add a view
 view.ask.delete: Do you really want to delete vue linked to users group %name% ?
 view.created.ok: The view has been created
 view.deleted.ok: The view has been deleted
+view.differentiated: Differentiated views
 view.dna.all.users: The all users view cannot be deleted
 view.no.group.to.add: There is no group to be added
 view.select: Select a user group
+view.unique:  Unique view

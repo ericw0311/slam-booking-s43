@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20191113135651 extends AbstractMigration
+final class Version20191119030112 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,7 +22,7 @@ final class Version20191113135651 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('CREATE TABLE planification_view_resource (id INT AUTO_INCREMENT NOT NULL, planification_view_id INT NOT NULL, planification_resource_id INT NOT NULL, active TINYINT(1) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, INDEX IDX_640DF95112824F3E (planification_view_id), INDEX IDX_640DF9514F1FC012 (planification_resource_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE planification_view_resource (id INT AUTO_INCREMENT NOT NULL, planification_view_id INT NOT NULL, planification_resource_id INT NOT NULL, active TINYINT(1) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, INDEX IDX_640DF95112824F3E (planification_view_id), INDEX IDX_640DF9514F1FC012 (planification_resource_id), UNIQUE INDEX uk_planification_view_resource (planification_view_id, planification_resource_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE timetable (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, file_id INT NOT NULL, name VARCHAR(255) NOT NULL, type VARCHAR(255) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, INDEX IDX_6B1F670A76ED395 (user_id), INDEX IDX_6B1F67093CB796C (file_id), UNIQUE INDEX uk_timetable (file_id, name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE planification_line (id INT AUTO_INCREMENT NOT NULL, planification_period_id INT NOT NULL, timetable_id INT DEFAULT NULL, user_id INT NOT NULL, week_day VARCHAR(255) NOT NULL, oorder SMALLINT NOT NULL, active TINYINT(1) NOT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, INDEX IDX_D967D141DCFAF5EA (planification_period_id), INDEX IDX_D967D141CC306847 (timetable_id), INDEX IDX_D967D141A76ED395 (user_id), UNIQUE INDEX uk_planification_line (planification_period_id, week_day), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
         $this->addSql('CREATE TABLE planification (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, file_id INT NOT NULL, type VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, internal TINYINT(1) NOT NULL, code VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME DEFAULT NULL, INDEX IDX_FFC02E1BA76ED395 (user_id), INDEX IDX_FFC02E1B93CB796C (file_id), UNIQUE INDEX uk_planification (file_id, type, name), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE = InnoDB');
