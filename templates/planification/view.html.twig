@@ -15,7 +15,10 @@
 <h4><img src="{{ asset('images/planification-32.png') }}"></img>&nbsp;{{ planification.name }}</h4>
 </div>
 
-<div class="w3-show-inline-block">
+<div class="w3-row">
+<div class="w3-third w3-container">
+
+<div class="w3-show-inline-block w3-margin-bottom">
 <div class="w3-bar w3-border w3-round">
 <a href="{{ path('planification_view_add', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-plus"></i>&nbsp;{{ 'view.add'|trans }}</a>
 {% if allUserGroupViewActive <= 0 %}
@@ -23,12 +26,8 @@
 {% elseif manualViewCount > 0 %}
 <a href="{{ path('planification_activate_manual_views', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewID': planificationView.id }) }}" class="w3-bar-item w3-button w3-green" title="{{ 'view.activate.manual'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'view.differentiated'|trans }}</a>
 {% endif %}
-<a href="{{ path('planification_edit', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'planification.back'|trans }}</a>
 </div>
 </div>
-
-<div class="w3-row">
-<div class="w3-third w3-container">
 
 <div class="w3-bar-block">
 {% set lineNumber = 0 %}
@@ -43,6 +42,13 @@
 {% endif %}
 {% endfor %}
 </div>
+
+<div class="w3-show-inline-block w3-margin-top">
+<div class="w3-bar w3-border w3-round">
+<a href="{{ path('planification_edit', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'planification.back'|trans }}</a>
+</div>
+</div>
+
 </div>
 
 <div class="w3-twothird w3-container">
