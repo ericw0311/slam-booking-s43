@@ -417,14 +417,7 @@ class PlanificationController extends AbstractController
       if ($request->isMethod('POST')) {
           $form->submit($request->request->get($form->getName()));
           if ($form->isSubmitted() && $form->isValid()) {
-              // Recherche des lignes de planification de la période en cours
-              $plRepository = $em->getRepository(PlanificationLine::class);
-              $planificationLines = $plRepository->getLines($planificationPeriod);
-              // Recherche des ressources planifiées de la période en cours
-              $prRepository = $em->getRepository(PlanificationResource::class);
-              $planificationResources = $prRepository->getResources($planificationPeriod);
               $lDate = $ppCreateDate->getDate();
-
               // Cloture de la période à la veille de la date choisie
               $previousDate = clone $lDate;
               $previousDate->sub(new \DateInterval('P1D'));
@@ -434,22 +427,6 @@ class PlanificationController extends AbstractController
               $newPeriod = new PlanificationPeriod($connectedUser, $planification);
               $newPeriod->setBeginningDate($lDate);
               $em->persist($newPeriod);
-
-              // Recopie des lignes de planification de la période en cours vers la nouvelle période
-              foreach ($planificationLines as $previousPL) {
-                  $newPL = new PlanificationLine($connectedUser, $newPeriod, $previousPL->getWeekDay(), $previousPL->getOrder());
-                  $newPL->setActive($previousPL->getActive());
-                  if ($newPL->getActive()) {
-                      $newPL->setTimetable($previousPL->getTimetable());
-                  }
-                  $em->persist($newPL);
-              }
-              // Recopie des ressources planifiées de la période en cours vers la nouvelle période
-              foreach ($planificationResources as $previousPR) {
-                  $newPR = new PlanificationResource($connectedUser, $newPeriod, $previousPR->getResource());
-                  $newPR->setOrder($previousPR->getOrder());
-                  $em->persist($newPR);
-              }
 
               $em->flush();
               $request->getSession()->getFlashBag()->add('notice', 'planificationPeriod.created.ok');
