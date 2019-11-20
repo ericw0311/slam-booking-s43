@@ -11,9 +11,16 @@
 
 {% block body %}
 
-<div class="w3-panel w3-border-bottom w3-text-indigo">
-<h4><img src="{{ asset('images/planification-32.png') }}"></img>&nbsp;{{ planification.name }}</h4>
-</div>
+<div class="w3-panel w3-border-bottom w3-text-indigo"><h4>
+<img src="{{ asset('images/planification-32.png') }}"></img>&nbsp;{{ planification.name }}
+{% if planificationPeriod.beginningDate == '' and planificationPeriod.endDate != '' %}
+&nbsp;<i class="fa fa-calendar-check-o"></i>&nbsp;{{ 'period.until'|trans({'%endDate%': planificationPeriod.endDate|date('d/m/Y')}) }}
+{% elseif planificationPeriod.beginningDate != '' and planificationPeriod.endDate == '' %}
+&nbsp;<i class="fa fa-calendar-check-o"></i>&nbsp;{{ 'period.from'|trans({'%beginningDate%': planificationPeriod.beginningDate|date('d/m/Y')}) }}
+{% elseif planificationPeriod.beginningDate != '' and planificationPeriod.endDate != '' %}
+&nbsp;<i class="fa fa-calendar-check-o"></i>&nbsp;{{ 'period.from.to'|trans({'%beginningDate%': planificationPeriod.beginningDate|date('d/m/Y'), '%endDate%': planificationPeriod.endDate|date('d/m/Y')}) }}
+{% endif %}
+</h4></div>
 
 <div class="w3-row">
 <div class="w3-third w3-container">

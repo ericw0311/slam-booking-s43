@@ -57,7 +57,7 @@ class UserFileGroupController extends AbstractController
               $em->persist($userFileGroup);
               $em->flush();
               $request->getSession()->getFlashBag()->add('notice', 'userFileGroup.created.ok');
-              return $this->redirectToRoute('user_file_group', array('page' => 1));
+              return $this->redirectToRoute('user_file_group_users', array('userFileGroupID' => $userFileGroup->getID()));
           }
       }
       return $this->render('user_file_group/add.html.twig', array('userContext' => $userContext, 'form' => $form->createView()));
