@@ -150,9 +150,9 @@ class User implements UserInterface
     private $planificationResources;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PlanificationView", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\PlanificationViewUserFileGroup", mappedBy="user", orphanRemoval=true)
      */
-    private $planificationViews;
+    private $planificationViewUserFileGroups;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\QueryBooking", mappedBy="user", orphanRemoval=true)
@@ -206,7 +206,7 @@ class User implements UserInterface
         $this->planificationPeriods = new ArrayCollection();
         $this->planificationLines = new ArrayCollection();
         $this->planificationResources = new ArrayCollection();
-        $this->planificationViews = new ArrayCollection();
+        $this->planificationViewUserFileGroups = new ArrayCollection();
         $this->queryBookings = new ArrayCollection();
         $this->notes = new ArrayCollection();
         $this->bookings = new ArrayCollection();
@@ -831,30 +831,30 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|PlanificationView[]
+     * @return Collection|PlanificationViewUserFileGroup[]
      */
-    public function getPlanificationViews(): Collection
+    public function getPlanificationViewUserFileGroups(): Collection
     {
-        return $this->planificationViews;
+        return $this->planificationViewUserFileGroups;
     }
 
-    public function addPlanificationView(PlanificationView $planificationView): self
+    public function addPlanificationViewUserFileGroup(PlanificationViewUserFileGroup $planificationViewUserFileGroup): self
     {
-        if (!$this->planificationViews->contains($planificationView)) {
-            $this->planificationViews[] = $planificationView;
-            $planificationView->setUser($this);
+        if (!$this->planificationViewUserFileGroups->contains($planificationViewUserFileGroup)) {
+            $this->planificationViewUserFileGroups[] = $planificationViewUserFileGroup;
+            $planificationViewUserFileGroup->setUser($this);
         }
 
         return $this;
     }
 
-    public function removePlanificationView(PlanificationView $planificationView): self
+    public function removePlanificationViewUserFileGroup(PlanificationViewUserFileGroup $planificationViewUserFileGroup): self
     {
-        if ($this->planificationViews->contains($planificationView)) {
-            $this->planificationViews->removeElement($planificationView);
+        if ($this->planificationViewUserFileGroups->contains($planificationViewUserFileGroup)) {
+            $this->planificationViewUserFileGroups->removeElement($planificationViewUserFileGroup);
             // set the owning side to null (unless already changed)
-            if ($planificationView->getUser() === $this) {
-                $planificationView->setUser(null);
+            if ($planificationViewUserFileGroup->getUser() === $this) {
+                $planificationViewUserFileGroup->setUser(null);
             }
         }
 

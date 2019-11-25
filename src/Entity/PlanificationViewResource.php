@@ -4,7 +4,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_planification_view_resource",columns={"planification_view_id", "planification_resource_id"})})
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_planification_view_resource",columns={"planification_view_user_file_group_id", "planification_resource_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\PlanificationViewResourceRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -18,10 +18,10 @@ class PlanificationViewResource
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PlanificationView", inversedBy="planificationViewResources")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PlanificationViewUserFileGroup", inversedBy="planificationViewResources")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $planificationView;
+    private $planificationViewUserFileGroup;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\PlanificationResource", inversedBy="planificationViewResources")
@@ -49,14 +49,14 @@ class PlanificationViewResource
         return $this->id;
     }
 
-    public function getPlanificationView(): ?PlanificationView
+    public function getPlanificationViewUserFileGroup(): ?PlanificationViewUserFileGroup
     {
-        return $this->planificationView;
+        return $this->planificationViewUserFileGroup;
     }
 
-    public function setPlanificationView(?PlanificationView $planificationView): self
+    public function setPlanificationViewUserFileGroup(?PlanificationViewUserFileGroup $planificationViewUserFileGroup): self
     {
-        $this->planificationView = $planificationView;
+        $this->planificationViewUserFileGroup = $planificationViewUserFileGroup;
         return $this;
     }
 
@@ -82,9 +82,9 @@ class PlanificationViewResource
         return $this;
     }
 
-    public function __construct(?PlanificationView $planificationView, ?PlanificationResource $planificationResource)
+    public function __construct(?PlanificationViewUserFileGroup $planificationViewUserFileGroup, ?PlanificationResource $planificationResource)
   	{
-  	$this->setPlanificationView($planificationView);
+  	$this->setPlanificationViewUserFileGroup($planificationViewUserFileGroup);
   	$this->setPlanificationResource($planificationResource);
   	$this->setActive(true);
   	}

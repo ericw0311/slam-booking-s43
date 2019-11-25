@@ -54,12 +54,12 @@ class UserFileGroupRepository extends ServiceEntityRepository
     }
 
     // Retourne les groupes d'utilisateurs non rattachés à une période de planification
-    public function getUserFileGroupsToAddToView(\App\Entity\File $file, $userFileGroupsInPlanificationViewQB)
+    public function getUserFileGroupsToAddToView(\App\Entity\File $file, $userFileGroupsInPlanificationViewUFG_QB)
     {
         $qb = $this->createQueryBuilder('ufg');
         $qb->where('ufg.file = :file')->setParameter('file', $file);
 
-        $qb->andWhere($qb->expr()->not($qb->expr()->exists($userFileGroupsInPlanificationViewQB->getDQL())));
+        $qb->andWhere($qb->expr()->not($qb->expr()->exists($userFileGroupsInPlanificationViewUFG_QB->getDQL())));
 
         $qb->orderBy('ufg.name', 'ASC');
         $query = $qb->getQuery();

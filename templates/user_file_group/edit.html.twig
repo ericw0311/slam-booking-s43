@@ -44,7 +44,7 @@
 	<a href="{{ path('user_file_group', { 'page': 1 }) }}" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-arrow-left"></i>&nbsp;{{ 'userFileGroup.back.to.list'|trans }}</a>
 		{% if userFileGroup.type == 'ALL' %}
 		<button onclick="document.getElementById('dnaAll').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
-		{% elseif userFileGroup.getPlanificationViews()|length > 0 %}
+		{% elseif userFileGroup.getPlanificationViewUserFileGroups()|length > 0 %}
 			<button onclick="document.getElementById('dnaView').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
 		{% else %}
 			<button onclick="document.getElementById('askDelete').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</button>

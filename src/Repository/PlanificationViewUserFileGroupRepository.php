@@ -4,7 +4,6 @@ namespace App\Repository;
 use App\Entity\PlanificationViewUserFileGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\Query\Expr;
 
 /**
  * @method PlanificationViewUserFileGroup|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,7 +11,7 @@ use Doctrine\ORM\Query\Expr;
  * @method PlanificationViewUserFileGroup[]    findAll()
  * @method PlanificationViewUserFileGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PlanificationViewRepository extends ServiceEntityRepository
+class PlanificationViewUserFileGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -22,9 +21,9 @@ class PlanificationViewRepository extends ServiceEntityRepository
     // Recherche les vues d'une periode de planification
     public function getViews(\App\Entity\PlanificationPeriod $planificationPeriod)
     {
-        $qb = $this->createQueryBuilder('pv');
-        $qb->where('pv.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
-        $qb->orderBy('pv.oorder', 'ASC');
+        $qb = $this->createQueryBuilder('pvufg');
+        $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+        $qb->orderBy('pvufg.oorder', 'ASC');
 
         $query = $qb->getQuery();
         $results = $query->getResult();
@@ -34,17 +33,17 @@ class PlanificationViewRepository extends ServiceEntityRepository
     // Construit le Query Builder des vues d'une période de planification
     public function getUserFileGroupsInPlanificationViewUFG_QB(\App\Entity\PlanificationPeriod $planificationPeriod)
     {
-        $qb = $this->createQueryBuilder('pv');
-        $qb->where('pv.userFileGroup = ufg.id and pv.planificationPeriod = '.$planificationPeriod->getID());
+        $qb = $this->createQueryBuilder('pvufg');
+        $qb->where('pvufg.userFileGroup = ufg.id and pvufg.planificationPeriod = '.$planificationPeriod->getID());
         return $qb;
     }
 
     // Retourne la premiere vue
     public function getFirstPlanificationViewUFG(\App\Entity\PlanificationPeriod $planificationPeriod)
     {
-        $qb = $this->createQueryBuilder('pv');
-        $qb->where('pv.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
-        $qb->orderBy('pv.oorder', 'ASC');
+        $qb = $this->createQueryBuilder('pvufg');
+        $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+        $qb->orderBy('pvufg.oorder', 'ASC');
         $qb->setMaxResults(1);
         $query = $qb->getQuery();
         $results = $query->getOneOrNullResult();
@@ -54,10 +53,10 @@ class PlanificationViewRepository extends ServiceEntityRepository
     // Retourne la vue precedente
     public function getPreviousPlanificationViewUFG(\App\Entity\PlanificationPeriod $planificationPeriod, \App\Entity\PlanificationViewUserFileGroup $planificationViewUserFileGroup)
     {
-        $qb = $this->createQueryBuilder('pv');
-        $qb->where('pv.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
-        $qb->andWhere('pv.oorder < :oorder')->setParameter('oorder', $planificationViewUserFileGroup->getOrder());
-        $qb->orderBy('pv.oorder', 'DESC');
+        $qb = $this->createQueryBuilder('pvufg');
+        $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+        $qb->andWhere('pvufg.oorder < :oorder')->setParameter('oorder', $planificationViewUserFileGroup->getOrder());
+        $qb->orderBy('pvufg.oorder', 'DESC');
         $qb->setMaxResults(1);
         $query = $qb->getQuery();
         $results = $query->getOneOrNullResult();
@@ -67,10 +66,10 @@ class PlanificationViewRepository extends ServiceEntityRepository
     // Retourne la vue suivante
     public function getNextPlanificationViewUFG(\App\Entity\PlanificationPeriod $planificationPeriod, \App\Entity\PlanificationViewUserFileGroup $planificationViewUserFileGroup)
     {
-        $qb = $this->createQueryBuilder('pv');
-        $qb->where('pv.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
-        $qb->andWhere('pv.oorder > :oorder')->setParameter('oorder', $planificationViewUserFileGroup->getOrder());
-        $qb->orderBy('pv.oorder', 'ASC');
+        $qb = $this->createQueryBuilder('pvufg');
+        $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+        $qb->andWhere('pvufg.oorder > :oorder')->setParameter('oorder', $planificationViewUserFileGroup->getOrder());
+        $qb->orderBy('pvufg.oorder', 'ASC');
         $qb->setMaxResults(1);
         $query = $qb->getQuery();
         $results = $query->getOneOrNullResult();
@@ -79,11 +78,11 @@ class PlanificationViewRepository extends ServiceEntityRepository
 
     public function getManualPlanificationViewUFGCount(\App\Entity\PlanificationPeriod $planificationPeriod)
     {
-        $qb = $this->createQueryBuilder('pv');
-        $qb->select($qb->expr()->count('pv'));
-        $qb->where('pv.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+        $qb = $this->createQueryBuilder('pvufg');
+        $qb->select($qb->expr()->count('pvufg'));
+        $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
         $qb->andWhere('ufg.type = :type')->setParameter('type', 'MANUAL');
-        $qb->innerJoin('pv.userFileGroup', 'ufg');
+        $qb->innerJoin('pvufg.userFileGroup', 'ufg');
         $query = $qb->getQuery();
         $singleScalar = $query->getSingleScalarResult();
         return $singleScalar;
@@ -91,11 +90,11 @@ class PlanificationViewRepository extends ServiceEntityRepository
 
     public function getMinManualPlanificationViewUFGOrder(\App\Entity\PlanificationPeriod $planificationPeriod)
     {
-        $qb = $this->createQueryBuilder('pv');
-        $qb->select($qb->expr()->min('pv.oorder'));
-        $qb->where('pv.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+        $qb = $this->createQueryBuilder('pvufg');
+        $qb->select($qb->expr()->min('pvufg.oorder'));
+        $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
         $qb->andWhere('ufg.type = :type')->setParameter('type', 'MANUAL');
-        $qb->innerJoin('pv.userFileGroup', 'ufg');
+        $qb->innerJoin('pvufg.userFileGroup', 'ufg');
 
         $query = $qb->getQuery();
         $singleScalar = $query->getSingleScalarResult();
@@ -107,11 +106,11 @@ class PlanificationViewRepository extends ServiceEntityRepository
 
     public function getMaxManualPlanificationViewUFGOrder(\App\Entity\PlanificationPeriod $planificationPeriod)
     {
-        $qb = $this->createQueryBuilder('pv');
-        $qb->select($qb->expr()->max('pv.oorder'));
-        $qb->where('pv.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+        $qb = $this->createQueryBuilder('pvufg');
+        $qb->select($qb->expr()->max('pvufg.oorder'));
+        $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
         $qb->andWhere('ufg.type = :type')->setParameter('type', 'MANUAL');
-        $qb->innerJoin('pv.userFileGroup', 'ufg');
+        $qb->innerJoin('pvufg.userFileGroup', 'ufg');
 
         $query = $qb->getQuery();
         $singleScalar = $query->getSingleScalarResult();
@@ -123,9 +122,9 @@ class PlanificationViewRepository extends ServiceEntityRepository
 
     public function getMaxPlanificationViewUFGOrder(\App\Entity\PlanificationPeriod $planificationPeriod)
     {
-        $qb = $this->createQueryBuilder('pv');
-        $qb->select($qb->expr()->max('pv.oorder'));
-        $qb->where('pv.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+        $qb = $this->createQueryBuilder('pvufg');
+        $qb->select($qb->expr()->max('pvufg.oorder'));
+        $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
 
         $query = $qb->getQuery();
         $singleScalar = $query->getSingleScalarResult();

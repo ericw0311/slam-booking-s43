@@ -6,11 +6,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_planification_view",columns={"planification_period_id", "user_file_group_id"})})
- * @ORM\Entity(repositoryClass="App\Repository\PlanificationViewRepository")
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_planification_view_user_file_group",columns={"planification_period_id", "user_file_group_id"})})
+ * @ORM\Entity(repositoryClass="App\Repository\PlanificationViewUserFileGroupRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class PlanificationView
+class PlanificationViewUserFileGroup
 {
     /**
      * @ORM\Id()
@@ -20,13 +20,13 @@ class PlanificationView
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\PlanificationPeriod", inversedBy="planificationViews")
+     * @ORM\ManyToOne(targetEntity="App\Entity\PlanificationPeriod", inversedBy="planificationViewUserFileGroups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $planificationPeriod;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\UserFileGroup", inversedBy="planificationViews")
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserFileGroup", inversedBy="planificationViewUserFileGroups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $userFileGroup;
@@ -42,7 +42,7 @@ class PlanificationView
     private $oorder;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="planificationViews")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="planificationViewUserFileGroups")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -58,7 +58,7 @@ class PlanificationView
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\PlanificationViewResource", mappedBy="planificationView", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\PlanificationViewResource", mappedBy="planificationViewUserFileGroup", orphanRemoval=true)
      */
     private $planificationViewResources;
 
@@ -97,7 +97,6 @@ class PlanificationView
     public function setUserFileGroup(?UserFileGroup $userFileGroup): self
     {
         $this->userFileGroup = $userFileGroup;
-
         return $this;
     }
 
@@ -109,7 +108,6 @@ class PlanificationView
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
         return $this;
     }
 
@@ -121,7 +119,6 @@ class PlanificationView
     public function setOrder(int $oorder): self
     {
         $this->oorder = $oorder;
-
         return $this;
     }
 
@@ -133,7 +130,6 @@ class PlanificationView
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -149,9 +145,8 @@ class PlanificationView
     {
         if (!$this->planificationViewResources->contains($planificationViewResource)) {
             $this->planificationViewResources[] = $planificationViewResource;
-            $planificationViewResource->setPlanificationView($this);
+            $planificationViewResource->setPlanificationViewUserFileGroup($this);
         }
-
         return $this;
     }
 
@@ -160,11 +155,10 @@ class PlanificationView
         if ($this->planificationViewResources->contains($planificationViewResource)) {
             $this->planificationViewResources->removeElement($planificationViewResource);
             // set the owning side to null (unless already changed)
-            if ($planificationViewResource->getPlanificationView() === $this) {
-                $planificationViewResource->setPlanificationView(null);
+            if ($planificationViewResource->getPlanificationViewUserFileGroup() === $this) {
+                $planificationViewResource->setPlanificationViewUserFileGroup(null);
             }
         }
-
         return $this;
     }
 

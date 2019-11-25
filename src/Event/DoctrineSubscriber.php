@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Entity\UserFile;
 use App\Entity\PlanificationPeriod;
 use App\Entity\PlanificationResource;
-use App\Entity\PlanificationView;
+use App\Entity\PlanificationViewUserFileGroup;
 
 class DoctrineSubscriber implements EventSubscriber
 {
@@ -73,10 +73,10 @@ class DoctrineSubscriber implements EventSubscriber
             $this->getLogger()->info('DoctrineSubscriber postPersist 5 PlanificationResource');
             $em = $args->getEntityManager();
             PlanificationResourceEvent::postPersist($em, $this->getUser(), $entity);
-          } elseif ($entity instanceof PlanificationView) {
-            $this->getLogger()->info('DoctrineSubscriber postPersist 6 PlanificationView');
+          } elseif ($entity instanceof PlanificationViewUserFileGroup) {
+            $this->getLogger()->info('DoctrineSubscriber postPersist 6 PlanificationViewUserFileGroup');
             $em = $args->getEntityManager();
-            PlanificationViewEvent::postPersist($em, $this->getUser(), $entity);
+            PlanificationViewUserFileGroupEvent::postPersist($em, $this->getUser(), $entity);
           }
     }
 

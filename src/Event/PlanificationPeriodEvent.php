@@ -6,7 +6,7 @@ use App\Entity\UserFileGroup;
 use App\Entity\PlanificationPeriod;
 use App\Entity\PlanificationLine;
 use App\Entity\PlanificationResource;
-use App\Entity\PlanificationView;
+use App\Entity\PlanificationViewUserFileGroup;
 
 class PlanificationPeriodEvent
 {
@@ -14,7 +14,7 @@ class PlanificationPeriodEvent
     {
       PlanificationPeriodEvent::createPlanificationLines($em, $user, $planificationPeriod);
       PlanificationPeriodEvent::createPlanificationresources($em, $user, $planificationPeriod);
-      PlanificationPeriodEvent::createPlanificationViews($em, $user, $planificationPeriod);
+      PlanificationPeriodEvent::createPlanificationViewUserFileGroups($em, $user, $planificationPeriod);
     }
 
     // Crée les lignes de la période de planification
@@ -62,26 +62,26 @@ class PlanificationPeriodEvent
     }
   }
     // Crée les vues de la période de planification
-    static function createPlanificationViews($em, \App\Entity\User $user, \App\Entity\PlanificationPeriod $planificationPeriod)
+    static function createPlanificationViewUserFileGroups($em, \App\Entity\User $user, \App\Entity\PlanificationPeriod $planificationPeriod)
     {
 	$ppRepository = $em->getRepository(PlanificationPeriod::class);
-	$pvRepository = $em->getRepository(PlanificationView::class);
+	$pvufgRepository = $em->getRepository(PlanificationViewUserFileGroup::class);
   $ufgRepository = $em->getRepository(UserFileGroup::class);
 
 	$previousPP = $ppRepository->getPreviousPlanificationPeriod($planificationPeriod->getPlanification(), $planificationPeriod->getID());
 	if ($previousPP === null) { // Première période de la planification. On crée une vue pour le groupe de tous les utilisateurs.
 
 		$allUserGroup = $ufgRepository->findOneBy(array('file' => $planificationPeriod->getPlanification()->getFile(), 'type' => 'ALL')); // Recherche du groupe de tous les utilisateurs.
-		$planificationView = new PlanificationView($user, $planificationPeriod, $allUserGroup);
-		$em->persist($planificationView);
+		$planificationViewUserFileGroup = new PlanificationViewUserFileGroup($user, $planificationPeriod, $allUserGroup);
+		$em->persist($planificationViewUserFileGroup);
 
 	} else { // Période suivante: on recopie les vues de la période précédente
-		$previousPVs = $pvRepository->getViews($previousPP);
+		$previousPVs = $pvufgRepository->getViews($previousPP);
 		foreach ($previousPVs as $previousPV) {
-			$planificationView = new PlanificationView($user, $planificationPeriod, $previousPV->getUserFileGroup());
-			$planificationView->setActive($previousPV->getActive());
-			$planificationView->setOrder($previousPV->getOrder());
-      $em->persist($planificationView);
+			$planificationViewUserFileGroup = new PlanificationViewUserFileGroup($user, $planificationPeriod, $previousPV->getUserFileGroup());
+			$planificationViewUserFileGroup->setActive($previousPV->getActive());
+			$planificationViewUserFileGroup->setOrder($previousPV->getOrder());
+      $em->persist($planificationViewUserFileGroup);
 		}
 	}
     $em->flush();

@@ -133,7 +133,6 @@ class PlanificationResource
             $this->planificationViewResources[] = $planificationViewResource;
             $planificationViewResource->setPlanificationResource($this);
         }
-
         return $this;
     }
 
@@ -146,7 +145,6 @@ class PlanificationResource
                 $planificationViewResource->setPlanificationResource(null);
             }
         }
-
         return $this;
     }
 

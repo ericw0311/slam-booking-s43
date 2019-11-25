@@ -29,23 +29,23 @@
 <div class="w3-bar w3-border w3-round">
 <a href="{{ path('planification_view_add', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-plus"></i>&nbsp;{{ 'view.add'|trans }}</a>
 {% if allUserGroupViewActive <= 0 %}
-<a href="{{ path('planification_activate_all_users_view', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewID': planificationView.id }) }}" class="w3-bar-item w3-button w3-green" title="{{ 'view.activate.all.users'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'view.unique'|trans }}</a>
+<a href="{{ path('planification_activate_all_users_view', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewUserFileGroupID': planificationViewUserFileGroup.id }) }}" class="w3-bar-item w3-button w3-green" title="{{ 'view.activate.all.users'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'view.unique'|trans }}</a>
 {% elseif manualViewCount > 0 %}
-<a href="{{ path('planification_activate_manual_views', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewID': planificationView.id }) }}" class="w3-bar-item w3-button w3-green" title="{{ 'view.activate.manual'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'view.differentiated'|trans }}</a>
+<a href="{{ path('planification_activate_manual_views', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewUserFileGroupID': planificationViewUserFileGroup.id }) }}" class="w3-bar-item w3-button w3-green" title="{{ 'view.activate.manual'|trans }}"><i class="fa fa-eye"></i>&nbsp;{{ 'view.differentiated'|trans }}</a>
 {% endif %}
 </div>
 </div>
 
 <div class="w3-bar-block">
 {% set lineNumber = 0 %}
-{% for l_planificationView in planificationViews %}
+{% for l_planificationViewUserFileGroup in planificationViewUserFileGroups %}
 {% set lineNumber = lineNumber + 1 %}
 {% set lineColor = (lineNumber is odd) ? 'sand' : 'transparent' %}
-{% set lineColor = (l_planificationView.id == planificationView.id) ? 'indigo' : lineColor %}
-{% if l_planificationView.active > 0 %}
-<a href="{{ path('planification_view', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewID': l_planificationView.ID }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><img src="{{ asset('images/user-group-32.png') }}">&nbsp;{{ l_planificationView.userFileGroup.name }}<span class="w3-badge w3-right w3-green"><i class="fa fa-eye"></i></span></a>
+{% set lineColor = (l_planificationViewUserFileGroup.id == planificationViewUserFileGroup.id) ? 'indigo' : lineColor %}
+{% if l_planificationViewUserFileGroup.active > 0 %}
+<a href="{{ path('planification_view', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewUserFileGroupID': l_planificationViewUserFileGroup.ID }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><img src="{{ asset('images/user-group-32.png') }}">&nbsp;{{ l_planificationViewUserFileGroup.userFileGroup.name }}<span class="w3-badge w3-right w3-green"><i class="fa fa-eye"></i></span></a>
 {% else %}
-<a href="{{ path('planification_view', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewID': l_planificationView.ID }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><img src="{{ asset('images/user-group-32.png') }}">&nbsp;{{ l_planificationView.userFileGroup.name }}<span class="w3-badge w3-right w3-red"><i class="fa fa-eye-slash"></i></span></a>
+<a href="{{ path('planification_view', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewUserFileGroupID': l_planificationViewUserFileGroup.ID }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><img src="{{ asset('images/user-group-32.png') }}">&nbsp;{{ l_planificationViewUserFileGroup.userFileGroup.name }}<span class="w3-badge w3-right w3-red"><i class="fa fa-eye-slash"></i></span></a>
 {% endif %}
 {% endfor %}
 </div>
@@ -61,7 +61,7 @@
 <div class="w3-twothird w3-container">
 
 <div class="w3-panel w3-border-bottom w3-text-indigo">
-<h4><img src="{{ asset('images/user-group-32.png') }}">&nbsp;{{ planificationView.userFileGroup.name }}</h4>
+<h4><img src="{{ asset('images/user-group-32.png') }}">&nbsp;{{ planificationViewUserFileGroup.userFileGroup.name }}</h4>
 </div>
 
 <table class="w3-table w3-striped">
@@ -82,9 +82,9 @@
 {% endif %}
 	<td>
 {% if planificationViewResource.active %}
-	<a href="{{ path('planification_unactivate_view_resource', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewID': planificationView.id, 'planificationViewResourceID': planificationViewResource.id }) }}" class="w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'unactivate'|trans }}</a>
+	<a href="{{ path('planification_unactivate_view_resource', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewUserFileGroupID': planificationViewUserFileGroup.id, 'planificationViewResourceID': planificationViewResource.id }) }}" class="w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'unactivate'|trans }}</a>
 {% else %}
-	<a href="{{ path('planification_activate_view_resource', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewID': planificationView.id, 'planificationViewResourceID': planificationViewResource.id }) }}" class="w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'activate'|trans }}</a>
+	<a href="{{ path('planification_activate_view_resource', { 'planificationID': planification.id, 'planificationPeriodID': planificationPeriod.id, 'planificationViewUserFileGroupID': planificationViewUserFileGroup.id, 'planificationViewResourceID': planificationViewResource.id }) }}" class="w3-button w3-green"><i class="fa fa-check"></i>&nbsp;{{ 'activate'|trans }}</a>
 {% endif %}
 	</td>
 	</tr>
@@ -94,13 +94,13 @@
 
 <div class="w3-show-inline-block w3-margin-top">
 <div class="w3-bar w3-border w3-round">
-{% if planificationView.userFileGroup.type == 'MANUAL' and planificationView.order > minManualOrder %}
-<a href="{{ path('planification_view_sort_before', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewID': planificationView.ID }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-arrow-up"></i>&nbsp;{{ 'sort.before'|trans }}</a>
+{% if planificationViewUserFileGroup.userFileGroup.type == 'MANUAL' and planificationViewUserFileGroup.order > minManualOrder %}
+<a href="{{ path('planification_view_sort_before', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewUserFileGroupID': planificationViewUserFileGroup.ID }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-arrow-up"></i>&nbsp;{{ 'sort.before'|trans }}</a>
 {% endif %}
-{% if planificationView.userFileGroup.type == 'MANUAL' and planificationView.order < maxManualOrder %}
-<a href="{{ path('planification_view_sort_after', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewID': planificationView.ID }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-arrow-down"></i>&nbsp;{{ 'sort.after'|trans }}</a>
+{% if planificationViewUserFileGroup.userFileGroup.type == 'MANUAL' and planificationViewUserFileGroup.order < maxManualOrder %}
+<a href="{{ path('planification_view_sort_after', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewUserFileGroupID': planificationViewUserFileGroup.ID }) }}" class="w3-bar-item w3-button w3-indigo"><i class="fa fa-arrow-down"></i>&nbsp;{{ 'sort.after'|trans }}</a>
 {% endif %}
-{% if planificationView.userFileGroup.type == 'ALL' %}
+{% if planificationViewUserFileGroup.userFileGroup.type == 'ALL' %}
 <button onclick="document.getElementById('dnaAllUser').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;<del>{{ 'delete'|trans }}</del></button>
 {% else %}
 <button onclick="document.getElementById('askDelete').style.display='block'" class="w3-bar-item w3-button w3-red"><i class="fa fa-trash"></i>&nbsp;{{ 'delete'|trans }}</button>
@@ -131,11 +131,11 @@
 			<h3>{{ 'deletion'|trans }}</h3>
 		</header>
 		<div class="w3-container w3-bottombar w3-border-khaki">
-			<p>{{ 'view.ask.delete'|trans({'%name%': planificationView.userFileGroup.name}) }}</p>
+			<p>{{ 'view.ask.delete'|trans({'%name%': planificationViewUserFileGroup.userFileGroup.name}) }}</p>
 			<div class="w3-show-inline-block w3-right w3-margin-bottom">
 			<div class="w3-bar w3-border w3-round">
 				<button onclick="document.getElementById('askDelete').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
-				<a href="{{ path('planification_view_delete', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewID': planificationView.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
+				<a href="{{ path('planification_view_delete', { 'planificationID': planification.ID, 'planificationPeriodID': planificationPeriod.ID, 'planificationViewUserFileGroupID': planificationViewUserFileGroup.ID }) }}" class="w3-bar-item w3-button w3-red"><i class="fa fa-check"></i>&nbsp;{{ 'validate'|trans }}</a>
 			</div>
 			</div>
 		</div>
