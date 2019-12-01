@@ -20,7 +20,6 @@ class PlanificationRepository extends ServiceEntityRepository
     }
 
     // 1) Toutes les planifications
-
       public function getPlanificationsCount($file)
       {
       $queryBuilder = $this->createQueryBuilder('p');
@@ -83,21 +82,43 @@ class PlanificationRepository extends ServiceEntityRepository
 
       public function getPlanningPlanifications($file, \Datetime $date)
       {
-      $qb = $this->createQueryBuilder('p');
-      $qb->select('p.id ID');
-      $qb->addSelect('p.type');
-      $qb->addSelect('p.name');
-      $qb->addSelect('p.internal');
-      $qb->addSelect('p.code');
-      $qb->addSelect('pp.id planificationPeriodID');
-      $qb->where('p.file = :file')->setParameter('file', $file);
-  	$this->getPlanningPlanificationsPeriod($qb);
-  	$this->getPlanificationsSort($qb);
-  	$this->getPlanningPlanificationsPeriodParameters($qb, $date);
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p.id ID');
+        $qb->addSelect('p.type');
+        $qb->addSelect('p.name');
+        $qb->addSelect('p.internal');
+        $qb->addSelect('p.code');
+        $qb->addSelect('pp.id planificationPeriodID');
+        $qb->where('p.file = :file')->setParameter('file', $file);
+        $this->getPlanningPlanificationsPeriod($qb);
+        $this->getPlanificationsSort($qb);
+        $this->getPlanningPlanificationsPeriodParameters($qb, $date);
 
-      $query = $qb->getQuery();
-      $results = $query->getResult();
-      return $results;
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+      }
+
+      // Planifications affichées dans le planning et accessibles par l'utilisateur connecté
+      public function getPlanningUserFilePlanifications($file, \Datetime $date, $planificationPeriodUserFileQB)
+      {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p.id ID');
+        $qb->addSelect('p.type');
+        $qb->addSelect('p.name');
+        $qb->addSelect('p.internal');
+        $qb->addSelect('p.code');
+        $qb->addSelect('pp.id planificationPeriodID');
+        $qb->where('p.file = :file')->setParameter('file', $file);
+        $this->getPlanningPlanificationsPeriod($qb);
+        $qb->andWhere($qb->expr()->exists($planificationPeriodUserFileQB->getDQL()));
+
+        $this->getPlanificationsSort($qb);
+        $this->getPlanningPlanificationsPeriodParameters($qb, $date);
+
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
       }
 
   	// Planifications affichées dans le planning: période

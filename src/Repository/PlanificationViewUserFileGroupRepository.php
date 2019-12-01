@@ -4,6 +4,7 @@ namespace App\Repository;
 use App\Entity\PlanificationViewUserFileGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method PlanificationViewUserFileGroup|null find($id, $lockMode = null, $lockVersion = null)
@@ -129,5 +130,35 @@ class PlanificationViewUserFileGroupRepository extends ServiceEntityRepository
         $query = $qb->getQuery();
         $singleScalar = $query->getSingleScalarResult();
         return $singleScalar;
+    }
+
+    // Retourne la premiere vue d'une période de planification liée à un utilisateur dossier
+    public function getUserFileFirstPlanificationView(\App\Entity\PlanificationPeriod $planificationPeriod, \App\Entity\UserFile $userFile)
+    {
+      $qb = $this->createQueryBuilder('pvufg');
+      $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+      $qb->andWhere('pvufg.active = :active')->setParameter('active', 1);
+      $qb->innerJoin('pvufg.userFileGroup', 'ufg');
+      $qb->innerJoin('ufg.userFiles', 'uf', Expr\Join::WITH, $qb->expr()->eq('uf.id','?1'))->setParameter(1, $userFile->getId());
+
+      $qb->orderBy('pvufg.oorder', 'ASC');
+      $qb->setMaxResults(1);
+      $query = $qb->getQuery();
+      $results = $query->getOneOrNullResult();
+      return $results;
+    }
+
+    // Construit le Query Builder d'une période de planification accessible pour un utilisateur dossier
+    public function getPlanificationPeriodUserFileQB(\App\Entity\UserFile $userFile)
+    {
+      $qb = $this->createQueryBuilder('pvufg');
+      $qb->where('pvufg.planificationPeriod = pp.id');
+      $qb->innerJoin('pvufg.userFileGroup', 'ufg');
+      $qb->innerJoin('ufg.userFiles', 'uf');
+      $qb->where('uf.id = '.$userFile->getId());
+      // $qb->innerJoin('ufg.userFiles', 'uf', Expr\Join::WITH, $qb->expr()->eq('uf.id','?1'))->setParameter(1, $userFile->getId());
+      // $qb->innerJoin('pvufg.userFileGroup', 'ufga', Expr\Join::WITH, $qb->expr()->in('?1','ufga.userFiles'))->setParameter(1, $userFile);
+      // $qb->innerJoin('pvufg.userFileGroup', 'ufg', Expr\Join::WITH, $qb->expr()->in(':uf','ufg.userFiles'))->setParameter('uf', $userFile);
+      return $qb;
     }
 }

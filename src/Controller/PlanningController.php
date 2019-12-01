@@ -18,6 +18,9 @@ use App\Entity\Planification;
 use App\Entity\PlanificationPeriod;
 use App\Entity\PlanificationResource;
 use App\Entity\PlanificationLine;
+use App\Entity\PlanificationViewUserFileGroup;
+use App\Entity\PlanificationViewResource;
+use App\Entity\ResourceNDB;
 use App\Entity\TimetableLine;
 use App\Entity\Booking;
 use App\Entity\Ddate;
@@ -34,28 +37,41 @@ class PlanningController extends AbstractController
   /**
    * @Route("/{_locale}/planning/access", name="planning")
    */
-  public function access(LoggerInterface $logger)
-  {
-      $connectedUser = $this->getUser();
-      $em = $this->getDoctrine()->getManager();
-      $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
-      $pRepository = $em->getRepository(Planification::class);
-      $currentDate = date("Ymd");
-      $logger->info('PlanningController.access DBG 1 _'.$currentDate.'_');
-      $planifications = $pRepository->getPlanningPlanifications($userContext->getCurrentFile(), new \DateTime());
-      // Aucune planification
-      if (count($planifications) <= 0) {
-          return $this->redirectToRoute('planning_no_planification');
-      }
-      // Acces au planning d'une planification
-if (count($planifications) >= constant(Constants::class.'::PLANNING_MIN_NUMBER_PLANIFICATION_LIST')) { // Via la liste
-return $this->redirectToRoute('planning_list', array('page' => 1));
-} elseif (count($planifications) > 1) { // Planification unique
-  return $this->redirectToRoute('planning_many_pp', array('planificationID' => $planifications[0]['ID'], 'planificationPeriodID' => $planifications[0]['planificationPeriodID'], 'date' => $currentDate));
-} else {
-  return $this->redirectToRoute('planning_one_pp', array('planificationID' => $planifications[0]['ID'], 'planificationPeriodID' => $planifications[0]['planificationPeriodID'], 'date' => $currentDate));
-}
-  }
+   public function access(LoggerInterface $logger)
+   {
+     $connectedUser = $this->getUser();
+     $em = $this->getDoctrine()->getManager();
+     $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
+
+     $pRepository = $em->getRepository(Planification::class);
+     $pvufgRepository = $em->getRepository(PlanificationViewUserFileGroup::Class);
+
+     $currentDate = date("Ymd");
+     $logger->info('PlanningController.access DBG 1 _'.$currentDate.'_');
+
+     $logger->info('PlanningController.access DBG 2 _'.$userContext->getCurrentFile()->getId().'_');
+     $logger->info('PlanningController.access DBG 3 _'.$userContext->getCurrentUserFile()->getId().'_');
+
+
+     if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+       $planifications = $pRepository->getPlanningPlanifications($userContext->getCurrentFile(), new \DateTime());
+     } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux planifications d'après les vues utilisateur
+       $planifications = $pRepository->getPlanningUserFilePlanifications($userContext->getCurrentFile(), new \DateTime(), $pvufgRepository->getPlanificationPeriodUserFileQB($userContext->getCurrentUserFile()));
+     }
+     // Aucune planification
+     if (count($planifications) <= 0) {
+       return $this->redirectToRoute('planning_no_planification');
+     }
+
+     // Acces au planning d'une planification
+     if (count($planifications) >= constant(Constants::class.'::PLANNING_MIN_NUMBER_PLANIFICATION_LIST')) { // Via la liste
+       return $this->redirectToRoute('planning_list', array('page' => 1));
+     } elseif (count($planifications) > 1) { // Planification unique
+       return $this->redirectToRoute('planning_many_pp', array('planificationID' => $planifications[0]['ID'], 'planificationPeriodID' => $planifications[0]['planificationPeriodID'], 'date' => $currentDate));
+     } else {
+       return $this->redirectToRoute('planning_one_pp', array('planificationID' => $planifications[0]['ID'], 'planificationPeriodID' => $planifications[0]['planificationPeriodID'], 'date' => $currentDate));
+     }
+   }
 
   // Affichage des planifications du dossier en cours
   /**
@@ -298,27 +314,69 @@ return $this->redirectToRoute('planning_list', array('page' => 1));
   // Affichage du planning (periode de planification connue)
   public function planning_pp(Request $request, LoggerInterface $logger, Planification $planification, PlanificationPeriod $planificationPeriod, \Datetime $date, $many)
   {
-      $connectedUser = $this->getUser();
-      $em = $this->getDoctrine()->getManager();
-      $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
-      $logger->info('PlanningController.planning_pp DBG 1');
-      $ddate = new Ddate();
-      $form = $this->createForm(DdateType::class, $ddate);
+    $connectedUser = $this->getUser();
+    $em = $this->getDoctrine()->getManager();
+    $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
+    $logger->info('PlanningController.planning_pp DBG 1');
+    $ddate = new Ddate();
+    $form = $this->createForm(DdateType::class, $ddate);
 
-      if ($request->isMethod('POST')) { // Si l'utilisateur change de date, on ré oriente vers la route qui recherche la période de planification
-          $form->submit($request->request->get($form->getName()));
-          if ($form->isSubmitted() && $form->isValid()) {
-              return $this->redirectToRoute(
-      'planning_'.($many ? 'many' : 'one'),
-      array('planificationID' => $planification->getID(), 'date' => $ddate->getDate()->format("Ymd"))
-  );
+    if ($request->isMethod('POST')) { // Si l'utilisateur change de date, on ré oriente vers la route qui recherche la période de planification
+      $form->submit($request->request->get($form->getName()));
+      if ($form->isSubmitted() && $form->isValid()) {
+        return $this->redirectToRoute(
+          'planning_'.($many ? 'many' : 'one'),
+      array('planificationID' => $planification->getID(), 'date' => $ddate->getDate()->format("Ymd")));
           }
-      }
+        }
+
       $logger->info('PlanningController.planning_pp DBG 2 _'.$date->format('Y-m-d H:i:s').'_');
       $lDate = new \DateTime($date->format('Y-m-d')); // lDate permet d'ignorer la partie heures-minutes-secondes
       $logger->info('PlanningController.planning_pp DBG 3 _'.$lDate->format('Y-m-d H:i:s').'_');
+
       $pRepository = $em->getRepository(Planification::class);
-      $planifications = $pRepository->getPlanningPlanifications($userContext->getCurrentFile(), $lDate);
+      $prRepository = $em->getRepository(PlanificationResource::class);
+      $pvrRepository = $em->getRepository(PlanificationViewResource::class);
+      $pvufgRepository = $em->getRepository(PlanificationViewUserFileGroup::class);
+
+      $resources = array();
+
+      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+          $planifications = $pRepository->getPlanningPlanifications($userContext->getCurrentFile(), $lDate);
+
+          // Recherche des ressources planifiées
+          $planificationResources = $prRepository->getResources($planificationPeriod);
+
+          foreach ($planificationResources as $planificationResource) {
+            $resource = new ResourceNDB();
+            $resource->setID($planificationResource->getResource()->getId());
+            $resource->setName($planificationResource->getResource()->getName());
+            $resource->setInternal($planificationResource->getResource()->getInternal());
+            $resource->setCode($planificationResource->getResource()->getCode());
+            $resource->setType($planificationResource->getResource()->getType());
+            array_push($resources, $resource);
+          }
+      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux planifications d'après les vues utilisateur
+
+        $planifications = $pRepository->getPlanningUserFilePlanifications($userContext->getCurrentFile(), $lDate, $pvufgRepository->getPlanificationPeriodUserFileQB($userContext->getCurrentUserFile()));
+
+        // On détermine la vue associée à l'utilisateur
+        $planificationViewUFG = $pvufgRepository->getUserFileFirstPlanificationView($planificationPeriod, $userContext->getCurrentUserFile());
+
+        // Recherche des ressources planifiées
+        $planificationViewResources = $pvrRepository->getUserFileResources($planificationViewUFG);
+
+        foreach ($planificationViewResources as $planificationViewResource) {
+          $resource = new ResourceNDB();
+    			$resource->setID($planificationViewResource->getPlanificationResource()->getResource()->getId());
+    			$resource->setName($planificationViewResource->getPlanificationResource()->getResource()->getName());
+    			$resource->setInternal($planificationViewResource->getPlanificationResource()->getResource()->getInternal());
+    			$resource->setCode($planificationViewResource->getPlanificationResource()->getResource()->getCode());
+    			$resource->setType($planificationViewResource->getPlanificationResource()->getResource()->getType());
+    			array_push($resources, $resource);
+        }
+      }
+
       $previousDate = clone $lDate;
       $previousDate->sub(new \DateInterval('P1D'));
       $nextDate = clone $lDate;
@@ -333,10 +391,9 @@ return $this->redirectToRoute('planning_list', array('page' => 1));
   'planning/'.($many ? 'many' : 'one').'.html.twig',
   array('userContext' => $userContext, 'planningContext' => $planningContext, 'bookingPeriod' => $bookingPeriod,
   'planification' => $planification, 'planificationPeriod' => $planificationPeriod,
-  'planifications' => $planifications, 'planificationResources' => $planificationResources,
+  'planifications' => $planifications, 'resources' => $resources,
   'date' => $lDate, 'nextDate' => $nextDate, 'previousDate' => $previousDate, 'bookings' => $bookings,
-  'list_acces' => $listAcces, 'form' => $form->createView())
-);
+  'list_acces' => $listAcces, 'form' => $form->createView()));
   }
 
   // Mise à jour du nombre de lignes pour plusieurs planifications
