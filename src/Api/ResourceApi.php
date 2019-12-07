@@ -10,6 +10,7 @@ use App\Entity\ResourceClassification;
 use App\Entity\Resource;
 use App\Entity\UserFile;
 use App\Entity\PlanificationResource;
+use App\Entity\PlanificationViewResource;
 
 class ResourceApi
 {
@@ -196,7 +197,26 @@ class ResourceApi
 			$even = true;
 		}
 	}
-	
+
+	return $resources;
+	}
+
+	// Retourne un tableau des ressources paires d'une periode de planification et d'un utilisateur dossier
+	static function getEvenUserFilePlanifiedResourcesID($em, \App\Entity\PlanificationViewUserFileGroup $planificationViewUserFileGroup)
+	{
+	$pvrRepository = $em->getRepository(PlanificationViewResource::class);
+	$planificationViewResources = $pvrRepository->getUserFileResources($planificationViewUserFileGroup);
+	$resources = array();
+	$even = false;
+
+	foreach ($planificationViewResources as $planificationViewResource) {
+		if ($even) {
+			$resources[] = $planificationViewResource->getPlanificationResource()->getResource()->getId();
+			$even = false;
+		} else {
+			$even = true;
+		}
+	}
 	return $resources;
 	}
 }

@@ -2,8 +2,11 @@
 namespace App\Api;
 
 use App\Entity\Planification;
+use App\Entity\PlanificationResource;
+use App\Entity\PlanificationViewResource;
 use App\Entity\UserParameter;
 use App\Entity\Constants;
+use App\Entity\ResourceNDB;
 
 class PlanningApi
 {
@@ -55,7 +58,7 @@ class PlanningApi
     }
     $em->flush();
 	}
-	
+
     // Retourne la planification en cours d'un utilisateur
     static function getCurrentCalendarMany($em, \App\Entity\User $user)
     {
@@ -117,7 +120,7 @@ class PlanningApi
 	$userParameter = $upRepository->findOneBy(array('user' => $user, 'parameterGroup' => 'planning.number.lines.columns', 'parameter' => 'number.lines'));
 	if ($userParameter != null) {
 		$userParameter->setSBIntegerValue($numberLines);
-	} else { 
+	} else {
 		$userParameter = new UserParameter($user, 'planning.number.lines.columns', 'number.lines');
 		$userParameter->setSBIntegerValue($numberLines);
 		$em->persist($userParameter);
@@ -144,7 +147,7 @@ class PlanningApi
 	$userParameter = $upRepository->findOneBy(array('user' => $user, 'parameterGroup' => 'planning.number.lines.columns', 'parameter' => 'number.columns'));
 	if ($userParameter != null) {
 		$userParameter->setSBIntegerValue($numberColumns);
-	} else { 
+	} else {
 		$userParameter = new UserParameter($user, 'planning.number.lines.columns', 'number.columns');
 		$userParameter->setSBIntegerValue($numberColumns);
 		$em->persist($userParameter);
@@ -256,7 +259,7 @@ class PlanningApi
 	static function getLastDate_MONTH($numberOfMonths): \DateTime
 	{
 	$lDate = New \DateTime(date('Y').'-'.date('M').'-01'); // On se place au premier jour du mois en cours
-	$lDate->add(new \DateInterval('P'.$numberOfMonths.'M')); // On avance jusqu'au premier jour du mois suivant le dernier mois 
+	$lDate->add(new \DateInterval('P'.$numberOfMonths.'M')); // On avance jusqu'au premier jour du mois suivant le dernier mois
 	$lDate->sub(new \DateInterval('P1D')); // On recule d'un jour = Dernier jour du mois
 	return $lDate;
 	}
@@ -269,5 +272,47 @@ class PlanningApi
 		$lDate->add(new \DateInterval('P'.($numberOfYears-1).'Y'));
 	}
 	return $lDate;
+	}
+
+  // Retourne un tableau des ressources affichées sur le planning
+	static function getPlanningResources($em, \App\Entity\PlanificationPeriod $planificationPeriod)
+	{
+	$prRepository = $em->getRepository(PlanificationResource::class);
+
+	// Recherche des ressources planifiées
+	$planificationResources = $prRepository->getResources($planificationPeriod);
+	$resources = array();
+
+	foreach ($planificationResources as $planificationResource) {
+		$resource = new ResourceNDB();
+		$resource->setID($planificationResource->getResource()->getId());
+		$resource->setName($planificationResource->getResource()->getName());
+		$resource->setInternal($planificationResource->getResource()->getInternal());
+		$resource->setCode($planificationResource->getResource()->getCode());
+		$resource->setType($planificationResource->getResource()->getType());
+		array_push($resources, $resource);
+	}
+	return $resources;
+	}
+
+	// Retourne un tableau des ressources affichées sur le planning (selon la vue d'un utilisateur dossier)
+	static function getPlanningUserFileResources($em, \App\Entity\PlanificationViewUserFileGroup $planificationViewUserFileGroup)
+	{
+	$pvrRepository = $em->getRepository(PlanificationViewResource::class);
+
+	// Recherche des ressources planifiées
+	$planificationViewResources = $pvrRepository->getUserFileResources($planificationViewUserFileGroup);
+	$resources = array();
+
+	foreach ($planificationViewResources as $planificationViewResource) {
+		$resource = new ResourceNDB();
+		$resource->setID($planificationViewResource->getPlanificationResource()->getResource()->getId());
+		$resource->setName($planificationViewResource->getPlanificationResource()->getResource()->getName());
+		$resource->setInternal($planificationViewResource->getPlanificationResource()->getResource()->getInternal());
+		$resource->setCode($planificationViewResource->getPlanificationResource()->getResource()->getCode());
+		$resource->setType($planificationViewResource->getPlanificationResource()->getResource()->getType());
+		array_push($resources, $resource);
+	}
+	return $resources;
 	}
 }

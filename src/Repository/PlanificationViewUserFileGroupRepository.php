@@ -154,11 +154,7 @@ class PlanificationViewUserFileGroupRepository extends ServiceEntityRepository
       $qb = $this->createQueryBuilder('pvufg');
       $qb->where('pvufg.planificationPeriod = pp.id');
       $qb->innerJoin('pvufg.userFileGroup', 'ufg');
-      $qb->innerJoin('ufg.userFiles', 'uf');
-      $qb->where('uf.id = '.$userFile->getId());
-      // $qb->innerJoin('ufg.userFiles', 'uf', Expr\Join::WITH, $qb->expr()->eq('uf.id','?1'))->setParameter(1, $userFile->getId());
-      // $qb->innerJoin('pvufg.userFileGroup', 'ufga', Expr\Join::WITH, $qb->expr()->in('?1','ufga.userFiles'))->setParameter(1, $userFile);
-      // $qb->innerJoin('pvufg.userFileGroup', 'ufg', Expr\Join::WITH, $qb->expr()->in(':uf','ufg.userFiles'))->setParameter('uf', $userFile);
+      $qb->innerJoin('ufg.userFiles', 'uf', Expr\Join::WITH, 'uf.id = '.$userFile->getId());
       return $qb;
     }
 }

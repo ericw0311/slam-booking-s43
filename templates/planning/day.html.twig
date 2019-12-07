@@ -29,7 +29,7 @@
 {% for timetableLine in planningContext.getDay(day_key).timetableLines %}
 <tr>
 	<td>{{ timetableLine(timetableLine) }}</td>
-{% for planificationResource in resources %}
+{% for resource in resources %}
 
 {% set key = planningContext.getDay(day_key).date|date('Ymd') ~ '-' ~ planification.ID ~ '-' ~ planificationPeriod.ID ~ '-' ~ planningContext.getDay(day_key).planificationLine.ID ~ '-' ~ resource.ID ~ '-' ~ timetableLine.timetable.ID ~ '-' ~ timetableLine.ID %}
 

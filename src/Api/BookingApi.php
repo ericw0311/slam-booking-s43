@@ -299,6 +299,15 @@ class BookingApi
 	return BookingApi::getPlanningBookingArray($em, $currentUserFile, $bookingsDB, 'P', $evenResourcesID, 0, 0);
 	}
 
+	static function getUserFilePlanningBookings($em, \App\Entity\File $file, \Datetime $beginningDate, \Datetime $endDate, \App\Entity\Planification $planification, \App\Entity\PlanificationPeriod $planificationPeriod, \App\Entity\PlanificationViewUserFileGroup $planificationViewUserFileGroup, \App\Entity\UserFile $currentUserFile)
+	{
+	$bRepository = $em->getRepository(Booking::Class);
+
+	$evenResourcesID = ResourceApi::getEvenUserFilePlanifiedResourcesID($em, $planificationViewUserFileGroup);
+	$bookingsDB = $bRepository->getUserFilePlanningBookings($file, $beginningDate, $endDate, $planification, $planificationPeriod, $planificationViewUserFileGroup);
+
+	return BookingApi::getPlanningBookingArray($em, $currentUserFile, $bookingsDB, 'P', $evenResourcesID, 0, 0);
+	}
 
 	static function getDuplicateBookings($em, \App\Entity\File $file, \Datetime $beginningDate, \Datetime $endDate, \Datetime $newBookingBeginningDate, \Datetime $newBookingEndDate,
 		\App\Entity\Planification $planification, \App\Entity\PlanificationPeriod $planificationPeriod, \App\Entity\Booking $originBooking, $newBookingID, \App\Entity\UserFile $currentUserFile)

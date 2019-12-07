@@ -330,64 +330,37 @@ class PlanningController extends AbstractController
           }
         }
 
-      $logger->info('PlanningController.planning_pp DBG 2 _'.$date->format('Y-m-d H:i:s').'_');
-      $lDate = new \DateTime($date->format('Y-m-d')); // lDate permet d'ignorer la partie heures-minutes-secondes
-      $logger->info('PlanningController.planning_pp DBG 3 _'.$lDate->format('Y-m-d H:i:s').'_');
+    $logger->info('PlanningController.planning_pp DBG 2 _'.$date->format('Y-m-d H:i:s').'_');
+    $lDate = new \DateTime($date->format('Y-m-d')); // lDate permet d'ignorer la partie heures-minutes-secondes
+    $logger->info('PlanningController.planning_pp DBG 3 _'.$lDate->format('Y-m-d H:i:s').'_');
 
-      $pRepository = $em->getRepository(Planification::class);
-      $prRepository = $em->getRepository(PlanificationResource::class);
-      $pvrRepository = $em->getRepository(PlanificationViewResource::class);
-      $pvufgRepository = $em->getRepository(PlanificationViewUserFileGroup::class);
+    $pRepository = $em->getRepository(Planification::class);
+    $pvufgRepository = $em->getRepository(PlanificationViewUserFileGroup::class);
 
-      $resources = array();
+    if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+      $planifications = $pRepository->getPlanningPlanifications($userContext->getCurrentFile(), $lDate);
+  		$resources = PlanningApi::getPlanningResources($em, $planificationPeriod);
+    } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux planifications d'après les vues utilisateur
+      $planifications = $pRepository->getPlanningUserFilePlanifications($userContext->getCurrentFile(), $lDate, $pvufgRepository->getPlanificationPeriodUserFileQB($userContext->getCurrentUserFile()));
+      // On détermine la vue associée à l'utilisateur
+      $planificationViewUFG = $pvufgRepository->getUserFileFirstPlanificationView($planificationPeriod, $userContext->getCurrentUserFile());
+  		$resources = PlanningApi::getPlanningUserFileResources($em, $planificationViewUFG);
+    }
 
-      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
-          $planifications = $pRepository->getPlanningPlanifications($userContext->getCurrentFile(), $lDate);
+    $previousDate = clone $lDate;
+    $previousDate->sub(new \DateInterval('P1D'));
+    $nextDate = clone $lDate;
+    $nextDate->add(new \DateInterval('P1D'));
+    $bookingPeriod = new BookingPeriod($em, $userContext, $planificationPeriod); // période de réservation
+    $planningContext = new PlanningContext($logger, $em, $connectedUser, $userContext->getCurrentFile(), $bookingPeriod, 'P', $lDate, $lDate, 1);
 
-          // Recherche des ressources planifiées
-          $planificationResources = $prRepository->getResources($planificationPeriod);
-
-          foreach ($planificationResources as $planificationResource) {
-            $resource = new ResourceNDB();
-            $resource->setID($planificationResource->getResource()->getId());
-            $resource->setName($planificationResource->getResource()->getName());
-            $resource->setInternal($planificationResource->getResource()->getInternal());
-            $resource->setCode($planificationResource->getResource()->getCode());
-            $resource->setType($planificationResource->getResource()->getType());
-            array_push($resources, $resource);
-          }
-      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux planifications d'après les vues utilisateur
-
-        $planifications = $pRepository->getPlanningUserFilePlanifications($userContext->getCurrentFile(), $lDate, $pvufgRepository->getPlanificationPeriodUserFileQB($userContext->getCurrentUserFile()));
-
-        // On détermine la vue associée à l'utilisateur
-        $planificationViewUFG = $pvufgRepository->getUserFileFirstPlanificationView($planificationPeriod, $userContext->getCurrentUserFile());
-
-        // Recherche des ressources planifiées
-        $planificationViewResources = $pvrRepository->getUserFileResources($planificationViewUFG);
-
-        foreach ($planificationViewResources as $planificationViewResource) {
-          $resource = new ResourceNDB();
-    			$resource->setID($planificationViewResource->getPlanificationResource()->getResource()->getId());
-    			$resource->setName($planificationViewResource->getPlanificationResource()->getResource()->getName());
-    			$resource->setInternal($planificationViewResource->getPlanificationResource()->getResource()->getInternal());
-    			$resource->setCode($planificationViewResource->getPlanificationResource()->getResource()->getCode());
-    			$resource->setType($planificationViewResource->getPlanificationResource()->getResource()->getType());
-    			array_push($resources, $resource);
-        }
-      }
-
-      $previousDate = clone $lDate;
-      $previousDate->sub(new \DateInterval('P1D'));
-      $nextDate = clone $lDate;
-      $nextDate->add(new \DateInterval('P1D'));
-      $bookingPeriod = new BookingPeriod($em, $userContext, $planificationPeriod); // période de réservation
-      $planningContext = new PlanningContext($logger, $em, $connectedUser, $userContext->getCurrentFile(), $bookingPeriod, 'P', $lDate, $lDate, 1);
-      $prRepository = $em->getRepository(PlanificationResource::class);
-      $planificationResources = $prRepository->getResources($planificationPeriod);
-      $bookings = BookingApi::getPlanningBookings($em, $userContext->getCurrentFile(), $lDate, $planningContext->getLastDate(1), $planification, $planificationPeriod, $userContext->getCurrentUserFile());
-      $listAcces = (count($planifications) >= constant(Constants::class.'::PLANNING_MIN_NUMBER_PLANIFICATION_LIST'));
-      return $this->render(
+    if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+    	$bookings = BookingApi::getPlanningBookings($em, $userContext->getCurrentFile(), $lDate, $planningContext->getLastDate(1), $planification, $planificationPeriod, $userContext->getCurrentUserFile());
+    } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux planifications d'après les vues utilisateur
+    	$bookings = BookingApi::getUserFilePlanningBookings($em, $userContext->getCurrentFile(), $lDate, $planningContext->getLastDate(1), $planification, $planificationPeriod, $planificationViewUFG, $userContext->getCurrentUserFile());
+    }
+    $listAcces = (count($planifications) >= constant(Constants::class.'::PLANNING_MIN_NUMBER_PLANIFICATION_LIST'));
+    return $this->render(
   'planning/'.($many ? 'many' : 'one').'.html.twig',
   array('userContext' => $userContext, 'planningContext' => $planningContext, 'bookingPeriod' => $bookingPeriod,
   'planification' => $planification, 'planificationPeriod' => $planificationPeriod,

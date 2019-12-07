@@ -39,6 +39,34 @@ class BookingRepository extends ServiceEntityRepository
         return $results;
     }
 
+    // Affichage des réservations dans le planning d'un utilisateur dossier (donc en suivant la vue de son groupe utilisateur)
+    public function getUserFilePlanningBookings(\App\Entity\File $file, \Datetime $beginningDate, \Datetime $endDate, \App\Entity\Planification $planification, \App\Entity\PlanificationPeriod $planificationPeriod, \App\Entity\PlanificationViewUserFileGroup $planificationViewUserFileGroup)
+    {
+      $qb = $this->createQueryBuilder('b');
+      $this->getPlanningSelect($qb);
+      $qb->where('b.file = :file')->setParameter('file', $file);
+      $qb->andWhere($qb->expr()->between("DATE_FORMAT(bl.ddate,'%Y%m%d')", ':beginningDate', ':endDate'))
+        ->setParameter('beginningDate', $beginningDate->format('Ymd'))
+        ->setParameter('endDate', $endDate->format('Ymd'));
+      $qb->andWhere('bl.planification = :planification')->setParameter('planification', $planification);
+      $qb->andWhere('bl.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+      $this->getPlanningJoin($qb);
+      $this->getUserFilePlanningJoin($qb, $planificationViewUserFileGroup);
+      $this->getPlanningOrder($qb);
+      $query = $qb->getQuery();
+      $results = $query->getResult();
+      return $results;
+    }
+
+    // Planning des réservations d'un utilisateur dossier: partie Join
+    public function getUserFilePlanningJoin($qb, \App\Entity\PlanificationViewUserFileGroup $planificationViewUserFileGroup)
+    {
+		$qb->innerJoin('pp.planificationViewUserFileGroups', 'pvufg', Expr\Join::WITH, $qb->expr()->eq('pvufg.id',':pvufgID'))->setParameter('pvufgID', $planificationViewUserFileGroup->getId());
+		$qb->innerJoin('pvufg.planificationViewResources', 'pvr', Expr\Join::WITH, $qb->expr()->eq('pvr.active',':active'))->setParameter('active', 1);
+    $qb->innerJoin('pvr.planificationResource', 'pr');
+    $qb->andWhere('pr.resource = r.id');
+    }
+
     // Affichage des réservations pour la duplication des réservations (on traite deux périodes et une seule ressource)
     public function getDuplicateBookings(
         \App\Entity\File $file,
