@@ -242,11 +242,19 @@ class PlanningController extends AbstractController
       $logger->info('PlanningController.planning DBG 2 _'.$lDate->format('Y-m-d H:i:s').'_');
       $lDate = new \DateTime($lDate->format('Y-m-d')); // On ignor la partie heures-minutes-secondes
       $logger->info('PlanningController.planning DBG 3 _'.$lDate->format('Y-m-d H:i:s').'_');
+
       $pRepository = $em->getRepository(Planification::class);
-      $planifications = $pRepository->getPlanningPlanifications($userContext->getCurrentFile(), $lDate);
+      $pvufgRepository = $em->getRepository(PlanificationViewUserFileGroup::class);
+
+      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+        $planifications = $pRepository->getPlanningPlanifications($userContext->getCurrentFile(), $lDate);
+      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux planifications d'après les vues utilisateur
+        $planifications = $pRepository->getPlanningUserFilePlanifications($userContext->getCurrentFile(), $lDate, $pvufgRepository->getPlanificationPeriodUserFileQB($userContext->getCurrentUserFile()));
+      }
       if (count($planifications) <= 0) {
           return $this->redirectToRoute('planning_no_planification');
       }
+
       // 1) Si la planification passée n'est pas trouvée dans la liste des planifications, on prend la première de la liste
       // 2) On initialise la période planification
       $planificationFound = false;
@@ -266,6 +274,7 @@ class PlanningController extends AbstractController
           $lPlanification = $pRepository->find($planifications[0]['ID']);
           $planificationPeriod = $ppRepository->find($planifications[0]['planificationPeriodID']);
       }
+
       $previousDate = clone $lDate;
       $previousDate->sub(new \DateInterval('P1D'));
       $nextDate = clone $lDate;
@@ -273,18 +282,28 @@ class PlanningController extends AbstractController
       $bookingPeriod = new BookingPeriod($em, $userContext, $planificationPeriod); // période de réservation
       $planningContext = new PlanningContext($logger, $em, $connectedUser, $userContext->getCurrentFile(), $bookingPeriod, 'P', $lDate, $lDate, 1);
       $prRepository = $em->getRepository(PlanificationResource::class);
-      $planificationResources = $prRepository->getResources($planificationPeriod);
+
+
       $bookings = BookingApi::getPlanningBookings($em, $userContext->getCurrentFile(), $lDate, $planningContext->getLastDate(1), $lPlanification, $planificationPeriod, $userContext->getCurrentUserFile());
+
+      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+    		$resources = PlanningApi::getPlanningResources($em, $planificationPeriod);
+        $bookings = BookingApi::getPlanningBookings($em, $userContext->getCurrentFile(), $lDate, $planningContext->getLastDate(1), $planification, $planificationPeriod, $userContext->getCurrentUserFile());
+      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux planifications d'après les vues utilisateur
+        // On détermine la vue associée à l'utilisateur
+        $planificationViewUFG = $pvufgRepository->getUserFileFirstPlanificationView($planificationPeriod, $userContext->getCurrentUserFile());
+    		$resources = PlanningApi::getPlanningUserFileResources($em, $planificationViewUFG);
+        $bookings = BookingApi::getUserFilePlanningBookings($em, $userContext->getCurrentFile(), $lDate, $planningContext->getLastDate(1), $planification, $planificationPeriod, $planificationViewUFG, $userContext->getCurrentUserFile());
+      }
 
       $listAcces = (count($planifications) >= constant(Constants::class.'::PLANNING_MIN_NUMBER_PLANIFICATION_LIST')); // Accès au planning via la liste des planifications
       return $this->render(
   'planning/'.($many ? 'many' : 'one').'.html.twig',
   array('userContext' => $userContext, 'planningContext' => $planningContext, 'bookingPeriod' => $bookingPeriod,
   'planification' => $lPlanification, 'planificationPeriod' => $planificationPeriod,
-  'planifications' => $planifications, 'planificationResources' => $planificationResources,
+  'planifications' => $planifications, 'resources' => $resources,
  'date' => $lDate, 'nextDate' => $nextDate, 'previousDate' => $previousDate, 'bookings' => $bookings,
-     'list_acces' => $listAcces, 'form' => $form->createView())
-);
+     'list_acces' => $listAcces, 'form' => $form->createView()));
   }
 
   // Affichage du planning pour plusieurs planifications (periode de planification connue)

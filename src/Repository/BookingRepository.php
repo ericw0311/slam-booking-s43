@@ -145,7 +145,23 @@ class BookingRepository extends ServiceEntityRepository
         return $singleScalar;
     }
 
+    // Liste de toutes les réservations d'un dossier
     public function getAllBookings(\App\Entity\File $file, $firstRecordIndex, $maxRecord)
+    {
+        $qb = $this->createQueryBuilder('b');
+        $this->getListSelect($qb);
+        $qb->where('b.file = :file')->setParameter('file', $file);
+        $this->getListJoin_1($qb);
+        $this->getListSort($qb);
+        $qb->setFirstResult($firstRecordIndex);
+        $qb->setMaxResults($maxRecord);
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
+
+    // Liste de toutes les réservations d'un utilisateur dossier
+    public function getUserFileAllBookings(\App\Entity\File $file, $firstRecordIndex, $maxRecord)
     {
         $qb = $this->createQueryBuilder('b');
         $this->getListSelect($qb);
