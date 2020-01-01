@@ -160,13 +160,27 @@ class BookingRepository extends ServiceEntityRepository
         return $results;
     }
 
-    // Liste de toutes les réservations d'un utilisateur dossier
-    public function getUserFileAllBookings(\App\Entity\File $file, $firstRecordIndex, $maxRecord)
+    // Toutes les réservations d'un dossier (limitées aux ressources auxquelles l'utilisateur dossier a accès)
+    public function getUserFileResourcesAllBookingsCount(\App\Entity\File $file, $resourceUserFileQB)
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->select($qb->expr()->count('b'));
+        $qb->where('b.file = :file')->setParameter('file', $file);
+        $this->getListJoin_1($qb);
+        $qb->andWhere($qb->expr()->exists($resourceUserFileQB->getDQL()));
+        $query = $qb->getQuery();
+        $singleScalar = $query->getSingleScalarResult();
+        return $singleScalar;
+    }
+
+    // Liste de toutes les réservations d'un dossier (limitées aux ressources auxquelles l'utilisateur dossier a accès)
+    public function getUserFileResourcesAllBookings(\App\Entity\File $file, $firstRecordIndex, $maxRecord, $resourceUserFileQB)
     {
         $qb = $this->createQueryBuilder('b');
         $this->getListSelect($qb);
         $qb->where('b.file = :file')->setParameter('file', $file);
         $this->getListJoin_1($qb);
+        $qb->andWhere($qb->expr()->exists($resourceUserFileQB->getDQL()));
         $this->getListSort($qb);
         $qb->setFirstResult($firstRecordIndex);
         $qb->setMaxResults($maxRecord);
@@ -194,6 +208,36 @@ class BookingRepository extends ServiceEntityRepository
         $qb->where('b.file = :file')->setParameter('file', $file);
         $qb->andWhere("DATE_FORMAT(b.endDate,'%Y%m%d%H%i') >= :dateTime")->setParameter('dateTime', $dateTime->format('YmdHi'));
         $this->getListJoin_1($qb);
+        $this->getListSort($qb);
+        $qb->setFirstResult($firstRecordIndex);
+        $qb->setMaxResults($maxRecord);
+        $query = $qb->getQuery();
+        $results = $query->getResult();
+        return $results;
+    }
+
+    // Les réservations d'un dossier au delà d'une date (limitées aux ressources auxquelles l'utilisateur dossier a accès)
+    public function getUserFileResourcesFromDatetimeBookingsCount(\App\Entity\File $file, \Datetime $dateTime, $resourceUserFileQB)
+    {
+        $qb = $this->createQueryBuilder('b');
+        $qb->select($qb->expr()->count('b'));
+        $qb->where('b.file = :file')->setParameter('file', $file);
+        $qb->andWhere("DATE_FORMAT(b.endDate,'%Y%m%d%H%i') >= :dateTime")->setParameter('dateTime', $dateTime->format('YmdHi'));
+        $this->getListJoin_1($qb);
+        $qb->andWhere($qb->expr()->exists($resourceUserFileQB->getDQL()));
+        $query = $qb->getQuery();
+        $singleScalar = $query->getSingleScalarResult();
+        return $singleScalar;
+    }
+
+    public function getUserFileResourcesFromDatetimeBookings(\App\Entity\File $file, \Datetime $dateTime, $firstRecordIndex, $maxRecord, $resourceUserFileQB)
+    {
+        $qb = $this->createQueryBuilder('b');
+        $this->getListSelect($qb);
+        $qb->where('b.file = :file')->setParameter('file', $file);
+        $qb->andWhere("DATE_FORMAT(b.endDate,'%Y%m%d%H%i') >= :dateTime")->setParameter('dateTime', $dateTime->format('YmdHi'));
+        $this->getListJoin_1($qb);
+        $qb->andWhere($qb->expr()->exists($resourceUserFileQB->getDQL()));
         $this->getListSort($qb);
         $qb->setFirstResult($firstRecordIndex);
         $qb->setMaxResults($maxRecord);

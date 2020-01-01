@@ -33,7 +33,7 @@ class DefaultController extends AbstractController
         $connectedUser = $this->getUser();
         $em = $this->getDoctrine()->getManager();
         $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
-    $fileContext = new FileContext($em, $userContext->getCurrentFile(), $userContext->getCurrentUserFile()); // contexte dossier
+        $fileContext = new FileContext($em, $userContext); // contexte dossier
       return $this->render('default/summary.html.twig', array('userContext' => $userContext, 'fileContext' => $fileContext));
     }
 }

@@ -137,40 +137,55 @@ class FileContext
 	return $this->currentUserInProgressBookingsCount;
 	}
 
-    function __construct($em, \App\Entity\File $file, \App\Entity\UserFile $userfile)
+    function __construct($em, \App\Entity\UserContext $userContext)
     {
 	$ufRepository = $em->getRepository(UserFile::Class);
-	$this->setUserFileCount($ufRepository->getUserFilesCount($file));
+	$lFile = $userContext->getCurrentFile();
+	$lFileAdministrator = $userContext->getCurrentUserFileAdministrator();
+	$lUserFile = $userContext->getCurrentUserFile();
+
+	$this->setUserFileCount($ufRepository->getUserFilesCount($lFile));
 
 	$ufgRepository = $em->getRepository(UserFileGroup::Class);
-	$this->setUserFileGroupCount($ufgRepository->getUserFileGroupsCount($file));
+	$this->setUserFileGroupCount($ufgRepository->getUserFileGroupsCount($lFile));
 
 	$lRepository = $em->getRepository(Label::Class);
-	$this->setLabelCount($lRepository->getLabelsCount($file));
+	$this->setLabelCount($lRepository->getLabelsCount($lFile));
 
 	$tRepository = $em->getRepository(Timetable::Class);
-	$this->setTimetableCount($tRepository->getTimetablesCount($file));
+	$this->setTimetableCount($tRepository->getTimetablesCount($lFile));
 
 	$rRepository = $em->getRepository(Resource::Class);
-	$this->setResourceCount($rRepository->getResourcesCount($file));
+	$this->setResourceCount($rRepository->getResourcesCount($lFile));
 
 	$pRepository = $em->getRepository(Planification::Class);
-	$this->setPlanificationCount($pRepository->getPlanificationsCount($file));
+	$this->setPlanificationCount($pRepository->getPlanificationsCount($lFile));
 
 	$bRepository = $em->getRepository(Booking::Class);
-    $this->setAllBookingsCount($bRepository->getAllBookingsCount($file));
+	$blRepository = $em->getRepository(BookingLine::class);
+
+	if ($lFileAdministrator) { // L'utilisateur est adminsitrateur du dossier
+		$this->setAllBookingsCount($bRepository->getAllBookingsCount($lFile));
+	} else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux ressources d'après les vues utilisateur
+		$this->setAllBookingsCount($bRepository->getUserFileResourcesAllBookingsCount($lFile, $blRepository->getResourceUserFileQB($lUserFile)));
+	}
 
 	if ($this->getAllBookingsCount() <= 0) {
 		$this->setInProgressBookingsCount(0);
 		$this->setCurrentUserBookingsCount(0);
 		$this->setCurrentUserInProgressBookingsCount(0);
 	} else {
-		$this->setInProgressBookingsCount($bRepository->getFromDatetimeBookingsCount($file, new \DateTime()));
-		$this->setCurrentUserBookingsCount($bRepository->getUserFileBookingsCount($file, $userfile));
+
+		if ($lFileAdministrator) { // L'utilisateur est adminsitrateur du dossier
+			$this->setInProgressBookingsCount($bRepository->getFromDatetimeBookingsCount($lFile, new \DateTime()));
+		} else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux ressources d'après les vues utilisateur
+			$this->setInProgressBookingsCount($bRepository->getUserFileResourcesFromDatetimeBookingsCount($lFile, new \DateTime(), $blRepository->getResourceUserFileQB($lUserFile)));
+		}
+		$this->setCurrentUserBookingsCount($bRepository->getUserFileBookingsCount($lFile, $lUserFile));
 		if ($this->getInProgressBookingsCount() <= 0 || $this->getCurrentUserBookingsCount() <= 0) {
 			$this->setCurrentUserInProgressBookingsCount(0);
 		} else {
-			$this->setCurrentUserInProgressBookingsCount($bRepository->getUserFileFromDatetimeBookingsCount($file, $userfile, new \DateTime()));
+			$this->setCurrentUserInProgressBookingsCount($bRepository->getUserFileFromDatetimeBookingsCount($lFile, $lUserFile, new \DateTime()));
 		}
 	}
     return $this;

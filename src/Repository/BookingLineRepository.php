@@ -113,4 +113,19 @@ class BookingLineRepository extends ServiceEntityRepository
         $qb->andWhere('bl.planificationPeriod = :planificationPeriod');
         return $qb;
     }
+
+    // Construit le Query Builder d'acces aux ressources pour un utilisateur dossier
+    public function getResourceUserFileQB(\App\Entity\UserFile $userFile)
+    {
+        $qb = $this->createQueryBuilder('bl');
+        $qb->where('bl.booking = b.id');
+        $qb->innerJoin('bl.planificationPeriod', 'pp');
+        $qb->innerJoin('pp.planificationViewUserFileGroups', 'pvufg', Expr\Join::WITH, 'pvufg.active = 1');
+        $qb->innerJoin('pvufg.userFileGroup', 'ufg');
+        $qb->innerJoin('ufg.userFiles', 'uf2', Expr\Join::WITH, 'uf2.id = '.$userFile->getId());
+        $qb->innerJoin('pvufg.planificationViewResources', 'pvr', Expr\Join::WITH, 'pvr.active = 1');
+        $qb->innerJoin('pvr.planificationResource', 'pr');
+        $qb->andWhere('pr.resource = r.id');
+        return $qb;
+    }
 }

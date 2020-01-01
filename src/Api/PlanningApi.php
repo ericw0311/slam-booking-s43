@@ -4,6 +4,7 @@ namespace App\Api;
 use App\Entity\Planification;
 use App\Entity\PlanificationResource;
 use App\Entity\PlanificationViewResource;
+use App\Entity\PlanificationViewUserFileGroup;
 use App\Entity\UserParameter;
 use App\Entity\Constants;
 use App\Entity\ResourceNDB;
@@ -98,6 +99,15 @@ class PlanningApi
     {
     $pRepository = $em->getRepository(Planification::Class);
 	$planifications = $pRepository->getPlanningPlanifications($file, new \DateTime());
+	return count($planifications);
+	}
+
+    // Retourne le nombre de planifications d'un dossier actives à la date du jour (en tenant compte des vues utilisateurs)
+	static function getNumberOfUserFilePlanifications($em, \App\Entity\UserContext $userContext)
+    {
+    $pRepository = $em->getRepository(Planification::Class);
+    $pvufgRepository = $em->getRepository(PlanificationViewUserFileGroup::Class);
+	$planifications = $pRepository->getPlanningUserFilePlanifications($userContext->getCurrentFile(), new \DateTime(), $pvufgRepository->getPlanificationPeriodUserFileQB($userContext->getCurrentUserFile()));
 	return count($planifications);
 	}
 
@@ -311,6 +321,27 @@ class PlanningApi
 		$resource->setInternal($planificationViewResource->getPlanificationResource()->getResource()->getInternal());
 		$resource->setCode($planificationViewResource->getPlanificationResource()->getResource()->getCode());
 		$resource->setType($planificationViewResource->getPlanificationResource()->getResource()->getType());
+		array_push($resources, $resource);
+	}
+	return $resources;
+	}
+
+  // Retourne un tableau d'une seule ressource (utilisé pour le planning de duplication)
+	static function getPlanningResource($em, \App\Entity\PlanificationPeriod $planificationPeriod, \App\Entity\Resource $resource)
+	{
+	$prRepository = $em->getRepository(PlanificationResource::class);
+
+	// Recherche des ressources planifiées
+	$planificationResources = $prRepository->getResource($planificationPeriod, $resource);
+	$resources = array();
+
+	foreach ($planificationResources as $planificationResource) {
+		$resource = new ResourceNDB();
+		$resource->setID($planificationResource->getResource()->getId());
+		$resource->setName($planificationResource->getResource()->getName());
+		$resource->setInternal($planificationResource->getResource()->getInternal());
+		$resource->setCode($planificationResource->getResource()->getCode());
+		$resource->setType($planificationResource->getResource()->getType());
 		array_push($resources, $resource);
 	}
 	return $resources;

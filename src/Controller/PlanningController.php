@@ -13,6 +13,7 @@ use App\Entity\ListContext;
 use App\Entity\UserParameter;
 use App\Entity\UserParameterNLC;
 use App\Entity\BookingPeriod;
+use App\Entity\BookingLine;
 use App\Entity\PlanningContext;
 use App\Entity\Planification;
 use App\Entity\PlanificationPeriod;
@@ -51,7 +52,6 @@ class PlanningController extends AbstractController
 
      $logger->info('PlanningController.access DBG 2 _'.$userContext->getCurrentFile()->getId().'_');
      $logger->info('PlanningController.access DBG 3 _'.$userContext->getCurrentUserFile()->getId().'_');
-
 
      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
        $planifications = $pRepository->getPlanningPlanifications($userContext->getCurrentFile(), new \DateTime());
@@ -108,18 +108,37 @@ class PlanningController extends AbstractController
   /**
    * @Route("/{_locale}/planning/all_booking_list/{page}", name="planning_all_booking_list", requirements={"page"="\d+"})
    */
-  public function all_booking_list($page)
+  public function all_booking_list(LoggerInterface $logger, $page)
   {
       $connectedUser = $this->getUser();
       $em = $this->getDoctrine()->getManager();
       $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
       $bRepository = $em->getRepository(Booking::class);
-      $numberRecords = $bRepository->getAllBookingsCount($userContext->getCurrentFile());
+      $blRepository = $em->getRepository(BookingLine::class);
+
+      $logger->info('PlanningController.all_booking_list DBG 1');
+
+      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+        $numberRecords = $bRepository->getAllBookingsCount($userContext->getCurrentFile());
+      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux ressources d'après les vues utilisateur
+        $numberRecords = $bRepository->getUserFileResourcesAllBookingsCount($userContext->getCurrentFile(),
+$blRepository->getResourceUserFileQB($userContext->getCurrentUserFile()));
+      }
+
+      $logger->info('PlanningController.all_booking_list DBG 2 numberRecords _'.$numberRecords.'_');
+
       $listContext = new ListContext($em, $connectedUser, 'booking', 'booking', $page, $numberRecords);
-      $listBookings = $bRepository->getAllBookings($userContext->getCurrentFile(), $listContext->getFirstRecordIndex(), $listContext->getMaxRecords());
+
+      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+        $listBookings = $bRepository->getAllBookings($userContext->getCurrentFile(), $listContext->getFirstRecordIndex(), $listContext->getMaxRecords());
+        $numberPlanifications = PlanningApi::getNumberOfPlanifications($em, $userContext->getCurrentFile());
+
+      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux ressources d'après les vues utilisateur
+        $listBookings = $bRepository->getUserFileResourcesAllBookings($userContext->getCurrentFile(), $listContext->getFirstRecordIndex(), $listContext->getMaxRecords(), $blRepository->getResourceUserFileQB($userContext->getCurrentUserFile()));
+        $numberPlanifications = PlanningApi::getNumberOfUserFilePlanifications($em, $userContext);
+      }
 
       $planning_path = 'planning_one'; // La route du planning est "one" ou "many" selon le nombre de planifications actives à la date du jour
-      $numberPlanifications = PlanningApi::getNumberOfPlanifications($em, $userContext->getCurrentFile());
       if ($numberPlanifications > 1 and $numberPlanifications < constant(Constants::class.'::PLANNING_MIN_NUMBER_PLANIFICATION_LIST')) {
           $planning_path = 'planning_many';
       }
@@ -143,7 +162,13 @@ class PlanningController extends AbstractController
       $listContext = new ListContext($em, $connectedUser, 'booking', 'booking', $page, $numberRecords);
       $listBookings = $bRepository->getUserFileBookings($userContext->getCurrentFile(), $userContext->getCurrentUserFile(), $listContext->getFirstRecordIndex(), $listContext->getMaxRecords());
       $planning_path = 'planning_one'; // La route du planning est "one" ou "many" selon le nombre de planifications actives à la date du jour
-      $numberPlanifications = PlanningApi::getNumberOfPlanifications($em, $userContext->getCurrentFile());
+      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+        $numberPlanifications = PlanningApi::getNumberOfPlanifications($em, $userContext->getCurrentFile());
+
+      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux planifications d'après les vues utilisateur
+        $numberPlanifications = PlanningApi::getNumberOfUserFilePlanifications($em, $userContext);
+      }
+
       if ($numberPlanifications > 1 and $numberPlanifications < constant(Constants::class.'::PLANNING_MIN_NUMBER_PLANIFICATION_LIST')) {
           $planning_path = 'planning_many';
       }
@@ -162,12 +187,26 @@ class PlanningController extends AbstractController
       $em = $this->getDoctrine()->getManager();
       $userContext = new UserContext($em, $connectedUser); // contexte utilisateur
       $bRepository = $em->getRepository(Booking::class);
-      $numberRecords = $bRepository->getFromDatetimeBookingsCount($userContext->getCurrentFile(), new \DateTime());
+      $blRepository = $em->getRepository(BookingLine::class);
+
+
+      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+        $numberRecords = $bRepository->getFromDatetimeBookingsCount($userContext->getCurrentFile(), new \DateTime());
+      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux ressources d'après les vues utilisateur
+        $numberRecords = $bRepository->getUserFileResourcesFromDatetimeBookingsCount($userContext->getCurrentFile(), new \DateTime(), $blRepository->getResourceUserFileQB($userContext->getCurrentUserFile()));
+      }
       $listContext = new ListContext($em, $connectedUser, 'booking', 'booking', $page, $numberRecords);
-      $listBookings = $bRepository->getFromDatetimeBookings($userContext->getCurrentFile(), new \DateTime(), $listContext->getFirstRecordIndex(), $listContext->getMaxRecords());
+
+      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+        $listBookings = $bRepository->getFromDatetimeBookings($userContext->getCurrentFile(), new \DateTime(), $listContext->getFirstRecordIndex(), $listContext->getMaxRecords());
+        $numberPlanifications = PlanningApi::getNumberOfPlanifications($em, $userContext->getCurrentFile());
+
+      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux ressources d'après les vues utilisateur
+        $listBookings = $bRepository->getUserFileResourcesFromDatetimeBookings($userContext->getCurrentFile(), new \DateTime(), $listContext->getFirstRecordIndex(), $listContext->getMaxRecords(), $blRepository->getResourceUserFileQB($userContext->getCurrentUserFile()));
+        $numberPlanifications = PlanningApi::getNumberOfUserFilePlanifications($em, $userContext);
+      }
 
       $planning_path = 'planning_one'; // La route du planning est "one" ou "many" selon le nombre de planifications actives à la date du jour
-      $numberPlanifications = PlanningApi::getNumberOfPlanifications($em, $userContext->getCurrentFile());
       if ($numberPlanifications > 1 and $numberPlanifications < constant(Constants::class.'::PLANNING_MIN_NUMBER_PLANIFICATION_LIST')) {
           $planning_path = 'planning_many';
       }
@@ -191,7 +230,13 @@ class PlanningController extends AbstractController
       $listBookings = $bRepository->getUserFileFromDatetimeBookings($userContext->getCurrentFile(), $userContext->getCurrentUserFile(), new \DateTime(), $listContext->getFirstRecordIndex(), $listContext->getMaxRecords());
 
       $planning_path = 'planning_one'; // La route du planning est "one" ou "many" selon le nombre de planifications actives à la date du jour
-      $numberPlanifications = PlanningApi::getNumberOfPlanifications($em, $userContext->getCurrentFile());
+      if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+        $numberPlanifications = PlanningApi::getNumberOfPlanifications($em, $userContext->getCurrentFile());
+
+      } else { // L'utilisateur n'est pas adminsitrateur du dossier: accès aux planifications d'après les vues utilisateur
+        $numberPlanifications = PlanningApi::getNumberOfUserFilePlanifications($em, $userContext);
+      }
+
       if ($numberPlanifications > 1 and $numberPlanifications < constant(Constants::class.'::PLANNING_MIN_NUMBER_PLANIFICATION_LIST')) {
           $planning_path = 'planning_many';
       }

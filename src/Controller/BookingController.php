@@ -32,6 +32,7 @@ use App\Form\NoteType;
 
 use App\Api\AdministrationApi;
 use App\Api\UserFileApi;
+use App\Api\PlanningApi;
 use App\Api\BookingApi;
 
 class BookingController extends AbstractController
@@ -1251,8 +1252,8 @@ class BookingController extends AbstractController
       $logger->info('PlanningController.duplicate DBG 2 _'.$firstBookingLine->getDate()->format('Y-m-d H:i:s').'_'.$newBookingBeginningDate->format('Y-m-d H:i:s').'_');
       $bookingPeriod = new BookingPeriod($em, $userContext, $planificationPeriod); // période de réservation
       $planningContext = new PlanningContext($logger, $em, $connectedUser, $userContext->getCurrentFile(), $bookingPeriod, 'D', $firstBookingLine->getDate(), $newBookingBeginningDate, $numberDays);
-      $prRepository = $em->getRepository(PlanificationResource::class);
-      $planificationResources = $prRepository->getResource($planificationPeriod, $resource);
+      $resources = PlanningApi::getPlanningResource($em, $planificationPeriod, $resource);
+
       // Recherche de la réservation dupliquée
       $newBookingID = 0;
       $bookingDuplication = $bdRepository->findOneBy(array('originBooking' => $booking, 'ddate' => $newBookingBeginningDate));
@@ -1279,7 +1280,7 @@ class BookingController extends AbstractController
       return $this->render(
       'booking/duplicate.'.($many ? 'many' : 'one').'.html.twig',
       array('userContext' => $userContext, 'planningContext' => $planningContext, 'bookingPeriod' => $bookingPeriod, 'planningDate' => $planningDate,
-          'planification' => $planification, 'planificationPeriod' => $planificationPeriod, 'planificationResources' => $planificationResources,
+          'planification' => $planification, 'planificationPeriod' => $planificationPeriod, 'resources' => $resources,
           'resource' => $resource, 'booking' => $booking, 'bookings' => $bookings, 'newBookingID' => $newBookingID,
           'ctrlBookingLineID' => $ctrlBookingLineID, 'gap' => $gap, 'previousGap' => $previousGap, 'nextGap' => $nextGap)
   );
