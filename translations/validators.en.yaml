@@ -23,6 +23,8 @@ timetableLine.order.beginningTime.control: Beginning time must be equal or great
 timetableLine.order.endTime.control: End time must be equal or lower than the next slot beginning time %beginningTime%
 
 user.already.assigned.to.file: This user is already assigned to file
+user.email.already.exists: A user with this email is already registered
+user.name.already.exists: A user with this login is already registered
 user.organisation.name.null: You must enter an organisation name
 
 userFileGroup.already.exists: This user group already exists

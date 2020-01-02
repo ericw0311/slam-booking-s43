@@ -23,6 +23,8 @@ timetableLine.order.beginningTime.control: L'heure de début doit être égale o
 timetableLine.order.endTime.control: L'heure de fin doit être égale ou inférieure à l'heure de début du créneau suivant %beginningTime%
 
 user.already.assigned.to.file: Cet utilisateur est déjà affecté au dossier
+user.email.already.exists: Un utilisateur avec cet email est déjà inscrit
+user.name.already.exists: Un utilisateur avec ce login est déjà inscrit
 user.organisation.name.null: Vous devez saisir un nom d'organisation
 
 userFileGroup.already.exists: Ce groupe d'utilisateurs existe déjà
