@@ -13,6 +13,9 @@ use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 use App\Form\UserType;
+use App\Form\UserModifyType;
+use App\Form\UserPasswordType;
+use App\Form\SD_EmailType;
 use App\Entity\User;
 use App\Entity\UserContext;
 use App\Entity\Email;
@@ -87,7 +90,7 @@ class UserController extends AbstractController
                  );
                  $mailer->send($message);
                  $request->getSession()->getFlashBag()->add('notice', 'user.login.and.password.sent');
-                 return $this->redirectToRoute('user_login');
+                 return $this->redirectToRoute('app_login');
              }
          }
          return $this->render('user/forgot.login.or.password.html.twig', array('form' => $form->createView()));

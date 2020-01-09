@@ -477,8 +477,6 @@ userFileGroup.una.all: Le groupe de tous les utilisateurs ne peut pas être modi
 userFileGroup.updated.ok: Le groupe d'utilisateurs a bien été modifié
 userFileGroup.users.vna: Vous devez sélectionner au moins un utilisateur
 
-view.activate.all.users:  Activer la vue associée au groupe de tous les utilisateurs
-view.activate.manual:  Activer les vues associées à des groupes personnalisés
 view.add: Ajouter une vue
 view.ask.delete:  Voulez-vous vraiment supprimer la vue rattachée au groupe %name% ?
 view.created.ok: La vue a bien été créee

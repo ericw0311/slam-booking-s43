@@ -24,7 +24,9 @@ class PlanificationViewUserFileGroupRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('pvufg');
         $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
-        $qb->orderBy('pvufg.oorder', 'ASC');
+        $qb->innerJoin('pvufg.userFileGroup', 'ufg');
+        $qb->orderBy('ufg.type', 'DESC');
+        $qb->addOrderBy('pvufg.oorder', 'ASC');
 
         $query = $qb->getQuery();
         $results = $query->getResult();
@@ -39,12 +41,14 @@ class PlanificationViewUserFileGroupRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    // Retourne la premiere vue
+    // Retourne la premiere vue d'une période de planification affichée. Les vues liées à un groupe d'utilisateurs de type MANUAL sont affichées en premier puis celle liée au groupe d'utilisateurs de type ALL, d'où le tri décroissant sur le type de groupe d'utilisateurs
     public function getFirstPlanificationViewUFG(\App\Entity\PlanificationPeriod $planificationPeriod)
     {
         $qb = $this->createQueryBuilder('pvufg');
         $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
-        $qb->orderBy('pvufg.oorder', 'ASC');
+        $qb->innerJoin('pvufg.userFileGroup', 'ufg');
+        $qb->orderBy('ufg.type', 'DESC');
+        $qb->addOrderBy('pvufg.oorder', 'ASC');
         $qb->setMaxResults(1);
         $query = $qb->getQuery();
         $results = $query->getOneOrNullResult();

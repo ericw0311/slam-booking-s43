@@ -477,8 +477,6 @@ userFileGroup.una.all: The All users group cannot be modified
 userFileGroup.updated.ok: The user group has been updated
 userFileGroup.users.vna: You must select at least one user
 
-view.activate.all.users:  Activate the all users view
-view.activate.manual:  Activate personalised user groups views
 view.add: Add a view
 view.ask.delete: Do you really want to delete vue linked to users group %name% ?
 view.created.ok: The view has been created

@@ -94,7 +94,7 @@ $( function() {
 {% else %}
 	<a href="{{ path('user_logout')}}" class="w3-bar-item w3-button"><i class="fa fa-home w3-xlarge"></i>&nbsp;Slam Booking</a>
 	<a href="{{ path('documentation', { 'pageCode': 'SLAM-BOOKING' })}}" target="_blank" class="w3-bar-item w3-button"><i class="fa fa-book w3-xlarge"></i>&nbsp;{{ 'documentation'|trans }}</a>
-	<a href="{{ path('user_login')}}" class="w3-bar-item w3-button w3-right"><i class="fa fa-sign-in w3-xlarge"></i>&nbsp;{{ 'user.login'|trans }}</a>
+	<a href="{{ path('app_login')}}" class="w3-bar-item w3-button w3-right"><i class="fa fa-sign-in w3-xlarge"></i>&nbsp;{{ 'user.login'|trans }}</a>
 	<a href="{{ path('user_registration')}}" class="w3-bar-item w3-button w3-right"><i class="fa fa-user w3-xlarge"></i>&nbsp;{{ 'user.register'|trans }}</a>
 {% endif %}
 </div>
