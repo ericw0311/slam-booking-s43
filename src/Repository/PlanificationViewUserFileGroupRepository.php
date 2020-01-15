@@ -139,17 +139,18 @@ class PlanificationViewUserFileGroupRepository extends ServiceEntityRepository
     // Retourne la premiere vue d'une période de planification liée à un utilisateur dossier
     public function getUserFileFirstPlanificationView(\App\Entity\PlanificationPeriod $planificationPeriod, \App\Entity\UserFile $userFile)
     {
-      $qb = $this->createQueryBuilder('pvufg');
-      $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
-      $qb->andWhere('pvufg.active = :active')->setParameter('active', 1);
-      $qb->innerJoin('pvufg.userFileGroup', 'ufg');
-      $qb->innerJoin('ufg.userFiles', 'uf', Expr\Join::WITH, $qb->expr()->eq('uf.id','?1'))->setParameter(1, $userFile->getId());
+    $qb = $this->createQueryBuilder('pvufg');
+    $qb->where('pvufg.planificationPeriod = :planificationPeriod')->setParameter('planificationPeriod', $planificationPeriod);
+    $qb->andWhere('pvufg.active = :active')->setParameter('active', 1);
+    $qb->innerJoin('pvufg.userFileGroup', 'ufg');
+    $qb->innerJoin('ufg.userFiles', 'uf', Expr\Join::WITH, $qb->expr()->eq('uf.id','?1'))->setParameter(1, $userFile->getId());
+    $qb->orderBy('ufg.type', 'DESC');
+    $qb->addOrderBy('pvufg.oorder', 'ASC');
 
-      $qb->orderBy('pvufg.oorder', 'ASC');
-      $qb->setMaxResults(1);
-      $query = $qb->getQuery();
-      $results = $query->getOneOrNullResult();
-      return $results;
+    $qb->setMaxResults(1);
+    $query = $qb->getQuery();
+    $results = $query->getOneOrNullResult();
+    return $results;
     }
 
     // Construit le Query Builder d'une période de planification accessible pour un utilisateur dossier
