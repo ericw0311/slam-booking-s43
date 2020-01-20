@@ -19,6 +19,9 @@
 {% set lineColor = (pageCode == 'USERFILE') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
 <a href="{{ path('documentation', { 'pageCode': 'USERFILE' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'users'|trans }}</a>
 {% set lineNumber = lineNumber + 1 %}
+{% set lineColor = (pageCode == 'USERFILE-GROUP') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
+<a href="{{ path('documentation', { 'pageCode': 'USERFILE-GROUP' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'userFileGroup.plural'|trans }}</a>
+{% set lineNumber = lineNumber + 1 %}
 {% set lineColor = (pageCode == 'TIMETABLE') ? 'indigo' : ((lineNumber is odd) ? 'sand' : 'transparent') %}
 <a href="{{ path('documentation', { 'pageCode': 'TIMETABLE' }) }}" class="w3-bar-item w3-button w3-round-large w3-{{ lineColor }}"><i class="w3-xlarge fa fa-book"></i>&nbsp;{{ 'timetable.plural'|trans }}</a>
 {% set lineNumber = lineNumber + 1 %}

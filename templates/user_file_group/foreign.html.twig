@@ -2,6 +2,10 @@
 
 {% extends 'base.html.twig' %}
 
+{% block documentation %}
+<a href="{{ path('documentation', { 'pageCode': 'USERFILE-GROUP' }) }}" target="_blank" class="w3-bar-item w3-button"><img src="{{ asset('images/help-16.png') }}">&nbsp;{{ 'help'|trans }}</a>
+{% endblock %}
+
 {% block body %}
 
 <div class="w3-panel w3-border-bottom w3-text-red"><h4>
