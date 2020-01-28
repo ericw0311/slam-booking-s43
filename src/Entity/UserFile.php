@@ -114,12 +114,18 @@ class UserFile
      */
     private $resource;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\InnovationUserFile", mappedBy="userFile", orphanRemoval=true)
+     */
+    private $innovationUserFiles;
+
     public function __construct(?User $user, ?File $file)
     {
         $this->setUser($user);
         $this->setFile($file);
         $this->userFileGroups = new ArrayCollection();
         $this->bookingUsers = new ArrayCollection();
+        $this->innovationUserFiles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -374,6 +380,37 @@ class UserFile
     public function setResource(?Resource $resource): self
     {
         $this->resource = $resource;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|InnovationUserFile[]
+     */
+    public function getInnovationUserFiles(): Collection
+    {
+        return $this->innovationUserFiles;
+    }
+
+    public function addInnovationUserFile(InnovationUserFile $innovationUserFile): self
+    {
+        if (!$this->innovationUserFiles->contains($innovationUserFile)) {
+            $this->innovationUserFiles[] = $innovationUserFile;
+            $innovationUserFile->setUserFile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInnovationUserFile(InnovationUserFile $innovationUserFile): self
+    {
+        if ($this->innovationUserFiles->contains($innovationUserFile)) {
+            $this->innovationUserFiles->removeElement($innovationUserFile);
+            // set the owning side to null (unless already changed)
+            if ($innovationUserFile->getUserFile() === $this) {
+                $innovationUserFile->setUserFile(null);
+            }
+        }
 
         return $this;
     }
