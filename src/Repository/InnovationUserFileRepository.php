@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\InnovationUserFile;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method InnovationUserFile|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +20,12 @@ class InnovationUserFileRepository extends ServiceEntityRepository
         parent::__construct($registry, InnovationUserFile::class);
     }
 
-    // /**
-    //  * @return InnovationUserFile[] Returns an array of InnovationUserFile objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    // Construit le Query Builder d'acces aux innovations lues par un utilisateur dossier
+    public function getUserFileInnovationQB(\App\Entity\UserFile $userFile)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $qb = $this->createQueryBuilder('iuf');
+        $qb->where('iuf.innovation = i.id');
+        $qb->innerJoin('iuf.userFile', 'uf', Expr\Join::WITH, 'uf.id = '.$userFile->getId());
+        return $qb;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?InnovationUserFile
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

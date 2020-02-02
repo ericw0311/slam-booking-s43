@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_innovation_user_file",columns={"innovation_id", "user_file_id"})})
  * @ORM\Entity(repositoryClass="App\Repository\InnovationUserFileRepository")
  */
 class InnovationUserFile
@@ -41,7 +41,6 @@ class InnovationUserFile
     public function setInnovation(?Innovation $innovation): self
     {
         $this->innovation = $innovation;
-
         return $this;
     }
 
@@ -53,7 +52,12 @@ class InnovationUserFile
     public function setUserFile(?UserFile $userFile): self
     {
         $this->userFile = $userFile;
-
         return $this;
+    }
+
+    public function __construct(?Innovation $innovation, ?UserFile $userFile)
+    {
+    $this->setInnovation($innovation);
+    $this->setUserFile($userFile);
     }
 }

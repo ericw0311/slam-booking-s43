@@ -5,8 +5,10 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
+ * @ORM\Table(uniqueConstraints={@ORM\UniqueConstraint(name="uk_innovation",columns={"code"})})
  * @ORM\Entity(repositoryClass="App\Repository\InnovationRepository")
  */
 class Innovation
@@ -61,7 +63,6 @@ class Innovation
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -73,7 +74,6 @@ class Innovation
     public function setCode(string $code): self
     {
         $this->code = $code;
-
         return $this;
     }
 
@@ -85,7 +85,6 @@ class Innovation
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
         return $this;
     }
 
@@ -97,7 +96,6 @@ class Innovation
     public function setAdministratorOnly(bool $administratorOnly): self
     {
         $this->administratorOnly = $administratorOnly;
-
         return $this;
     }
 
@@ -115,7 +113,6 @@ class Innovation
             $this->innovationUserFiles[] = $innovationUserFile;
             $innovationUserFile->setInnovation($this);
         }
-
         return $this;
     }
 
@@ -128,7 +125,6 @@ class Innovation
                 $innovationUserFile->setInnovation(null);
             }
         }
-
         return $this;
     }
 }

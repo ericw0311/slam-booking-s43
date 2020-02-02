@@ -4,6 +4,12 @@
  
 {% block body %}
 
+{% if displayInnovations %}
+<div class="w3-margin-top">
+<button onclick="document.getElementById('innovation-planification-views').style.display='block'" class="w3-button w3-deep-orange">Nouveau dans Slam Booking</button>
+</div> 
+{% endif %}
+
 {% if userContext.getCurrentUserFileAdministrator() %}
 
 <div class="w3-bar w3-margin-top">
@@ -27,18 +33,18 @@
 
 <div id="innovation-planification-views" class="w3-modal w3-animate-opacity">
   <div class="w3-modal-content w3-text-indigo">
-    <header class="w3-container w3-khaki">
+    <header class="w3-container w3-deep-orange">
       <span onclick="document.getElementById('innovation-planification-views').style.display='none'" class="w3-button w3-large w3-display-topright">&times;</span>
       <h3>Groupes d'utilisateurs et vues personnalisées</h3>
     </header>
-    <div class="w3-container w3-bottombar w3-border-khaki">
+    <div class="w3-container w3-bottombar w3-border-deep-orange">
       <p>Vous pouvez désormais créer des groupes d'utilisateurs</p>
       <p>Ainsi que des vues distinctes sur le planning selon le groupe auquel appartient l'utilisateur</p>
 <img src="{{ asset('images/new-USER-GROUP-001.png') }}"></img>
       <p>Voir plus d'information dans la page des groupes d'utilisateurs et des planifications de la documentation</p>
       <div class="w3-show-inline-block w3-right w3-margin-bottom">
       <div class="w3-bar w3-border w3-round">
-        <button onclick="document.getElementById('innovation-planification-views').style.display='none'" class="w3-bar-item w3-button w3-light-gray"><i class="fa fa-times"></i>&nbsp;{{ 'cancel'|trans }}</button>
+        <a href="{{ path('default_validate_innovation', { 'innovationCode': '20200202_USER-FILE-GROUP' }) }}" class="w3-button w3-deep-orange"><i class="fa fa-check"></i>&nbsp;{{ 'ok.thanks'|trans }}</a>
       </div>
       </div>
     </div>

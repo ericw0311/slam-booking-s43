@@ -64,6 +64,7 @@ number.columns: Number of columns
 number.lines: Number of lines
 number.lines.columns: Number of lines and columns
 number.lines.columns.updated.ok: Number of lines and columns displayed have been updated
+ok.thanks: OK, thanks
 open: Open
 page.next: Next page
 page.previous: Previous page

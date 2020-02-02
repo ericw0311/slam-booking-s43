@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -64,7 +63,6 @@ class BookingLabel
     public function setBooking(?Booking $booking): self
     {
         $this->booking = $booking;
-
         return $this;
     }
 
@@ -88,7 +86,6 @@ class BookingLabel
     public function setOrder(int $oorder): self
     {
         $this->oorder = $oorder;
-
         return $this;
     }
 
@@ -100,7 +97,6 @@ class BookingLabel
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 

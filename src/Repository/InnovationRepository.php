@@ -1,10 +1,10 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\Innovation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\Query\Expr;
 
 /**
  * @method Innovation|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,32 +19,13 @@ class InnovationRepository extends ServiceEntityRepository
         parent::__construct($registry, Innovation::class);
     }
 
-    // /**
-    //  * @return Innovation[] Returns an array of Innovation objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    // Liste des innovations non lues par l'utilisateur
+    public function getUnreadInnovations($userFileInnovationQB)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+    $qb = $this->createQueryBuilder('i');
+    $qb->where($qb->expr()->not($qb->expr()->exists($userFileInnovationQB->getDQL())));
+    $query = $qb->getQuery();
+    $results = $query->getResult();
+    return $results;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Innovation
-    {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
