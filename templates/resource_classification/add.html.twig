@@ -15,8 +15,8 @@
 	<i class="w3-xlarge fa fa-{{ rtIcons[resourceType] }}"></i>&nbsp;{{ ('resourceType.create.classification.' ~ resourceType)|trans }}
 </h4></div>
 
-<div class="w3-panel w3-orange w3-round-large">
-	<p><b>{{ 'resourceClassification.create.warning'|trans }}</b></p>
+<div class="w3-panel w3-bottombar w3-border-deep-orange w3-border">
+	<p><i class="fa fa-info-circle w3-xlarge w3-text-deep-orange"></i>&nbsp;{{ 'resourceClassification.create.warning'|trans }}</p>
 </div>
 
 {{ form_start(form, {'action': path('resource_classification_add', { 'resourceType': resourceType }), 'method': 'POST'}) }}

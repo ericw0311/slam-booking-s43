@@ -28,4 +28,15 @@ class InnovationRepository extends ServiceEntityRepository
     $results = $query->getResult();
     return $results;
     }
+
+    // Liste des innovations non réservées aux administrateurs non lues par l'utilisateur
+    public function getUnreadNonAdministratorInnovations($userFileInnovationQB)
+    {
+    $qb = $this->createQueryBuilder('i');
+    $qb->where('i.administratorOnly <= :p')->setParameter('p', 0);
+    $qb->andWhere($qb->expr()->not($qb->expr()->exists($userFileInnovationQB->getDQL())));
+    $query = $qb->getQuery();
+    $results = $query->getResult();
+    return $results;
+    }
 }

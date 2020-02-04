@@ -39,7 +39,11 @@ class DefaultController extends AbstractController
     $iRepository = $em->getRepository(Innovation::class);
     $iufRepository = $em->getRepository(InnovationUserFile::class);
 
-    $innovations = $iRepository->getUnreadInnovations($iufRepository->getUserFileInnovationQB($userContext->getCurrentUserFile()));
+    if ($userContext->getCurrentUserFileAdministrator()) { // L'utilisateur est adminsitrateur du dossier
+      $innovations = $iRepository->getUnreadInnovations($iufRepository->getUserFileInnovationQB($userContext->getCurrentUserFile()));
+    } else { // L'utilisateur n'est pas adminsitrateur du dossier
+      $innovations = $iRepository->getUnreadNonAdministratorInnovations($iufRepository->getUserFileInnovationQB($userContext->getCurrentUserFile()));
+    }
 
     $displayInnovations = (count($innovations) > 0);
 
