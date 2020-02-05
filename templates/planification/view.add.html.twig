@@ -14,8 +14,8 @@
 
 {% if userFileGroups|length > 0 %}
 
-<div class="w3-panel w3-orange w3-round-large">
-	<p><b>{{ 'view.select'|trans }}</b></p>
+<div class="w3-panel w3-bottombar w3-border-green w3-border w3-round-large">
+	<p><i class="fa fa-info-circle w3-xlarge w3-text-green"></i>&nbsp;{{ 'view.select'|trans }}</p>
 </div>
 
 <div class="w3-bar-block">
@@ -29,8 +29,8 @@
 
 {% else %}
 
-<div class="w3-panel w3-pale-red w3-round-large">
-	<p>{{ 'view.no.group.to.add'|trans }}</p>
+<div class="w3-panel w3-bottombar w3-border-red w3-border w3-round-large">
+	<p><i class="fa fa-info-circle w3-xlarge w3-text-red"></i>&nbsp;{{ 'view.no.group.to.add'|trans }}</p>
 </div>
 
 {% endif %}

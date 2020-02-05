@@ -16,8 +16,8 @@
 
 {% if resourceTypes|length > 0 %}
 
-<div class="w3-panel w3-sand w3-round-large">
-	<p>{{ 'planification.type.select'|trans }}</p>
+<div class="w3-panel w3-bottombar w3-border-green w3-border w3-round-large">
+	<p><i class="fa fa-info-circle w3-xlarge w3-text-green"></i>&nbsp;{{ 'planification.type.select'|trans }}</p>
 </div>
 
 <div class="w3-bar-block">
@@ -31,8 +31,8 @@
 
 {% else %}
 
-<div class="w3-panel w3-pale-red w3-round-large">
-	<p>{{ 'planification.no.resources.to.planify'|trans }}</p>
+<div class="w3-panel w3-bottombar w3-border-red w3-border w3-round-large">
+	<p><i class="fa fa-info-circle w3-xlarge w3-text-red"></i>&nbsp;{{ 'planification.no.resources.to.planify'|trans }}</p>
 </div>
 
 {% endif %}
